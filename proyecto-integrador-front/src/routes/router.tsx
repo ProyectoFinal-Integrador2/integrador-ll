@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
+import EditarPerfil from "../pages/EditarPerfil";
 import { UsersPage } from "../features/users";
 
 export const router = createBrowserRouter([
@@ -14,6 +15,10 @@ export const router = createBrowserRouter([
       {
         path: "usuarios",
         element: <UsersPage />,
+      },
+      {
+        path: "perfil",
+        element: <EditarPerfil rolUsuario="Jefe TI" />,
       },
     ],
   },
