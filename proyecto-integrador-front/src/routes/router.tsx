@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
-import EditarPerfil from "../pages/EditarPerfil";
+import EditarPerfil from "../features/users/pages/EditarPerfil";
 import { UsersPage } from "../features/users";
 
 export const router = createBrowserRouter([
