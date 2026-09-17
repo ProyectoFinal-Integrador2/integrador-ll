@@ -1,0 +1,12 @@
+{
+  "name": "integrador-ll",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n BACK,FRONT -c blue,green \"npm run dev --prefix proyecto-integrador-back\" \"npm run dev --prefix proyecto-integrador-front\"",
+    "build": "npm run build --prefix proyecto-integrador-front",
+    "setup": "npm install --prefix proyecto-integrador-back && npm install --prefix proyecto-integrador-front"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
