@@ -1,4 +1,5 @@
 import { SquarePen } from 'lucide-react';
+import { AVATAR_STYLES } from '@/constants/avatarStyles';
 import type { User } from '../types/user.types';
 import { UserRoleBadge } from './UserRoleBadge';
 import { UserStatusBadge } from './UserStatusBadge';
@@ -9,18 +10,6 @@ interface UsersTableProps {
 }
 
 export const UsersTable = ({ users, onEditUser }: UsersTableProps) => {
-  const getAvatarStyles = (color: User['avatarColor']) => {
-    switch (color) {
-      case 'blue':
-        return 'bg-[#d9edf7] text-[#1976d2]';
-      case 'green':
-        return 'bg-[#dcfce7] text-[#2e7d32]';
-      case 'amber':
-      default:
-        return 'bg-[#fef3c7] text-[#b45309]';
-    }
-  };
-
   return (
     <div className="w-full overflow-hidden rounded-2xl bg-white shadow-xs border border-slate-100">
       <div className="overflow-x-auto">
@@ -57,9 +46,9 @@ export const UsersTable = ({ users, onEditUser }: UsersTableProps) => {
                 <td className="whitespace-nowrap px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${getAvatarStyles(
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${AVATAR_STYLES[
                         user.avatarColor
-                      )}`}
+                      ]}`}
                     >
                       {user.avatarInitials}
                     </div>

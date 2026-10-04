@@ -1,6 +1,7 @@
+import type { AvatarColor } from '@/constants/avatarStyles';
 import type { UserRole } from '@/types/roles';
 
-export type { UserRole };
+export type { UserRole, AvatarColor };
 
 export type UserStatus = 'Activo' | 'Inactivo';
 
@@ -14,5 +15,5 @@ export interface User {
   area: string;
   status: UserStatus;
   avatarInitials: string;
-  avatarColor: 'blue' | 'green' | 'amber';
+  avatarColor: AvatarColor;
 }

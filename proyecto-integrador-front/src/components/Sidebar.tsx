@@ -1,8 +1,9 @@
 import { Headset, Users, UserRound, X, LogOut } from "lucide-react";
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { CURRENT_USER } from '@/constants/currentUser';
+import { AVATAR_STYLES } from '@/constants/avatarStyles';
 import { ROLE_STYLES } from '@/constants/roleStyles';
+import { useSession } from '@/session/sessionContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,6 +23,11 @@ const MENU_ITEMS: NavItem[] = [
 ];
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+  const { user, logout } = useSession();
+
+  // RequireAuth garantiza que hay sesion en toda ruta protegida.
+  if (!user) return null;
+
   return (
     <>
       {/** Backdrop oscuro para móviles (bloquea la pantalla al abrir) */}
@@ -51,9 +57,9 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 Help Desk TI
               </span>
               <span
-                className={`w-max rounded-md p-0.5 px-1.5 text-sm font-semibold ${ROLE_STYLES[CURRENT_USER.role]}`}
+                className={`w-max rounded-md p-0.5 px-1.5 text-sm font-semibold ${ROLE_STYLES[user.role]}`}
               >
-                {CURRENT_USER.role}
+                {user.role}
               </span>
             </div>
           </div>
@@ -108,28 +114,26 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         <div className="shrink-0 border-t border-slate-100 p-4">
           <div className="flex items-center gap-3 rounded-lg p-1.5">
             <div
-              className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold text-white shadow-xs ${CURRENT_USER.avatarClassName}`}
+              className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold ${AVATAR_STYLES[user.avatarColor]}`}
             >
-              {CURRENT_USER.avatarInitials}
+              {user.avatarInitials}
             </div>
             <div className="flex min-w-0 flex-1 flex-col">
               <span className="truncate text-xs font-bold text-slate-800">
-                {CURRENT_USER.name}
+                {user.name}
               </span>
               <span className="truncate text-[11px] text-slate-400">
-                {CURRENT_USER.email}
+                {user.email}
               </span>
             </div>
           </div>
 
-          {/* Botón Cerrar Sesión: inactivo hasta que exista autenticación */}
           <button
             type="button"
-            disabled
-            title="Disponible cuando HU-01 (autenticación) esté implementada"
-            className="mt-3 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 py-1.5 px-3 text-xs font-medium text-slate-400 shadow-2xs transition-colors"
+            onClick={logout}
+            className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white py-1.5 px-3 text-xs font-medium text-slate-700 shadow-2xs transition-colors hover:bg-slate-50 hover:text-slate-900"
           >
-            <LogOut className="h-3.5 w-3.5" />
+            <LogOut className="h-3.5 w-3.5 text-slate-600" />
             <span>Cerrar Sesión</span>
           </button>
         </div>
