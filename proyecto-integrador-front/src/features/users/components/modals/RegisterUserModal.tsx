@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Users, X, ChevronDown, Check } from 'lucide-react';
-import { BaseModal } from '../../../../components/modals';
+import { BaseModal } from '@/components';
 
 export interface RegisterUserModalProps {
   isOpen: boolean;

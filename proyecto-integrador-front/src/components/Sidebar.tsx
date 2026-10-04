@@ -1,4 +1,4 @@
-import { Headset, Users, X, LogOut } from "lucide-react";
+import { Headset, Users, UserRound, X, LogOut } from "lucide-react";
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -16,6 +16,7 @@ interface NavItem {
 
 const MENU_ITEMS: NavItem[] = [
   { to: "/usuarios", label: "Usuarios", icon: <Users /> },
+  { to: "/perfil", label: "Mi perfil", icon: <UserRound /> },
 ];
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
@@ -57,7 +58,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             type="button"
             onClick={onClose}
             className=" cursor-pointer rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 lg:hidden "
-            aria-label="Cerar menú"
+            aria-label="Cerrar menú"
           >
             <X />
           </button>
@@ -78,7 +79,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               ${
                 isActive
                   ? "bg-indigo-50 text-indigo-600 font-semibold shadow-xs"
-                  : "text-slate-600 hover:bg-slate-100/80 hover:text-slace-900"
+                  : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
               }
               `
               }
@@ -91,7 +92,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               </div>
 
               {item.badge && (
-                <span className="rounded-full bbg-slate-100 px-2 py-0.5 text-xs text-slate-600 font-medium group-hover:bg-white">
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 font-medium group-hover:bg-white">
                   {item.badge}
                 </span>
               )}

@@ -54,11 +54,11 @@ export const MOCK_USERS: User[] = [
   {
     id: '6',
     name: 'Rosa Flores',
-    email: 'p.vargas@empresa.pe',
+    email: 'r.flores@empresa.pe',
     role: 'Usuario',
     area: 'Ventas',
     status: 'Activo',
-    avatarInitials: 'MR',
+    avatarInitials: 'RF',
     avatarColor: 'amber',
   },
   {

@@ -1,6 +1,6 @@
-import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { SquarePen, ChevronDown, Check } from 'lucide-react';
-import { BaseModal } from '../../../../components/modals';
+import { BaseModal } from '@/components';
 import type { User, UserRole, UserStatus } from '../../types/user.types';
 
 export interface EditUserModalProps {
@@ -18,36 +18,39 @@ interface EditFormData {
   estado: UserStatus;
 }
 
+const EMPTY_FORM_DATA: EditFormData = {
+  nombre: '',
+  apellido: '',
+  correo: '',
+  rol: 'Usuario',
+  estado: 'Activo',
+};
+
+/** Traduce el usuario del dominio a los campos del formulario. */
+const toFormData = (user: User | null): EditFormData => {
+  if (!user) return EMPTY_FORM_DATA;
+
+  const parts = user.name.split(' ');
+
+  return {
+    nombre: parts[0] ?? '',
+    apellido: parts.slice(1).join(' '),
+    correo: user.email,
+    rol: user.role,
+    estado: user.status,
+  };
+};
+
 export const EditUserModal = ({
   isOpen,
   onClose,
   user,
   onSave,
 }: EditUserModalProps) => {
-  const [formData, setFormData] = useState<EditFormData>({
-    nombre: '',
-    apellido: '',
-    correo: '',
-    rol: 'Usuario',
-    estado: 'Activo',
-  });
-
-  // Al abrir el modal o cambiar de usuario, pre-cargamos sus datos
-  useEffect(() => {
-    if (user) {
-      const parts = user.name.split(' ');
-      const nombre = parts[0] || '';
-      const apellido = parts.slice(1).join(' ') || '';
-
-      setFormData({
-        nombre,
-        apellido,
-        correo: user.email,
-        rol: user.role,
-        estado: user.status,
-      });
-    }
-  }, [user]);
+  // El formulario se inicializa desde las props en el primer render. El
+  // padre debe cambiar la `key` de este componente cuando cambie el
+  // usuario o se reabra el modal, para que el estado se vuelva a crear.
+  const [formData, setFormData] = useState<EditFormData>(() => toFormData(user));
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -61,7 +64,9 @@ export const EditUserModal = ({
     if (!user) return;
 
     const fullName = `${formData.nombre} ${formData.apellido}`.trim();
-    const initials = `${formData.nombre.charAt(0)}${formData.apellido.charAt(0)}`.toUpperCase() || user.avatarInitials;
+    const initials =
+      `${formData.nombre.charAt(0)}${formData.apellido.charAt(0)}`.toUpperCase() ||
+      user.avatarInitials;
 
     const updatedUser: User = {
       ...user,

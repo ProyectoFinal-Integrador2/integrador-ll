@@ -1,3 +1,4 @@
-export { Sidebar } from './layouts/Sidebar';
-export { Header } from './layouts/Header';
+export { Header } from './Header';
+export { Sidebar } from './Sidebar';
 export { BaseModal } from './modals';
+export type { BaseModalProps } from './modals';

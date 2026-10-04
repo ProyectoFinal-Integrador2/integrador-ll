@@ -1,5 +1,8 @@
 import { useEffect, useState, type ReactNode } from 'react';
 
+/** Debe coincidir con la clase `duration-250` del panel y del backdrop. */
+const EXIT_DURATION_MS = 250;
+
 export interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -13,25 +16,38 @@ export const BaseModal = ({
   children,
   maxWidth = 'max-w-xl',
 }: BaseModalProps) => {
-  const [isRendered, setIsRendered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Control suave de montaje y desmontaje con animación
+  // Ajuste de estado durante el render: es el patron que React recomienda
+  // para derivar estado de una prop. Mount y unmount se decidirian aqui
+  // mismo con useEffect, pero eso obliga a un setState sincronico en el
+  // cuerpo del efecto, que provoca renders en cascada.
+  if (isOpen && !isMounted) {
+    setIsMounted(true);
+    setIsVisible(false);
+  } else if (!isOpen && isMounted && isVisible) {
+    setIsVisible(false);
+  }
+
+  // Siguiente frame tras montar: deja que el navegador pinte el estado
+  // inicial (opacity-0 / scale-95) antes de activar la transicion de entrada.
   useEffect(() => {
-    if (isOpen) {
-      setIsRendered(true);
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 15);
-      return () => clearTimeout(timer);
-    } else {
-      setIsVisible(false);
-      const timer = setTimeout(() => {
-        setIsRendered(false);
-      }, 250); // Tiempo para completar la transición de salida
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
+    if (!isOpen || !isMounted) return;
+
+    const frame = requestAnimationFrame(() => setIsVisible(true));
+
+    return () => cancelAnimationFrame(frame);
+  }, [isOpen, isMounted]);
+
+  // Una vez terminada la transicion de salida, se retira del DOM.
+  useEffect(() => {
+    if (isOpen || !isMounted) return;
+
+    const timer = setTimeout(() => setIsMounted(false), EXIT_DURATION_MS);
+
+    return () => clearTimeout(timer);
+  }, [isOpen, isMounted]);
 
   // Cerrar con tecla Escape y bloquear el scroll del fondo
   useEffect(() => {
@@ -53,7 +69,7 @@ export const BaseModal = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isRendered) return null;
+  if (!isMounted) return null;
 
   return (
     <div

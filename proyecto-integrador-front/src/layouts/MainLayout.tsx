@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Sidebar, Header } from "../components";
-import { RegisterUserModal } from "../features/users";
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Header, Sidebar } from '@/components';
+import { RegisterUserModal } from '@/features/users';
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -12,17 +12,17 @@ const MainLayout = () => {
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#eaecf0]">
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        onClose={handleCloseSidebar} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={handleCloseSidebar}
       />
 
       {/** Contenedor derecho (Header + Contenido) */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/** Header con buscador, botón + Nuevo y notificaciones */}
-        <Header 
-          onOpenSidebar={handleOpenSidebar} 
-          title="Gestión de usuarios" 
+        <Header
+          onOpenSidebar={handleOpenSidebar}
+          title="Gestión de usuarios"
           onOpenNewUser={() => setIsNewUserModalOpen(true)}
         />
 
@@ -41,4 +41,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export { MainLayout };

@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { UsersTabs } from '../components/UsersTabs';
 import { UsersTable } from '../components/UsersTable';
+import { EditUserModal } from '../components/modals';
 import { MOCK_USERS } from '../services/mockUsers';
 import type { UserTabFilter, User } from '../types/user.types';
-import { EditUserModal } from '../components/modals';
 
 export const UsersPage = () => {
   const [activeTab, setActiveTab] = useState<UserTabFilter>('todos');
@@ -38,10 +38,13 @@ export const UsersPage = () => {
       <UsersTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Tabla con tarjeta blanca y borde redondeado */}
-      <UsersTable users={filteredUsers}  onEditUser={handleEditUser}/>
+      <UsersTable users={filteredUsers} onEditUser={handleEditUser} />
 
-      {/* Modal 2 de 3: Editar Usuario */}
+      {/* Modal 2 de 3: Editar Usuario.
+          La key cambia con el usuario y con la apertura para que el formulario
+          se inicialice de cero en cada edición. */}
       <EditUserModal
+        key={`${selectedUser?.id ?? 'sin-seleccion'}-${isEditModalOpen}`}
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         user={selectedUser}

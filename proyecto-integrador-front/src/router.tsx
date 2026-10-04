@@ -1,11 +1,10 @@
-import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "../layout/MainLayout";
-import EditarPerfil from "../features/users/pages/EditarPerfil";
-import { UsersPage } from "../features/users";
+import { createBrowserRouter } from 'react-router-dom';
+import { MainLayout } from '@/layouts';
+import { EditarPerfil, UsersPage } from '@/features/users';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <MainLayout />,
     children: [
       {
@@ -13,17 +12,17 @@ export const router = createBrowserRouter([
         element: <UsersPage />,
       },
       {
-        path: "usuarios",
+        path: 'usuarios',
         element: <UsersPage />,
       },
       {
-        path: "perfil",
+        path: 'perfil',
         element: <EditarPerfil rolUsuario="Jefe TI" />,
       },
     ],
   },
   {
-    path: "*",
+    path: '*',
     element: <h1>404 - Página no encontrada</h1>,
   },
 ]);

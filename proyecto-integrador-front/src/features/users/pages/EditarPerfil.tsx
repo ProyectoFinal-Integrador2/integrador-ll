@@ -1,10 +1,9 @@
-
 import { useState } from 'react';
-
-export type Rol = 'Jefe TI' | 'Tecnico' | 'Usuario';
+import { ROLE_STYLES } from '../constants/role.styles';
+import type { UserRole } from '../types/user.types';
 
 interface EditarPerfilProps {
-    rolUsuario: Rol;
+  rolUsuario: UserRole;
 }
 
 const IconoOjo = ({ visible }: { visible: boolean }) => (
@@ -20,7 +19,7 @@ const IconoOjo = ({ visible }: { visible: boolean }) => (
     )
 );
 
-export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
+const EditarPerfil = ({ rolUsuario }: EditarPerfilProps) => {
 
     const getIniciales = (nombre: string) => {
         const partes = nombre.trim().split(' ');
@@ -80,12 +79,6 @@ export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
         setTimeout(() => setMostrarToastPass(false), 3000);
     };
 
-    const getColorRol = (rol: Rol) => {
-        if (rol === 'Jefe TI') return 'bg-green-100 text-green-700';
-        if (rol === 'Usuario') return 'bg-orange-100 text-orange-600';
-        return 'bg-green-50 text-green-600';
-    };
-
     return (
         <div className="w-full max-w-4xl p-6 mx-auto">
 
@@ -97,7 +90,7 @@ export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
                     </div>
                     <div>
                         <h2 className="text-lg font-bold text-gray-900">{usuarioActual.nombre}</h2>
-                        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-md mt-1 ${getColorRol(rolUsuario)}`}>
+                        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-md mt-1 ${ROLE_STYLES[rolUsuario]}`}>
                             {rolUsuario}
                         </span>
                     </div>
@@ -153,7 +146,7 @@ export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
                     </div>
 
                     <div className="flex justify-end mt-6">
-                        <button type="submit" className="bg-[#2F80ED] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                        <button type="submit" className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                             Guardar cambios
                         </button>
@@ -250,7 +243,7 @@ export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
                         >
                             Cancelar
                         </button>
-                        <button type="submit" className="bg-[#2F80ED] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                        <button type="submit" className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                             Actualizar contraseña
                         </button>
@@ -259,14 +252,14 @@ export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
             </div>
 
             {/* TOASTS */}
-            <div className={`fixed bottom-6 right-6 z-50 bg-[#1A202C] text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${mostrarToastDatos ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
+            <div className={`fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${mostrarToastDatos ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
                 <div className="bg-green-500 rounded-full p-0.5">
                     <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                 </div>
                 <span className="text-sm font-medium">Datos de perfil actualizados</span>
             </div>
 
-            <div className={`fixed bottom-6 right-6 z-50 bg-[#1A202C] text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${mostrarToastPass ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
+            <div className={`fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${mostrarToastPass ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
                 <div className="bg-green-500 rounded-full p-0.5">
                     <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                 </div>
@@ -276,3 +269,5 @@ export default function EditarPerfil({ rolUsuario }: EditarPerfilProps) {
         </div>
     );
 }
+
+export { EditarPerfil };

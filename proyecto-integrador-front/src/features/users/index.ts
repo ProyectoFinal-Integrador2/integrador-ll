@@ -1,4 +1,5 @@
 export { UsersPage } from './pages/UsersPage';
+export { EditarPerfil } from './pages/EditarPerfil';
 export { UsersTable } from './components/UsersTable';
 export { UsersTabs } from './components/UsersTabs';
 export { UserRoleBadge } from './components/UserRoleBadge';
@@ -6,4 +7,5 @@ export { UserStatusBadge } from './components/UserStatusBadge';
 export { RegisterUserModal, EditUserModal } from './components/modals';
 export type * from './components/modals';
 export type * from './types/user.types';
+export { ROLE_STYLES } from './constants/role.styles';
 export * from './services/mockUsers';
