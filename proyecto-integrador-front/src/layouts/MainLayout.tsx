@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useMatches } from 'react-router-dom';
 import { Header, Sidebar } from '@/components';
-import { RegisterUserModal } from '@/features/users';
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
 
   const handleOpenSidebar = () => setIsSidebarOpen(true);
   const handleCloseSidebar = () => setIsSidebarOpen(false);
+
+  // react-router tipa `handle` como unknown, asi que lo acotamos aqui.
+  const matches = useMatches();
+  const routeTitle = (matches.at(-1)?.handle as { title?: string } | undefined)
+    ?.title;
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#eaecf0]">
@@ -19,11 +22,10 @@ const MainLayout = () => {
 
       {/** Contenedor derecho (Header + Contenido) */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/** Header con buscador, botón + Nuevo y notificaciones */}
+        {/** Header con título de la ruta y notificaciones */}
         <Header
           onOpenSidebar={handleOpenSidebar}
-          title="Gestión de usuarios"
-          onOpenNewUser={() => setIsNewUserModalOpen(true)}
+          title={routeTitle ?? 'Help Desk TI'}
         />
 
         {/* Zona dinámica del main con scroll independiente */}
@@ -31,12 +33,6 @@ const MainLayout = () => {
           <Outlet />
         </main>
       </div>
-
-      {/* Modal 1 de 3: Registrar nuevo usuario */}
-      <RegisterUserModal
-        isOpen={isNewUserModalOpen}
-        onClose={() => setIsNewUserModalOpen(false)}
-      />
     </div>
   );
 };

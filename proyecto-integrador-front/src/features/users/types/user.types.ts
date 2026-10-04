@@ -1,4 +1,6 @@
-export type UserRole = 'Jefe TI' | 'Técnico' | 'Usuario';
+import type { UserRole } from '@/types/roles';
+
+export type { UserRole };
 
 export type UserStatus = 'Activo' | 'Inactivo';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ROLE_STYLES } from '../constants/role.styles';
+import { ROLE_STYLES } from '@/constants/roleStyles';
 import type { UserRole } from '../types/user.types';
 
 interface EditarPerfilProps {

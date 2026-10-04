@@ -1,6 +1,8 @@
 import { Headset, Users, UserRound, X, LogOut } from "lucide-react";
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
+import { CURRENT_USER } from '@/constants/currentUser';
+import { ROLE_STYLES } from '@/constants/roleStyles';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -48,8 +50,10 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               <span className="text-sm font-medium tracking-tight text-slate-800">
                 Help Desk TI
               </span>
-              <span className=" bg-[#DDEFCC] text-sm text-[#3A5D37] rounded-md  p-0.5 px-1.5 font-semibold w-max">
-                Jefe TI {/** Sera dependiendo de su rol sera dinamico */}
+              <span
+                className={`w-max rounded-md p-0.5 px-1.5 text-sm font-semibold ${ROLE_STYLES[CURRENT_USER.role]}`}
+              >
+                {CURRENT_USER.role}
               </span>
             </div>
           </div>
@@ -103,25 +107,29 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         {/* Pie del Sidebar: Usuario y Cierre de Sesión */}
         <div className="shrink-0 border-t border-slate-100 p-4">
           <div className="flex items-center gap-3 rounded-lg p-1.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-xs">
-              JT
+            <div
+              className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold text-white shadow-xs ${CURRENT_USER.avatarClassName}`}
+            >
+              {CURRENT_USER.avatarInitials}
             </div>
             <div className="flex min-w-0 flex-1 flex-col">
               <span className="truncate text-xs font-bold text-slate-800">
-                Ana Torres
+                {CURRENT_USER.name}
               </span>
               <span className="truncate text-[11px] text-slate-400">
-                ana.torres@empresa.pe
+                {CURRENT_USER.email}
               </span>
             </div>
           </div>
 
-          {/* Botón Cerrar Sesión */}
+          {/* Botón Cerrar Sesión: inactivo hasta que exista autenticación */}
           <button
             type="button"
-            className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white py-1.5 px-3 text-xs font-medium text-slate-700 shadow-2xs hover:bg-slate-50 hover:text-slate-900 transition-colors"
+            disabled
+            title="Disponible cuando HU-01 (autenticación) esté implementada"
+            className="mt-3 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 py-1.5 px-3 text-xs font-medium text-slate-400 shadow-2xs transition-colors"
           >
-            <LogOut className="h-3.5 w-3.5 text-slate-600" />
+            <LogOut className="h-3.5 w-3.5" />
             <span>Cerrar Sesión</span>
           </button>
         </div>

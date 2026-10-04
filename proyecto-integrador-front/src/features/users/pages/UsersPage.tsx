@@ -1,25 +1,47 @@
 import { useState, useMemo } from 'react';
 import { UsersTabs } from '../components/UsersTabs';
 import { UsersTable } from '../components/UsersTable';
-import { EditUserModal } from '../components/modals';
+import { UsersToolbar } from '../components/UsersToolbar';
+import { EditUserModal, RegisterUserModal } from '../components/modals';
 import { MOCK_USERS } from '../services/mockUsers';
 import type { UserTabFilter, User } from '../types/user.types';
 
+/** Quita acentos y pasa a minusculas para que "tecnico" encuentre a "Técnico". */
+const normalize = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .trim();
+
 export const UsersPage = () => {
   const [activeTab, setActiveTab] = useState<UserTabFilter>('todos');
+  const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState<User[]>(MOCK_USERS);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
 
-  const filteredUsers = useMemo(() => {
-    if (activeTab === 'tecnicos') {
-      return users.filter((u) => u.role === 'Técnico');
-    }
-    if (activeTab === 'usuarios') {
-      return users.filter((u) => u.role === 'Usuario');
-    }
-    return users;
-  }, [activeTab, users]);
+  const visibleUsers = useMemo(() => {
+    const query = normalize(searchTerm);
+
+    return users.filter((user) => {
+      const matchesTab =
+        activeTab === 'todos'
+          ? true
+          : activeTab === 'tecnicos'
+            ? user.role === 'Técnico'
+            : user.role === 'Usuario';
+
+      const matchesQuery =
+        query.length === 0 ||
+        normalize(user.name).includes(query) ||
+        normalize(user.email).includes(query) ||
+        normalize(user.role).includes(query);
+
+      return matchesTab && matchesQuery;
+    });
+  }, [activeTab, searchTerm, users]);
 
   const handleEditUser = (user: User) => {
     setSelectedUser(user);
@@ -34,13 +56,25 @@ export const UsersPage = () => {
 
   return (
     <div className="w-full">
-      {/* Pestañas de filtrado superior */}
+      <UsersToolbar
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        onOpenNewUser={() => setIsNewUserModalOpen(true)}
+      />
+
+      {/* Pestañas de filtrado */}
       <UsersTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Tabla con tarjeta blanca y borde redondeado */}
-      <UsersTable users={filteredUsers} onEditUser={handleEditUser} />
+      <UsersTable users={visibleUsers} onEditUser={handleEditUser} />
 
-      {/* Modal 2 de 3: Editar Usuario.
+      {/* Registrar nuevo usuario */}
+      <RegisterUserModal
+        isOpen={isNewUserModalOpen}
+        onClose={() => setIsNewUserModalOpen(false)}
+      />
+
+      {/* Editar usuario.
           La key cambia con el usuario y con la apertura para que el formulario
           se inicialice de cero en cada edición. */}
       <EditUserModal

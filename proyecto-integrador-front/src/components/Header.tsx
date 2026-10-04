@@ -1,16 +1,28 @@
-import { Menu, Search, Plus, Bell } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Bell, BellOff, Menu } from 'lucide-react';
 
 interface HeaderProps {
   onOpenSidebar?: () => void;
-  onOpenNewUser?: () => void;
   title?: string;
 }
 
-export const Header = ({
-  onOpenSidebar,
-  onOpenNewUser,
-  title = 'Gestión de usuarios',
-}: HeaderProps) => {
+export const Header = ({ onOpenSidebar, title = 'Help Desk TI' }: HeaderProps) => {
+  const [isBellOpen, setIsBellOpen] = useState(false);
+  const bellRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isBellOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (bellRef.current && !bellRef.current.contains(event.target as Node)) {
+        setIsBellOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [isBellOpen]);
+
   return (
     <header className="flex h-16 w-full shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6">
       {/* Lado izquierdo: Botón móvil + Título */}
@@ -25,42 +37,38 @@ export const Header = ({
             <Menu className="h-5 w-5" />
           </button>
         )}
-        <h1 className="text-lg md:text-xl font-bold tracking-tight text-slate-800">
+        <h1 className="text-lg font-bold tracking-tight text-slate-800 md:text-xl">
           {title}
         </h1>
       </div>
 
-      {/* Lado derecho: Buscador + Botón + Nuevo + Campana de notificaciones */}
-      <div className="flex items-center gap-3">
-        {/* Buscador */}
-        <div className="relative hidden sm:block">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Buscar tickets, usuarios..."
-            className="w-56 md:w-64 rounded-lg border border-slate-200 bg-slate-50/70 py-1.5 pl-9 pr-3 text-xs text-slate-700 placeholder-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors"
-          />
-        </div>
-
-        {/* Botón "+ Nuevo" */}
+      {/* Lado derecho: notificaciones */}
+      <div ref={bellRef} className="relative">
         <button
           type="button"
-          onClick={onOpenNewUser}
-          className="flex cursor-pointer items-center gap-1 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 active:bg-blue-800 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          <span>Nuevo</span>
-        </button>
-
-        {/* Botón Notificaciones */}
-        <button
-          type="button"
-          className="relative flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors"
+          onClick={() => setIsBellOpen((prev) => !prev)}
+          aria-expanded={isBellOpen}
+          aria-haspopup="true"
+          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-50"
           aria-label="Notificaciones"
         >
           <Bell className="h-4 w-4" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
         </button>
+
+        {isBellOpen && (
+          <div className="absolute right-0 top-11 z-50 w-64 rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+            <p className="text-xs font-semibold tracking-wide text-slate-800 uppercase">
+              Notificaciones
+            </p>
+            <div className="mt-3 flex flex-col items-center gap-2 py-4 text-center">
+              <BellOff className="h-6 w-6 text-slate-300" />
+              <p className="text-sm text-slate-600">No tienes notificaciones</p>
+              <p className="text-xs text-slate-400">
+                Aqui apareceran las alertas del sistema
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
