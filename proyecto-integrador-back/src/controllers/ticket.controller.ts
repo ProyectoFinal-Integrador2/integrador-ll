@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { ticketService } from '../services/ticket.service';
-import type { CreateTicketInput } from '../types/ticket.types';
+import type { CreateTicketInput, UpdateTicketStatusInput } from '../types/ticket.types';
 
 export class TicketController {
   /** GET /api/v1/tickets */
@@ -17,5 +17,19 @@ export class TicketController {
       req.body as Partial<CreateTicketInput>,
     );
     res.status(201).json(ticket);
+  }
+
+  /** PATCH /api/v1/tickets/:id */
+  static async changeStatus(req: Request, res: Response): Promise<void> {
+    // Los tipos de params de Express lo declaran como `string | string[]`, pero
+    // con la ruta `/tickets/:id` siempre llega un solo valor.
+    const { id } = req.params;
+
+    const ticket = await ticketService.changeStatus(
+      Array.isArray(id) ? id[0] : id,
+      req.body as Partial<UpdateTicketStatusInput>,
+    );
+
+    res.json(ticket);
   }
 }

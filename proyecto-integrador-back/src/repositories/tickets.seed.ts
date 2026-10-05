@@ -3,62 +3,129 @@ import type { Ticket } from '../types/ticket.types';
 /**
  * Datos de arranque. Mismo criterio que MOCK_USERS en el frontend: mientras
  * no haya base de datos, el repositorio arranca con una lista fija.
+ *
+ * `userId` apunta a USER_SEED y `technicianId` a un tecnico (2 = Luis García,
+ * 3 = Carlos Medina).
+ *
+ * Tres reglas que el seed cumple a proposito, porque el backend ahora las
+ * valida y un seed que las rompa daria errores de prueba:
+ *
+ * 1. Nadie atiende su propio ticket: `userId` y `technicianId` son distintos.
+ * 2. Los tickets `Abierto` van sin tecnico: son la cola de trabajo disponible.
+ * 3. Todo ticket `Cerrado` con evaluacion en evaluations.seed tiene a su
+ *    solicitante como `reviewerId`, y el ticket 8 esta cerrado pero sin
+ *    evaluar: es lo que alimenta el formulario de conformidad.
  */
 export const TICKET_SEED: Ticket[] = [
   {
     id: '1',
     description: 'El portatil no enciende al conectar el cargador',
     user: 'María Ramos',
+    userId: '4',
     priority: 'Crítico',
     status: 'En progreso',
+    technicianId: '2',
+    technicianName: null,
     createdAt: '2026-09-28T09:15:00.000Z',
   },
   {
     id: '2',
     description: 'Sin acceso a la carpeta compartida del area',
     user: 'Pedro Vargas',
+    userId: '5',
     priority: 'Alto',
     status: 'Abierto',
+    technicianId: null,
+    technicianName: null,
     createdAt: '2026-09-29T11:40:00.000Z',
   },
   {
     id: '3',
     description: 'Solicita monitor adicional para su puesto',
     user: 'Rosa Flores',
+    userId: '6',
     priority: 'Medio',
     status: 'Abierto',
+    technicianId: null,
+    technicianName: null,
     createdAt: '2026-09-30T08:05:00.000Z',
   },
   {
     id: '4',
     description: 'La impresora de Ventas imprime en blanco',
     user: 'Karla Quispe',
+    userId: '7',
     priority: 'Alto',
     status: 'Cerrado',
+    technicianId: '2',
+    technicianName: null,
     createdAt: '2026-09-25T14:30:00.000Z',
   },
   {
     id: '5',
     description: 'Pide alta de correo corporativo',
-    user: 'Carlos Medina',
+    user: 'Rosa Flores',
+    userId: '6',
     priority: 'Bajo',
     status: 'Cerrado',
+    technicianId: '3',
+    technicianName: null,
     createdAt: '2026-09-20T10:00:00.000Z',
   },
   {
     id: '6',
     description: 'WiFi se corta en la sala de reuniones 3',
     user: 'Luis García',
+    userId: '2',
     priority: 'Medio',
     status: 'En progreso',
+    technicianId: '3',
+    technicianName: null,
     createdAt: '2026-10-01T16:20:00.000Z',
   },
   {
     id: '7',
     description: 'Error al abrir el sistema de incidencias',
     user: 'Ana Torres',
+    userId: '1',
     priority: 'Crítico',
     status: 'Abierto',
+    technicianId: null,
+    technicianName: null,
     createdAt: '2026-10-02T07:45:00.000Z',
+  },
+  {
+    /** Cerrado y sin evaluar: es lo que da contenido al formulario. */
+    id: '8',
+    description: 'El escritorio remoto se corta cada pocos minutos',
+    user: 'María Ramos',
+    userId: '4',
+    priority: 'Alto',
+    status: 'Cerrado',
+    technicianId: '2',
+    technicianName: null,
+    createdAt: '2026-10-03T16:40:00.000Z',
+  },
+  {
+    id: '9',
+    description: 'El teclado wireless se desconecta a cada rato',
+    user: 'Rosa Flores',
+    userId: '6',
+    priority: 'Medio',
+    status: 'Cerrado',
+    technicianId: '3',
+    technicianName: null,
+    createdAt: '2026-09-27T13:10:00.000Z',
+  },
+  {
+    id: '10',
+    description: 'No puede abrir los adjuntos de correo',
+    user: 'Pedro Vargas',
+    userId: '5',
+    priority: 'Medio',
+    status: 'Cerrado',
+    technicianId: '2',
+    technicianName: null,
+    createdAt: '2026-09-24T09:50:00.000Z',
   },
 ];

@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { TicketFilters } from '@/components/TicketFilters';
-import { TicketsToolbar } from '@/components/TicketsToolbar';
-import { TicketList } from '@/components/TicketList';
-import { CreateTicketModal } from '@/components/CreateTicketModal';
-import { createTicket, fetchTickets } from '@/services/ticketsApi';
+import { useNavigate } from 'react-router-dom';
+import { TicketFilters } from '@/components/tickets/TicketFilters';
+import { TicketsToolbar } from '@/components/tickets/TicketsToolbar';
+import { TicketList } from '@/components/tickets/TicketList';
+import { CreateTicketModal } from '@/components/tickets/CreateTicketModal';
+import { TicketDetailModal } from '@/components/tickets/TicketDetailModal';
+import { useSession } from '@/context/session';
+import { changeTicketStatus, createTicket, fetchTickets } from '@/services/ticketsApi';
 import { normalizeForSearch } from '@/utils/text';
-import type { CreateTicketInput, Ticket, TicketFilter } from '@/types/ticket.types';
+import type { CreateTicketInput, Ticket, TicketFilter, TicketStatus } from '@/types/ticket.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -14,6 +17,9 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const TicketsPage = () => {
+  const navigate = useNavigate();
+  const { user } = useSession();
+
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +27,7 @@ export const TicketsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState<TicketFilter>('todos');
   const [isNewTicketOpen, setIsNewTicketOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
   /**
    * Los setState van dentro de los callbacks de la promesa, nunca en el cuerpo
@@ -81,6 +88,7 @@ export const TicketsPage = () => {
       abiertos: searched.filter((t) => t.status === 'Abierto').length,
       'en-progreso': searched.filter((t) => t.status === 'En progreso').length,
       cerrados: searched.filter((t) => t.status === 'Cerrado').length,
+      cancelados: searched.filter((t) => t.status === 'Cancelado').length,
       criticos: searched.filter((t) => t.priority === 'Crítico').length,
     }),
     [searched],
@@ -94,6 +102,8 @@ export const TicketsPage = () => {
         return searched.filter((t) => t.status === 'En progreso');
       case 'cerrados':
         return searched.filter((t) => t.status === 'Cerrado');
+      case 'cancelados':
+        return searched.filter((t) => t.status === 'Cancelado');
       case 'criticos':
         return searched.filter((t) => t.priority === 'Crítico');
       case 'todos':
@@ -106,6 +116,24 @@ export const TicketsPage = () => {
     const created = await createTicket(input);
     // El back responde el ticket ya creado, asi que no hay que recargar la lista.
     setTickets((prev) => [created, ...prev]);
+  };
+
+  /**
+   * El back devuelve el ticket ya movido de estado, asi que se reemplaza en la
+   * lista y en el modal en vez de recargar. Si el modal queda abierto, el
+   * `status` del ticket seleccionado cambia y los botones se reevaluan solos.
+   */
+  const handleChangeStatus = async (ticket: Ticket, status: TicketStatus) => {
+    const updated = await changeTicketStatus(ticket.id, status);
+
+    setTickets((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+    setSelectedTicket((prev) => (prev?.id === updated.id ? updated : prev));
+  };
+
+  /** "Dar conformidad" lleva al formulario con el ticket ya elegido. */
+  const handleEvaluate = (ticket: Ticket) => {
+    setSelectedTicket(null);
+    navigate('/evaluaciones', { state: { ticketId: ticket.id } });
   };
 
   return (
@@ -126,12 +154,27 @@ export const TicketsPage = () => {
         />
       </div>
 
-      <TicketList tickets={visibleTickets} isLoading={isLoading} error={error} />
+      <TicketList
+        tickets={visibleTickets}
+        isLoading={isLoading}
+        error={error}
+        onSelectTicket={setSelectedTicket}
+      />
 
       <CreateTicketModal
         isOpen={isNewTicketOpen}
         onClose={() => setIsNewTicketOpen(false)}
         onCreate={handleCreate}
+        solicitante={
+          user?.role === 'Usuario' ? { nombre: user.name, userId: user.id } : null
+        }
+      />
+
+      <TicketDetailModal
+        ticket={selectedTicket}
+        onClose={() => setSelectedTicket(null)}
+        onChangeStatus={handleChangeStatus}
+        onEvaluate={handleEvaluate}
       />
     </div>
   );

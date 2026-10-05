@@ -19,4 +19,5 @@ export const TICKET_STATUS_STYLES: Record<TicketStatus, string> = {
   'Abierto': 'bg-emerald-100 text-emerald-700',
   'En progreso': 'bg-blue-100 text-blue-700',
   'Cerrado': 'bg-slate-200 text-slate-600',
+  'Cancelado': 'bg-rose-100 text-rose-700',
 };
