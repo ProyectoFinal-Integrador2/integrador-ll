@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express, { type Application, type Request, type Response } from 'express';
-import { errorHandler, notFound } from './middlewares';
+import { errorHandler } from './middlewares/errorHandler';
+import { notFound } from './middlewares/notFound';
 import apiRouter from './routes';
 
 const app: Application = express();

@@ -1,9 +1,9 @@
-import { Headset, Users, UserRound, X, LogOut } from "lucide-react";
+import { Headset, Users, UserRound, X, LogOut, Ticket } from "lucide-react";
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { AVATAR_STYLES } from '@/constants/avatarStyles';
 import { ROLE_STYLES } from '@/constants/roleStyles';
-import { useSession } from '@/session/sessionContext';
+import { useSession } from '@/context/session';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -19,6 +19,7 @@ interface NavItem {
 
 const MENU_ITEMS: NavItem[] = [
   { to: "/usuarios", label: "Usuarios", icon: <Users /> },
+  { to: "/tickets", label: "Tickets", icon: <Ticket /> },
   { to: "/perfil", label: "Mi perfil", icon: <UserRound /> },
 ];
 
