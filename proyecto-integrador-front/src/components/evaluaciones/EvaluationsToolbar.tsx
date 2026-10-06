@@ -16,7 +16,6 @@ export const EvaluationsToolbar = ({
   return (
     <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-2">
-        {/** Buscador: filtra por ticket, tecnico, quien evalua y comentario. */}
         <div className="relative w-full max-w-xs">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input

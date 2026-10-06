@@ -49,7 +49,6 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                 ESTADO
               </th>
               <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-400 text-right">
-                {/* Espacio para acciones */}
               </th>
             </tr>
           </thead>
@@ -59,7 +58,6 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                 key={user.id}
                 className="hover:bg-slate-50/70 transition-colors"
               >
-                {/* Nombre y Avatar */}
                 <td className="whitespace-nowrap px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div
@@ -75,31 +73,26 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                   </div>
                 </td>
 
-                {/* Correo */}
                 <td className="whitespace-nowrap px-6 py-4">
                   <span className="text-sm text-slate-400 underline decoration-slate-300 decoration-1 underline-offset-2 hover:text-slate-600 transition-colors cursor-pointer">
                     {user.email}
                   </span>
                 </td>
 
-                {/* Rol */}
                 <td className="whitespace-nowrap px-6 py-4">
                   <UserRoleBadge role={user.role} />
                 </td>
 
-                {/* Área */}
                 <td className="whitespace-nowrap px-6 py-4">
                   <span className="text-sm font-normal text-slate-600">
                     {user.area}
                   </span>
                 </td>
 
-                {/* Estado */}
                 <td className="whitespace-nowrap px-6 py-4">
                   <UserStatusBadge status={user.status} />
                 </td>
 
-                {/* Acción: Editar */}
                 <td className="whitespace-nowrap px-6 py-4 text-right">
                   <button
                     type="button"

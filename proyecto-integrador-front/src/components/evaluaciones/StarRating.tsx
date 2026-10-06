@@ -5,11 +5,6 @@ interface StarRatingProps {
   rating: EvaluationRating;
 }
 
-/**
- * Las cinco estrellas se pintan siempre: las vacias en gris muestran de un
- * vistazo que la calificacion es sobre cinco y no sobre lo que se alcanzo a
- * dibujar. Va en su propio componente porque se reutiliza por cada fila.
- */
 export const StarRating = ({ rating }: StarRatingProps) => {
   return (
     <div

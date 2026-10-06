@@ -17,15 +17,6 @@ const isAbortError = (error: unknown): boolean =>
 const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
-/**
- * Lectura de lo que ya existe: cada panel consume el modulo que le corresponde
- * (tickets, disponibilidad, SLA, evaluaciones), asi que cuando estos datos
- * pasen a base de datos el backend sigue siendo el unico lugar que cambia.
- *
- * El contenido depende del rol: el Jefe TI ve la vista global, el tecnico la
- * suya y el solicitante solo sus propios tickets. El backend lo decide segun el
- * `scope` que devuelve, asi que la pagina no arma la vista: solo la pide.
- */
 export const DashboardPage = () => {
   const { user } = useSession();
   const navigate = useNavigate();
@@ -38,7 +29,6 @@ export const DashboardPage = () => {
   const isTecnico = user?.role === 'Técnico';
   const isUsuario = user?.role === 'Usuario';
 
-  // Solo uno de los dos viaja: el backend prioriza el `technicianId`.
   const technicianId = isTecnico ? user?.id : undefined;
   const userId = isUsuario ? user?.id : undefined;
 
@@ -51,7 +41,6 @@ export const DashboardPage = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar o recargar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })
@@ -74,33 +63,20 @@ export const DashboardPage = () => {
       .finally(() => setIsLoading(false));
   };
 
-  /**
-   * Recarga sin pasar por el esqueleto. Se usa despues de mover un ticket: los
-   * KPIs y el grafico del dashboard vienen calculados en el servidor, asi que
-   * parchear el ticket en el estado local dejaria los contadores desfasados.
-   */
   const reloadQuietly = useCallback(() => {
     fetchDashboard(undefined, technicianId, userId)
       .then((data) => setReport(data))
       .catch(() => {
-        // Si falla, el modal ya mostro el error del cambio de estado: no se
-        // reemplaza toda la pantalla por un aviso de un modulo que no cambio.
       });
   }, [technicianId, userId]);
 
   const handleChangeStatus = async (ticket: Ticket, status: TicketStatus) => {
     const updated = await changeTicketStatus(ticket.id, status);
 
-    // El modal queda abierto, asi que su ticket tiene que reflejar el cambio.
     setSelectedTicket((prev) => (prev?.id === updated.id ? updated : prev));
     reloadQuietly();
   };
 
-  /**
-   * "Dar conformidad" deja el ticket para el formulario de evaluacion. Se pasa
-   * el ticket por `state` para que la pantalla lo muestre primero, en vez de
-   * dejarlo escondido en la lista.
-   */
   const handleEvaluate = (ticket: Ticket) => {
     setSelectedTicket(null);
     navigate('/evaluaciones', { state: { ticketId: ticket.id } });

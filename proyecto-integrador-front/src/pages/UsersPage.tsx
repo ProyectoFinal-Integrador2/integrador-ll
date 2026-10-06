@@ -6,12 +6,7 @@ import { EditUserModal } from '@/components/usuarios/EditUserModal';
 import { RegisterUserModal } from '@/components/usuarios/RegisterUserModal';
 import { createUser, fetchUsers, updateUser } from '@/services/usersApi';
 import { normalizeForSearch } from '@/utils/text';
-import type {
-  CreateUserInput,
-  UpdateUserInput,
-  User,
-  UserTabFilter,
-} from '@/types/user.types';
+import type { CreateUserInput, UpdateUserInput, User, UserTabFilter } from '@/types/user.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -30,14 +25,6 @@ export const UsersPage = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
 
-  /**
-   * Los setState van dentro de los callbacks de la promesa, nunca en el cuerpo
-   * del efecto: llamarlos de forma sincrona ahi provoca renders en cascada
-   * (`react-hooks/set-state-in-effect`).
-   *
-   * El URL, el parseo y el formato de error viven en usersApi, asi que aqui
-   * solo queda el encadenado, que es lo unico que cambia entre carga y refresco.
-   */
   useEffect(() => {
     const controller = new AbortController();
 
@@ -47,7 +34,6 @@ export const UsersPage = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })
@@ -98,7 +84,6 @@ export const UsersPage = () => {
 
   const handleCreate = async (input: CreateUserInput) => {
     const created = await createUser(input);
-    // El back responde el usuario ya creado, asi que no hay que recargar la lista.
     setUsers((prev) => [...prev, created].sort((a, b) => a.name.localeCompare(b.name, 'es')));
   };
 
@@ -121,7 +106,6 @@ export const UsersPage = () => {
         isLoading={isLoading}
       />
 
-      {/* Pestañas de filtrado */}
       <UsersTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {error && (
@@ -133,23 +117,18 @@ export const UsersPage = () => {
         </div>
       )}
 
-      {/* Tabla con tarjeta blanca y borde redondeado */}
       <UsersTable
         users={visibleUsers}
         onEditUser={handleEditUser}
         isLoading={isLoading}
       />
 
-      {/* Registrar nuevo usuario */}
       <RegisterUserModal
         isOpen={isNewUserModalOpen}
         onClose={() => setIsNewUserModalOpen(false)}
         onSubmit={handleCreate}
       />
 
-      {/* Editar usuario.
-          La key cambia con el usuario y con la apertura para que el formulario
-          se inicialice de cero en cada edición. */}
       <EditUserModal
         key={`${selectedUser?.id ?? 'sin-seleccion'}-${isEditModalOpen}`}
         isOpen={isEditModalOpen}

@@ -68,8 +68,6 @@ export const RegisterEquipmentModal = ({
       setFormData(INITIAL_FORM_DATA);
       onClose();
     } catch (submitError) {
-      // El modal se mantiene abierto para que el usuario vea que fallo y
-      // corrija sin volver a tipear todo.
       setError(toMessage(submitError));
     } finally {
       setIsSaving(false);
@@ -99,9 +97,7 @@ export const RegisterEquipmentModal = ({
         </button>
       </div>
 
-      {/* Formulario */}
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        {/* Fila 1: Codigo de inventario */}
         <div>
           <label
             htmlFor="eq-codigo"
@@ -124,7 +120,6 @@ export const RegisterEquipmentModal = ({
           </p>
         </div>
 
-        {/* Fila 2: Nombre y Area */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label
@@ -165,7 +160,6 @@ export const RegisterEquipmentModal = ({
           </div>
         </div>
 
-        {/* Fila 3: Tipo */}
         <div>
           <label
             htmlFor="eq-tipo"
@@ -197,7 +191,6 @@ export const RegisterEquipmentModal = ({
           </p>
         )}
 
-        {/* Botones de accion */}
         <div className="mt-8 flex items-center justify-end gap-3 pt-4">
           <button
             type="button"

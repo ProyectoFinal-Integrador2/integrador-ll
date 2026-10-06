@@ -3,16 +3,10 @@ import type { ReportSlice } from '@/types/report.types';
 interface ReportBarListProps {
   title: string;
   slices: ReportSlice[];
-  /** Clase de relleno de la barra para cada etiqueta. */
   colorFor: (label: string) => string;
   emptyMessage: string;
 }
 
-/**
- * Barras horizontales hechas con `div`, sin libreria de graficos: el reporte
- * tiene pocas categorias y una barra con dos clases de Tailwind no necesita
- * Recharts weighing 100 kB.
- */
 export const ReportBarList = ({
   title,
   slices,
@@ -41,12 +35,6 @@ export const ReportBarList = ({
                 </span>
               </div>
 
-              {/**
-               * El ancho va en `style` porque depende del dato, y el ancho de
-               * una barra tiene que ser proporcional a la verdad, no a una clase
-               * de Tailwind. La barra es decorativa: el valor ya esta escrito
-               * arriba en texto.
-               */}
               <div
                 className="h-2 w-full overflow-hidden rounded-full bg-slate-100"
                 aria-hidden="true"

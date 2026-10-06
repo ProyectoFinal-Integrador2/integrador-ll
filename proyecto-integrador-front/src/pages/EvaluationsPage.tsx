@@ -13,14 +13,6 @@ const isAbortError = (error: unknown): boolean =>
 const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
-/**
- * Dos readerships en la misma ruta.
- *
- * El Jefe TI necesita verlas todas: es el unico que hace seguimiento de la
- * calidad del servicio. Al solicitante no le sirven las de los demas, asi que ve
- * su propia pantalla con los pendientes por confirmar y su historial. Mostrarle
- * el listado completo seria filtrar nada y darle datos de otros usuarios.
- */
 export const EvaluationsPage = () => {
   const { user } = useSession();
 
@@ -35,10 +27,6 @@ const AllEvaluationsView = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  /**
-   * Los setState van dentro de los callbacks de la promesa, nunca en el cuerpo
-   * del efecto: llamarlos de forma sincrona ahi provoca renders en cascada.
-   */
   useEffect(() => {
     const controller = new AbortController();
 
@@ -48,7 +36,6 @@ const AllEvaluationsView = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar o recargar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })

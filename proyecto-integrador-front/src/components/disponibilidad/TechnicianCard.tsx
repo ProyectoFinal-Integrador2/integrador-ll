@@ -14,12 +14,7 @@ export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
   return (
     <article className="flex flex-col justify-between rounded-xl border border-slate-100 bg-white p-6 shadow-xs">
       <div>
-        {/* Identidad del tecnico */}
         <div className="mb-6 flex items-center gap-4">
-          {/**
-           * El color del avatar sale del rol (verde para tecnicos) en vez de
-           * fijarse en la tarjeta: asi se ve igual que en la lista de usuarios.
-           */}
           <div
             className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white shadow-sm ${AVATAR_STYLES[avatarColor]}`}
             aria-hidden="true"
@@ -33,7 +28,6 @@ export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
           </div>
         </div>
 
-        {/* Tickets y estado */}
         <div className="mb-6 flex items-center justify-between gap-3">
           <p className="text-sm text-slate-500">
             Tickets:{' '}
@@ -50,11 +44,6 @@ export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
         </div>
       </div>
 
-      {/**
-       * Deshabilitado a proposito: no hay modulo de turnos todavia, asi que no
-       * hay nada a lo que asignar. Queda visible para que se vea de donde sale
-       * la accion cuando exista, en vez de aparecer sola cuando se programe.
-       */}
       <button
         type="button"
         disabled

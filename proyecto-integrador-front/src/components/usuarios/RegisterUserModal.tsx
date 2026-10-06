@@ -25,7 +25,6 @@ const INITIAL_FORM_DATA: RegisterUserFormData = {
   area: '',
 };
 
-/** El nombre y el correo son los unicos campos que viajan al back. */
 const toPayload = (form: RegisterUserFormData): CreateUserInput => ({
   name: `${form.nombre} ${form.apellido}`.trim(),
   email: form.correo.trim(),
@@ -65,8 +64,6 @@ export const RegisterUserModal = ({
       setFormData(INITIAL_FORM_DATA);
       onClose();
     } catch (submitError) {
-      // El modal se mantiene abierto para que el usuario vea que fallo y
-      // corrija sin volver a tipear todo.
       setError(toMessage(submitError));
     } finally {
       setIsSaving(false);
@@ -75,7 +72,6 @@ export const RegisterUserModal = ({
 
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} maxWidth="max-w-xl">
-      {/* Cabecera del Modal */}
       <div className="flex items-center justify-between pb-4">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center text-blue-600">
@@ -96,9 +92,7 @@ export const RegisterUserModal = ({
         </button>
       </div>
 
-      {/* Formulario */}
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        {/* Fila 1: Nombre y Apellido */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label
@@ -139,7 +133,6 @@ export const RegisterUserModal = ({
           </div>
         </div>
 
-        {/* Fila 2: Correo corporativo */}
         <div>
           <label
             htmlFor="correo"
@@ -159,7 +152,6 @@ export const RegisterUserModal = ({
           />
         </div>
 
-        {/* Fila 3: Rol y Área */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label
@@ -210,7 +202,6 @@ export const RegisterUserModal = ({
           </p>
         )}
 
-        {/* Botones de acción */}
         <div className="mt-8 flex items-center justify-end gap-3 pt-4">
           <button
             type="button"

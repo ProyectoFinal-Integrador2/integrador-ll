@@ -1,13 +1,5 @@
 import type { User } from '../types/user.types';
 
-/**
- * Copia de `USER_SEED` en proyecto-integrador-back/src/repositories/users.seed.ts.
- *
- * La tabla de usuarios ya se pide a la API, pero el login sigue siendo un stub:
- * no hay endpoint de autenticacion, asi que SessionProvider busca aqui el primer
- * usuario del rol elegido. Cuando exista auth real, este archivo desaparece con
- * el resto del stub.
- */
 export const MOCK_USERS: User[] = [
   {
     id: '1',

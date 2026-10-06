@@ -18,10 +18,6 @@ export interface User {
   avatarColor: AvatarColor;
 }
 
-/**
- * Refleja lo que el back acepta en POST /users. El estado y el avatar los
- * decide el dominio, asi que no viajan en el alta.
- */
 export interface CreateUserInput {
   name: string;
   email: string;
@@ -29,7 +25,6 @@ export interface CreateUserInput {
   area: string;
 }
 
-/** Lo que acepta PUT /users/:id: a diferencia del alta, si cambia el estado. */
 export interface UpdateUserInput {
   name: string;
   email: string;

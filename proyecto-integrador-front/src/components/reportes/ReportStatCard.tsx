@@ -5,11 +5,9 @@ interface ReportStatCardProps {
   value: string;
   hint?: string;
   icon: ReactNode;
-  /** Color del icono, clase `text-*`. */
   iconClassName?: string;
 }
 
-/** Tarjeta de una cifra clave. Solo presentation: recibe el dato ya formateado. */
 export const ReportStatCard = ({
   label,
   value,

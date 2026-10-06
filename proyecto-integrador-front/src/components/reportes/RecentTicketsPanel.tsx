@@ -5,13 +5,10 @@ import type { Ticket } from '@/types/ticket.types';
 
 interface RecentTicketsPanelProps {
   tickets: Ticket[];
-  /** Si se omite, las filas son texto plano: el panel sigue siendo reutilizable. */
   onSelectTicket?: (ticket: Ticket) => void;
-  /** El dashboard del tecnico reusa el panel para su cola de pendientes. */
   title?: string;
 }
 
-/** Los mas recientes que ya trae el backend, ordenados por `createdAt`. */
 export const RecentTicketsPanel = ({
   tickets,
   onSelectTicket,
@@ -64,10 +61,6 @@ export const RecentTicketsPanel = ({
                   </div>
                 </div>
 
-                {/**
-                 * `pl-11` alinea las etiquetas bajo el titulo cuando no queda
-                 * espacio horizontal y envuelven a la linea siguiente.
-                 */}
                 <div className="flex shrink-0 gap-2 pl-11 sm:pl-0">
                   <span
                     className={`w-16 rounded px-2 py-1 text-center text-[10px] font-bold ${TICKET_PRIORITY_STYLES[ticket.priority]}`}

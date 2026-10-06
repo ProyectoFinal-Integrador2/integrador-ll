@@ -6,13 +6,6 @@ import { SessionContext } from './session';
 
 const STORAGE_KEY = 'helpdesk.session.role';
 
-/**
- * Primer usuario de MOCK_USERS con el rol pedido.
- *
- * Todavia no hay backend de autenticacion: la identidad se saca de la tabla de
- * usuarios en lugar de validarse contra un servidor. Cuando exista auth real,
- * login() pegara a la API y el import de MOCK_USERS desaparece.
- */
 const findUserByRole = (role: UserRole): User => {
   const match = MOCK_USERS.find((candidate) => candidate.role === role);
   return match ?? MOCK_USERS[0];
@@ -23,7 +16,6 @@ const readStoredRole = (): UserRole | null => {
     const stored = sessionStorage.getItem(STORAGE_KEY);
     return stored === 'Jefe TI' || stored === 'Técnico' || stored === 'Usuario' ? stored : null;
   } catch {
-    // sessionStorage puede estar bloqueado (modo privado, permisos).
     return null;
   }
 };

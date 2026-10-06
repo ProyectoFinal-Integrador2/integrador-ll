@@ -7,12 +7,6 @@ export interface CreateTicketModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCreate: (input: CreateTicketInput) => Promise<void>;
-  /**
-   * Cuando viene, el solicitante es la persona de la sesion: el campo se
-   * muestra fijo y el ticket nace con su `userId`. Sin esto, un ticket abierto
-   * por el rol Usuario quedaria sin dueno y no podria cancelarlo ni evaluarlo.
-   * El Jefe TI lo deja en `null` porque puede registrar a nombre de otro.
-   */
   solicitante?: { nombre: string; userId: string } | null;
 }
 
@@ -37,8 +31,6 @@ export const CreateTicketModal = ({
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  /** Con solicitante fijo el nombre sale de la sesion, no del formulario. */
   const userName = solicitante?.nombre ?? form.user;
 
   const handleChange = (

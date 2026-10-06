@@ -26,7 +26,6 @@ const EditProfilePage = () => {
         return (partes[0].charAt(0) + partes[1].charAt(0)).toUpperCase();
     };
 
-    //esto es temporal para modificar con el usuario ingresado
     const [usuarioActual, setUsuarioActual] = useState({
         nombre: 'Ana Torres',
         correo: 'ana.torres@empresa.pe',
@@ -80,7 +79,6 @@ const EditProfilePage = () => {
     return (
         <div className="w-full max-w-4xl p-6 mx-auto">
 
-            {/* TARJETA DATOS */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-6 relative">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold shadow-sm">
@@ -152,7 +150,6 @@ const EditProfilePage = () => {
                 </form>
             </div>
 
-            {/* CONTRASEÑA */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
                 <h3 className="font-bold text-gray-900 text-sm mb-5">Cambiar contraseña</h3>
 

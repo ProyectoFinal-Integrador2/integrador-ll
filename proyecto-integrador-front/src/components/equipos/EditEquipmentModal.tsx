@@ -33,7 +33,6 @@ const EMPTY_FORM_DATA: EditFormData = {
   estado: 'Operativo',
 };
 
-/** Traduce el equipo del dominio a los campos del formulario. */
 const toFormData = (equipment: Equipment | null): EditFormData => {
   if (!equipment) return EMPTY_FORM_DATA;
 
@@ -63,9 +62,6 @@ export const EditEquipmentModal = ({
   equipment,
   onSubmit,
 }: EditEquipmentModalProps) => {
-  // El formulario se inicializa desde las props en el primer render. El padre
-  // debe cambiar la `key` de este componente cuando cambie el equipo o se
-  // reabra el modal, para que el estado se vuelva a crear.
   const [formData, setFormData] = useState<EditFormData>(() =>
     toFormData(equipment),
   );
@@ -91,8 +87,6 @@ export const EditEquipmentModal = ({
       await onSubmit(toPayload(formData));
       onClose();
     } catch (submitError) {
-      // El modal se mantiene abierto para que el usuario vea que fallo y
-      // corrija sin volver a tipear todo.
       setError(toMessage(submitError));
     } finally {
       setIsSaving(false);
@@ -133,7 +127,6 @@ export const EditEquipmentModal = ({
           />
         </div>
 
-        {/* Fila 2: Nombre y Area */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label
@@ -174,7 +167,6 @@ export const EditEquipmentModal = ({
           </div>
         </div>
 
-        {/* Fila 3: Tipo y Estado */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label
@@ -233,7 +225,6 @@ export const EditEquipmentModal = ({
           </p>
         )}
 
-        {/* Botones de accion */}
         <div className="mt-8 flex items-center justify-end gap-3 pt-4">
           <button
             type="button"

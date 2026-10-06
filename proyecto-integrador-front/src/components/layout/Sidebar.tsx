@@ -23,11 +23,6 @@ interface NavSection {
   items: NavItem[];
 }
 
-/**
- * Las secciones se arman por rol en vez de filtrar una lista comun: un tecnico
- * no ve "Gestion" con un solo link, sino las secciones que le corresponden. Los
- *titulos se mantienen iguales en todos los roles para que el menu se lea igual.
- */
 const CUENTA_SECTION: NavSection = {
   title: "Cuenta",
   items: [{ to: "/perfil", label: "Mi perfil", icon: <UserRound /> }],
@@ -95,18 +90,12 @@ const MENU_BY_ROLE: Record<UserRole, NavSection[]> = {
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const { user, logout } = useSession();
 
-  // RequireAuth garantiza que hay sesion en toda ruta protegida.
   if (!user) return null;
 
-  /**
-   * Cada rol tiene su propio menu. Ademas de la UI, `RequireRoles` bloquea las
-   * rutas por si alguien escribe la URL a mano.
-   */
   const visibleSections = MENU_BY_ROLE[user.role];
 
   return (
     <>
-      {/** Backdrop oscuro para móviles (bloquea la pantalla al abrir) */}
       {isOpen && (
         <div
           onClick={onClose}
@@ -115,13 +104,11 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         />
       )}
 
-      {/** Barra lateral completa */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 flex h-screen w-64 flex-col border-r border-slate-200 bg-white shadow-sm transition-transform duration-300 ease-in-out lg:static lg:h-auto lg:shrink-0 lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/** Cabecera logo del Sidebar */}
         <div className="flex h-16 shrink-0 items-center  justify-between border-b border-slate-100 px-6">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500 font-bold text-white shadow-sm">
@@ -139,7 +126,6 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               </span>
             </div>
           </div>
-          {/** Btón cerrar (solo en móvil) */}
           <button
             type="button"
             onClick={onClose}
@@ -150,7 +136,6 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           </button>
         </div>
 
-        {/** Navegación agrupada por secciones, con scroll independiente */}
         <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-4">
           {visibleSections.map((section) => (
             <div key={section.title}>
@@ -193,7 +178,6 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           ))}
         </nav>
 
-        {/* Pie del Sidebar: Usuario y Cierre de Sesión */}
         <div className="shrink-0 border-t border-slate-100 p-4">
           <div className="flex items-center gap-3 rounded-lg p-1.5">
             <div

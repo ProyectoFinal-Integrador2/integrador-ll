@@ -17,10 +17,6 @@ export const AvailabilityPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  /**
-   * Los setState van dentro de los callbacks de la promesa, nunca en el cuerpo
-   * del efecto: llamarlos de forma sincrona ahi provoca renders en cascada.
-   */
   useEffect(() => {
     const controller = new AbortController();
 
@@ -30,7 +26,6 @@ export const AvailabilityPage = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar o recargar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })

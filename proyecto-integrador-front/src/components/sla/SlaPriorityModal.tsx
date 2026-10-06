@@ -11,7 +11,6 @@ import {
 export interface SlaPriorityModalProps {
   isOpen: boolean;
   onClose: () => void;
-  /** `null` = alta. Con un registro = edicion de ese SLA. */
   priority: SlaPriority | null;
   onSubmit?: (input: SlaPriorityInput) => Promise<void>;
 }
@@ -24,11 +23,6 @@ interface SlaFormData {
   escalamiento: string;
 }
 
-/**
- * Arranca con valores propuestos en vez de vacio: casi todo SLA nuevo cae
- * cerca de un tiempo de 15 min de respuesta y 4 h de resolucion, y tener que
- * tipearlos cada vez es ruido. El campo igual es editable.
- */
 const INITIAL_FORM_DATA: SlaFormData = {
   nivel: 'Crítico',
   descripcion: '',
@@ -37,11 +31,6 @@ const INITIAL_FORM_DATA: SlaFormData = {
   escalamiento: '30',
 };
 
-/**
- * Los minutos se editan como texto y se convierten al enviar. Si el estado
- * fuera `number`, no se podria vaciar el campo para escribir "120" desde cero:
- * React lo reinterpretaria como "" y el input se saltaria.
- */
 const toFormData = (priority: SlaPriority | null): SlaFormData => {
   if (!priority) return INITIAL_FORM_DATA;
 
@@ -78,8 +67,6 @@ export const SlaPriorityModal = ({
 }: SlaPriorityModalProps) => {
   const isEditing = priority !== null;
 
-  // El padre cambia la `key` de este componente cuando cambia el registro o se
-  // abre el modal, asi que el estado se vuelve a crear y el form arranca limpio.
   const [formData, setFormData] = useState<SlaFormData>(() =>
     toFormData(priority),
   );
@@ -87,7 +74,6 @@ export const SlaPriorityModal = ({
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Solo se leen `name` y `value`, asi que sirve para los tres campos.
   type FormField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
   const handleChange = (e: ChangeEvent<FormField>) => {
@@ -107,8 +93,6 @@ export const SlaPriorityModal = ({
       setFormData(INITIAL_FORM_DATA);
       onClose();
     } catch (submitError) {
-      // El modal se mantiene abierto para que el usuario vea que fallo y
-      // corrija sin volver a tipear todo.
       setError(toMessage(submitError));
     } finally {
       setIsSaving(false);
@@ -177,7 +161,6 @@ export const SlaPriorityModal = ({
           />
         </div>
 
-        {/* Tiempos (3 columnas) */}
         <div className="mb-8 grid grid-cols-3 gap-4">
           <div>
             <label htmlFor="sla-respuesta" className={LABEL_CLASS}>

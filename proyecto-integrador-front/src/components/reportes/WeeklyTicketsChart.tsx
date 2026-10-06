@@ -4,11 +4,9 @@ import type { DashboardWeekDay } from '@/types/dashboard.types';
 
 interface WeeklyTicketsChartProps {
   week: DashboardWeekDay[];
-  /** Conteos reales por estado, para la leyenda. */
   statusTotals: Record<string, number>;
 }
 
-/** Altura fija del area de barras; las barras se escalan dentro. */
 const PLOT_HEIGHT_CLASS = 'h-40';
 
 export const WeeklyTicketsChart = ({
@@ -31,8 +29,6 @@ export const WeeklyTicketsChart = ({
         <>
           <div className={`mt-4 flex ${PLOT_HEIGHT_CLASS} items-end gap-2`}>
             {week.map((day) => {
-              // Proporcional al dia mas cheio, no al total: asi la semana se
-              // lee de un vistazo aunque los numeros sean bajos.
               const height = Math.round((day.count / max) * 100);
 
               return (
@@ -60,12 +56,6 @@ export const WeeklyTicketsChart = ({
             })}
           </div>
 
-          {/**
-           * Leyenda con los conteos reales. El prototipo traia numeros fijos
-           * ("Abierto 18", "Cancelado 3"): los numeros salen de la data y
-           * `Cancelado` ahora existe como estado, asi que aparece solo si hay
-           * tickets cancelados.
-           */}
           <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
             {TICKET_STATUSES.filter((status) => (statusTotals[status] ?? 0) > 0).map(
               (status) => (

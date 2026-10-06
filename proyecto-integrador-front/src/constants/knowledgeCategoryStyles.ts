@@ -1,10 +1,5 @@
 import type { KnowledgeCategory } from '../types/knowledge.types';
 
-/**
- * Tipado contra el catalogo: si `KnowledgeCategory` no tiene una entrada, el
- * TypeScript lo marca. Asi no hace falta un `default` que oculte el error ni un
- * articulo con la etiqueta sin color.
- */
 export const KNOWLEDGE_CATEGORY_STYLES: Record<KnowledgeCategory, string> = {
   Red: 'bg-blue-100 text-blue-700',
   Hardware: 'bg-orange-100 text-orange-700',

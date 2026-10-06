@@ -12,12 +12,6 @@ interface TecnicoDashboardViewProps {
   onSelectTicket: (ticket: Ticket) => void;
 }
 
-/**
- * Vista del tecnico: su estado, su carga y las evaluaciones que recibio.
- *
- * No hay "mis tickets" porque `Ticket` no tiene `technicianId`: lo que se
- * muestra es la cola de tickets sin cerrar, disponible para tomar.
- */
 export const TecnicoDashboardView = ({
   report,
   onSelectTicket,

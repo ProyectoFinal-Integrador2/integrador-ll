@@ -4,12 +4,7 @@ import { KnowledgeFilters } from '@/components/conocimiento/KnowledgeFilters';
 import { KnowledgeToolbar } from '@/components/conocimiento/KnowledgeToolbar';
 import { fetchKnowledgeArticles } from '@/services/knowledgeApi';
 import { normalizeForSearch } from '@/utils/text';
-import {
-  ALL_CATEGORIES,
-  KNOWLEDGE_FILTERS,
-  type KnowledgeArticle,
-  type KnowledgeFilter,
-} from '@/types/knowledge.types';
+import { ALL_CATEGORIES, KNOWLEDGE_FILTERS, type KnowledgeArticle, type KnowledgeFilter } from '@/types/knowledge.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -27,10 +22,6 @@ export const KnowledgeBasePage = () => {
     ALL_CATEGORIES,
   );
 
-  /**
-   * Los setState van dentro de los callbacks de la promesa, nunca en el cuerpo
-   * del efecto: llamarlos de forma sincrona ahi provoca renders en cascada.
-   */
   useEffect(() => {
     const controller = new AbortController();
 
@@ -40,7 +31,6 @@ export const KnowledgeBasePage = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar o recargar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })
@@ -74,8 +64,6 @@ export const KnowledgeBasePage = () => {
     );
   }, [articles, searchTerm]);
 
-  /** Los contadores responden a la busqueda: al buscar "wifi" tiene que verse
-      cuantos articulos hay de cada categoria, no el total de la biblioteca. */
   const counts = useMemo(() => {
     const result = {} as Record<KnowledgeFilter, number>;
 

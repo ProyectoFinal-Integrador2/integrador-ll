@@ -8,7 +8,6 @@ interface SlaTableProps {
   onEditPriority?: (priority: SlaPriority) => void;
   isLoading: boolean;
   error: string | null;
-  /** Separa "no hay ninguno" de "el buscador no arrojo resultados". */
   hasActiveSearch?: boolean;
 }
 

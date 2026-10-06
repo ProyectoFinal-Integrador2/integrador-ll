@@ -17,13 +17,6 @@ interface UsuarioDashboardViewProps {
   onSelectTicket: (ticket: Ticket) => void;
 }
 
-/**
- * Vista del solicitante: un tablero de sus propios tickets, no del servicio.
- *
- * No hay SLA en las tarjetas ni Satisfaccion global: el SLA es un compromiso de
- * la empresa y lo que el usuario quiere saber es cuanto le falta y si hay algo
- * que todavia no cerro de su lado.
- */
 export const UsuarioDashboardView = ({
   report,
   onSelectTicket,
@@ -76,11 +69,6 @@ export const UsuarioDashboardView = ({
         />
       </div>
 
-      {/**
-       * Si hay algo sin calificar se avisa arriba del todo, con el acceso al
-       * formulario. Es la unica accion pendiente que depende del usuario, asi
-       * que no puede quedar escondida en una lista.
-       */}
       {pendingEvaluations.length > 0 && (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
           <div className="flex items-center gap-3">

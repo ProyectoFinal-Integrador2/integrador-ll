@@ -16,12 +16,6 @@ import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage';
 import { SlaPage } from '@/pages/SlaPage';
 import type { UserRole } from '@/types/roles';
 
-/**
- * Los roles de cada pantalla. El dashboard y los tickets cambian de contenido
- * segun quien entre, asi que los ven los tres; la gestion heavy es solo del
- * Jefe; y las evaluaciones las pueden ver el Jefe y el solicitante, cada uno con
- * su propia lectura.
- */
 const TODOS: UserRole[] = ['Jefe TI', 'Técnico', 'Usuario'];
 const OPERATIVOS: UserRole[] = ['Jefe TI', 'Técnico'];
 const JEFES: UserRole[] = ['Jefe TI'];
@@ -45,7 +39,6 @@ const router = createBrowserRouter([
             element: <EditProfilePage />,
           },
           {
-            // Dashboard, tickets y base de conocimiento: los tres roles.
             element: <RequireRoles allow={TODOS} />,
             children: [
               {
@@ -66,7 +59,6 @@ const router = createBrowserRouter([
             ],
           },
           {
-            // Gestion interna: usuarios, equipos, SLA y reportes.
             element: <RequireRoles allow={JEFES} />,
             children: [
               {
@@ -92,18 +84,12 @@ const router = createBrowserRouter([
             ],
           },
           {
-            // La disponibilidad es de los tecnicos, asi que el solicitante no.
             path: 'disponibilidad',
             handle: { title: 'Disponibilidad de técnicos' },
             element: <RequireRoles allow={OPERATIVOS} />,
             children: [{ index: true, element: <AvailabilityPage /> }],
           },
           {
-            /**
-             * Propia ruta porque la lectura depende del rol: el Jefe TI ve el
-             * listado completo y el solicitante sus pendientes y su historial.
-             * `EvaluationsPage` decide cual de los dos montar.
-             */
             path: 'evaluaciones',
             handle: { title: 'Evaluaciones de servicio' },
             element: <RequireRoles allow={CALIFICAN} />,

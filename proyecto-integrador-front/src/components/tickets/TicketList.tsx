@@ -6,7 +6,6 @@ interface TicketListProps {
   tickets: Ticket[];
   isLoading: boolean;
   error: string | null;
-  /** Si se omite, las filas son texto plano: la lista sigue siendo reutilizable. */
   onSelectTicket?: (ticket: Ticket) => void;
 }
 
@@ -49,7 +48,6 @@ export const TicketList = ({
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xs">
-      {/** Cabecera: solo en pantallas grandes, la lista se apila en movil. */}
       <div className="hidden border-b border-slate-100 px-6 py-3 text-xs font-semibold tracking-wider text-slate-400 uppercase lg:grid lg:grid-cols-[3rem_1fr_10rem_7rem_8rem_6rem] lg:gap-4">
         <span>ID</span>
         <span>Descripcion</span>
@@ -62,11 +60,6 @@ export const TicketList = ({
       <ul className="divide-y divide-slate-100">
         {tickets.map((ticket) => (
           <li key={ticket.id}>
-            {/**
-             * El `grid` va en el boton, no en el `li`: el `li` solo separaba
-             * filas y el texto centrado del grid se pierde al partirlo en dos
-             * elementos.
-             */}
             <button
               type="button"
               onClick={onSelectTicket ? () => onSelectTicket(ticket) : undefined}

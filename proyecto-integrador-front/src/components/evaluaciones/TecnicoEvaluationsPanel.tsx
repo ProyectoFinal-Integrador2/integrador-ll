@@ -6,13 +6,6 @@ interface TecnicoEvaluationsPanelProps {
   evaluations: ServiceEvaluation[];
 }
 
-/**
- * Las evaluaciones que recibio un tecnico.
- *
- * A diferencia de `EvaluationCard`, aqui no se repite el nombre del tecnico: en
- * esta pantalla el lector ya sabe de quien son, lo unico que aporta es el nombre
- * de quien evaluo.
- */
 export const TecnicoEvaluationsPanel = ({
   evaluations,
 }: TecnicoEvaluationsPanelProps) => {

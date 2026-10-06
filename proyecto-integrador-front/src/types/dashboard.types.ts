@@ -29,7 +29,6 @@ export interface DashboardTickets {
 }
 
 export interface DashboardSatisfaction {
-  /** `null` si todavia no hay evaluaciones. */
   averageRating: number | null;
   total: number;
 }
@@ -49,17 +48,11 @@ export interface TecnicoDashboardReport {
   technician: TechnicianAvailability;
   evaluations: ServiceEvaluation[];
   satisfaction: DashboardSatisfaction;
-  /** Tickets sin cerrar: la cola disponible. */
   pendingTickets: Ticket[];
   sla: SlaPriority[];
   generatedAt: string;
 }
 
-/**
- * Vista del solicitante: solo lo suyo, filtrado por `userId` en el servidor. Los
- * tickets cerrados sin calificar se devuelven aparte porque son los que
- * habilitan el formulario de conformidad.
- */
 export interface UsuarioDashboardReport {
   scope: 'usuario';
   tickets: DashboardTickets;

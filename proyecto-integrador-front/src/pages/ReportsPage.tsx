@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { RefreshCw, Star, Ticket, CircleCheckBig } from 'lucide-react';
 import { ReportBarList } from '@/components/reportes/ReportBarList';
 import { ReportStatCard } from '@/components/reportes/ReportStatCard';
-import {
-  RATING_BAR_STYLE,
-  TICKET_PRIORITY_BAR_STYLES,
-  TICKET_STATUS_BAR_STYLES,
-} from '@/constants/reportBarStyles';
+import {RATING_BAR_STYLE,TICKET_PRIORITY_BAR_STYLES,TICKET_STATUS_BAR_STYLES} from '@/constants/reportBarStyles';
 import { fetchServiceReport } from '@/services/reportsApi';
 import type { ServiceReport } from '@/types/report.types';
 
@@ -16,11 +12,6 @@ const isAbortError = (error: unknown): boolean =>
 const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
-/**
- * Resumen de lo que ya existe en el proyecto. Los porcentajes llegan calculados
- * desde el back: si un dia hay base de datos, esto pasa a ser un GROUP BY y esta
- * pantalla no cambia.
- */
 export const ReportsPage = () => {
   const [report, setReport] = useState<ServiceReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +26,6 @@ export const ReportsPage = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar o recargar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })

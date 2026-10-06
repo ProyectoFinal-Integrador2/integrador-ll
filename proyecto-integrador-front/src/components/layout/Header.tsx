@@ -25,7 +25,6 @@ export const Header = ({ onOpenSidebar, title = 'Help Desk TI' }: HeaderProps) =
 
   return (
     <header className="flex h-16 w-full shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6">
-      {/* Lado izquierdo: Botón móvil + Título */}
       <div className="flex items-center gap-3">
         {onOpenSidebar && (
           <button
@@ -42,7 +41,6 @@ export const Header = ({ onOpenSidebar, title = 'Help Desk TI' }: HeaderProps) =
         </h1>
       </div>
 
-      {/* Lado derecho: notificaciones */}
       <div ref={bellRef} className="relative">
         <button
           type="button"

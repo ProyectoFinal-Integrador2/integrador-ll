@@ -23,14 +23,11 @@ export interface Ticket {
   id: string;
   description: string;
   user: string;
-  /** `null` si se registro a nombre de alguien que no esta en el padron. */
   userId: string | null;
   priority: TicketPriority;
   status: TicketStatus;
   technicianId: string | null;
-  /** Resuelto por el back desde `technicianId`. */
   technicianName: string | null;
-  /** ISO 8601. El formateo a texto legible ocurre en el componente. */
   createdAt: string;
 }
 

@@ -16,7 +16,6 @@ const isAbortError = (error: unknown): boolean =>
 const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
-/** El modal manda el ticket a evaluar por `state` de react-router. */
 interface EvaluateLocationState {
   ticketId?: string;
 }
@@ -31,11 +30,6 @@ export const MyEvaluationsView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Los pendientes y las conformidades ya dadas son dos preguntas distintas al
-   * back, asi que se piden en paralelo y se espera a las dos con un unico
-   * `isLoading`.
-   */
   useEffect(() => {
     if (!user) return;
 
@@ -47,14 +41,12 @@ export const MyEvaluationsView = () => {
     ])
       .then(([pendingTickets, evaluations]) => {
         setPending(pendingTickets);
-        // Solo las suyas: el listado completo es del Jefe TI.
         setMine(
           evaluations.filter((evaluation) => evaluation.reviewerId === user.id),
         );
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })
@@ -65,21 +57,11 @@ export const MyEvaluationsView = () => {
     return () => controller.abort();
   }, [user]);
 
-  /**
-   * El ticket deja de estar pendiente y su conformidad entra al historial. Se
-   * parchea el estado con lo que devolvio el back: la evaluacion ya esta
-   * creada, asi que volver a listar solo seria un request de mas.
-   */
   const handleSubmitted = (created: ServiceEvaluation) => {
     setPending((prev) => prev.filter((ticket) => ticket.id !== created.ticketId));
     setMine((prev) => [created, ...prev.filter((item) => item.id !== created.id)]);
   };
 
-  /**
-   * El ticket que llega desde "Dar conformidad" se muestra primero: si el
-   * usuario venia con la intencion de calificar ese ticket en concreto, no
-   * deberia tener que buscarlo en la lista.
-   */
   const orderedPending = useMemo(() => {
     if (targetTicketId === undefined) return pending;
 

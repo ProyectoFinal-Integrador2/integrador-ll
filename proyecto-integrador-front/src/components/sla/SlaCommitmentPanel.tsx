@@ -7,14 +7,6 @@ interface SlaCommitmentPanelProps {
   sla: SlaPriority[];
 }
 
-/**
- * Muestra el SLA **configurado**, no el cumplimiento.
- *
- * El cumplimiento necesita saber cuando se respondio y quando se resolvio cada
- * ticket, y `Ticket` solo tiene `createdAt`: no hay con que calcularlo. Poner un
- * porcentaje aca seria inventar el dato. Cuando existan esas marcas, esta misma
- * fila pasa a mostrar el porcentaje real sin cambiar el resto de la pantalla.
- */
 export const SlaCommitmentPanel = ({ sla }: SlaCommitmentPanelProps) => {
   return (
     <section className="flex flex-col rounded-2xl border border-slate-100 bg-white p-5 shadow-xs">

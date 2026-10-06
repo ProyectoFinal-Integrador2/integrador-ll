@@ -1,8 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 
-/** Debe coincidir con la clase `duration-250` del panel y del backdrop. */
 const EXIT_DURATION_MS = 250;
-
 export interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -19,10 +17,6 @@ export const BaseModal = ({
   const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Ajuste de estado durante el render: es el patron que React recomienda
-  // para derivar estado de una prop. Mount y unmount se decidirian aqui
-  // mismo con useEffect, pero eso obliga a un setState sincronico en el
-  // cuerpo del efecto, que provoca renders en cascada.
   if (isOpen && !isMounted) {
     setIsMounted(true);
     setIsVisible(false);
@@ -30,8 +24,6 @@ export const BaseModal = ({
     setIsVisible(false);
   }
 
-  // Siguiente frame tras montar: deja que el navegador pinte el estado
-  // inicial (opacity-0 / scale-95) antes de activar la transicion de entrada.
   useEffect(() => {
     if (!isOpen || !isMounted) return;
 
@@ -40,7 +32,6 @@ export const BaseModal = ({
     return () => cancelAnimationFrame(frame);
   }, [isOpen, isMounted]);
 
-  // Una vez terminada la transicion de salida, se retira del DOM.
   useEffect(() => {
     if (isOpen || !isMounted) return;
 
@@ -49,7 +40,6 @@ export const BaseModal = ({
     return () => clearTimeout(timer);
   }, [isOpen, isMounted]);
 
-  // Cerrar con tecla Escape y bloquear el scroll del fondo
   useEffect(() => {
     if (!isOpen) return;
 
@@ -77,7 +67,6 @@ export const BaseModal = ({
       role="dialog"
       aria-modal="true"
     >
-      {/* Backdrop oscuro con transición suave de opacidad y desenfoque */}
       <div
         className={`fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity duration-250 ease-out ${
           isVisible ? 'opacity-100' : 'opacity-0'
@@ -86,7 +75,6 @@ export const BaseModal = ({
         aria-hidden="true"
       />
 
-      {/* Contenedor del Modal con animación fluida de escala, posición y opacidad */}
       <div
         className={`relative w-full ${maxWidth} rounded-2xl bg-white p-6 md:p-8 shadow-2xl z-10 transform transition-all duration-250 ease-out ${
           isVisible

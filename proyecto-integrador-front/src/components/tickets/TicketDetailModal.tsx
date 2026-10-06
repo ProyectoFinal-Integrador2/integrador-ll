@@ -1,12 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import {
-  BadgeCheck,
-  CheckCircle2,
-  Loader2,
-  PlayCircle,
-  Ban,
-  X,
-} from 'lucide-react';
+import {BadgeCheck, CheckCircle2,Loader2,PlayCircle,Ban,X,} from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
 import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/constants/ticketStyles';
 import { fetchSlaPriorities } from '@/services/slasApi';
@@ -20,23 +13,12 @@ import type { Ticket, TicketStatus } from '@/types/ticket.types';
 interface TicketDetailModalProps {
   ticket: Ticket | null;
   onClose: () => void;
-  /**
-   * Mueve el ticket de estado. Si no se pasa, los botones quedan inactivos: el
-   * modal se puede usar solo como lectura.
-   */
   onChangeStatus?: (ticket: Ticket, status: TicketStatus) => Promise<void>;
-  /** Lleva al formulario de conformidad. Lo usa el rol Usuario. */
   onEvaluate?: (ticket: Ticket) => void;
 }
 
-/**
- * `Ticket` no tiene campo `equipment`, `area` ni `category`. No se inventan: se
- * muestran como pendientes, que ademas deja visible que falta completar el
- * modelo. El tecnico si existe: llega resuelto desde el `technicianId`.
- */
 const PENDING = 'No registrado';
 
-/** Etiqueta + valor de la grilla de informacion. */
 const InfoRow = ({ label, children }: { label: string; children: ReactNode }) => (
   <p>
     <span className="font-medium text-slate-500">{label}: </span>
@@ -58,19 +40,8 @@ export const TicketDetailModal = ({
   const [reviewedTicketId, setReviewedTicketId] = useState<string | null>(null);
 
   const isOpen = ticket !== null;
-
-  /**
-   * Se guarda el id del ticket revisado y no un booleano: asi el "ya evaluado"
-   * se deduce comparando con el ticket abierto y no hay que resetear nada al
-   * cambiar de ticket, que es lo que dispara renders en cascada dentro del
-   * efecto.
-   */
   const isReviewed = ticket !== null && reviewedTicketId === ticket.id;
 
-  /**
-   * El limite de SLA no vive en el ticket: sale de cruzar su prioridad con la
-   * configuracion del modulo SLA, asi que hay que cargarla al abrir.
-   */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -79,18 +50,12 @@ export const TicketDetailModal = ({
     fetchSlaPriorities(controller.signal)
       .then(setSla)
       .catch(() => {
-        // El SLA es un dato complementario: si falla, el modal igual se abre.
         setSla([]);
       });
 
     return () => controller.abort();
   }, [isOpen]);
 
-  /**
-   * Para el solicitante, "dar conformidad" solo tiene sentido una vez: hay que
-   * saber si este ticket ya tiene su calificacion. Se resuelve por `reviewerId`
-   * y no comparando nombres, que es justo lo que el id viene a evitar.
-   */
   useEffect(() => {
     if (!isOpen || !ticket || user?.role !== 'Usuario') return;
 
@@ -103,46 +68,18 @@ export const TicketDetailModal = ({
             evaluation.ticketId === ticket.id && evaluation.reviewerId === user.id,
         );
 
-        // Solo se marca cuando si fue evaluado: un id viejo de otro ticket no
-        // molesta porque la comparacion de arriba ya lo descarta.
         if (reviewed) setReviewedTicketId(ticket.id);
       })
       .catch(() => {
-        // Si no se puede saber, el boton queda disponible: el back es la fuente
-        // de verdad y rechaza una conformidad repetida.
       });
 
     return () => controller.abort();
   }, [isOpen, ticket, user]);
 
-  /**
-   * Los niveles de SLA se pueden repetir, asi que puede haber varias filas para
-   * la misma prioridad. La lista llega ordenada de mas a menos urgente, asi que
-   * la primera es el compromiso mas exigente: el que se debe cumplir.
-   */
   const slaLimit = ticket ? sla.find((item) => item.level === ticket.priority) : undefined;
-
-  /**
-   * Las acciones dependen del rol y de que ticket sea:
-   *
-   * - Tecnico: inicia y culmina el soporte.
-   * - Usuario, y solo si abrio el ticket: lo cancela mientras nadie lo tomo, y
-   *   da conformidad cuando el soporte ya termino.
-   * - Jefe TI: no ejecuta nada, la pantalla es de lectura para el.
-   *
-   * Que solo el solicitante pueda cancelar se decide con `userId`, no con el
-   * nombre: el modal recibe tickets de toda la cola.
-   */
   const isTecnico = user?.role === 'Técnico';
-
   const isOwner = user?.role === 'Usuario' && ticket?.userId === user?.id;
-
   const canAct = onChangeStatus !== undefined;
-
-  /**
-   * Un boton deshabilitado no dispara eventos, asi que su `title` nunca se ve:
-   * sin este texto un boton inactivo parece roto en vez de no disponible.
-   */
   const actionHint = isTecnico
     ? ticket?.status === 'Cerrado' || ticket?.status === 'Cancelado'
       ? `Este ticket ya esta ${ticket.status.toLowerCase()}: no admite mas cambios de estado.`
@@ -196,12 +133,6 @@ export const TicketDetailModal = ({
               <X className="h-5 w-5" />
             </button>
           </div>
-
-          {/**
-           * El ticket solo tiene un texto (`description`): no hay `title`
-           * separado, asi que se muestra una vez como asunto y no se duplica
-           * abajo como hacia el prototipo.
-           */}
           <p className="mt-3 text-base leading-relaxed font-semibold text-slate-800">
             {ticket.description}
           </p>
@@ -256,11 +187,6 @@ export const TicketDetailModal = ({
               </InfoRow>
             </div>
           </div>
-
-          {/*
-            Las acciones cambian por rol: el tecnico atiende el ticket, el
-            solicitante lo cancela o da conformidad, y el Jefe TI solo lee.
-          */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             {isTecnico ? (
               <>

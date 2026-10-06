@@ -15,7 +15,6 @@ interface JefeDashboardViewProps {
 const pluralize = (total: number, singular: string, plural: string): string =>
   `${total} ${total === 1 ? singular : plural}`;
 
-/** Vista global: la que administra el Jefe TI. */
 export const JefeDashboardView = ({
   report,
   onSelectTicket,
@@ -46,11 +45,6 @@ export const JefeDashboardView = ({
           iconClassName="text-yellow-500"
         />
 
-        {/*
-          El prototipo decia "Cerrados hoy". `Ticket` no tiene `closedAt`, solo
-          `createdAt`, asi que no hay forma de saber cuando se cerro: se muestra
-          el total cerrado en lugar de un "hoy" inventado.
-        */}
         <ReportStatCard
           label="Tickets cerrados"
           value={String(report.tickets.closed)}
@@ -83,7 +77,6 @@ export const JefeDashboardView = ({
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        {/* 2 de 3 columnas: la lista necesita ancho para el titulo. */}
         <div className="lg:col-span-2">
           <RecentTicketsPanel
             tickets={report.tickets.recent}

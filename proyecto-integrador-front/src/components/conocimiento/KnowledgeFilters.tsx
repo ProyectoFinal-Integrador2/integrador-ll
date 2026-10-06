@@ -7,7 +7,6 @@ import {
 interface KnowledgeFiltersProps {
   activeFilter: KnowledgeFilter;
   onFilterChange: (filter: KnowledgeFilter) => void;
-  /** Articulos por filtro. Refleja la busqueda activa, no la lista completa. */
   counts: Record<KnowledgeFilter, number>;
 }
 

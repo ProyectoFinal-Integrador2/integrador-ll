@@ -8,17 +8,9 @@ import type { Ticket } from '@/types/ticket.types';
 
 interface EvaluationFormProps {
   ticket: Ticket;
-  /** Recibe la evaluacion ya creada: el ticket sale de la lista de pendientes. */
   onSubmitted: (created: ServiceEvaluation) => void;
 }
 
-/**
- * El formulario de conformidad del solicitante.
- *
- * Todo lo que muestra sale del ticket: el id, el asunto, el estado y el tecnico
- * que lo atendio. Lo que el back deduce del ticket (quien evalua y a quien se
- * califica) no se manda, asi que el form no puede inventar esa informacion.
- */
 export const EvaluationForm = ({ ticket, onSubmitted }: EvaluationFormProps) => {
   const [rating, setRating] = useState<EvaluationRating | null>(null);
   const [comment, setComment] = useState('');
@@ -53,7 +45,6 @@ export const EvaluationForm = ({ ticket, onSubmitted }: EvaluationFormProps) => 
         Ticket pendiente de evaluación
       </h3>
 
-      {/** Resumen del ticket: el contexto de lo que se esta calificando. */}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 p-3">
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-slate-400">#{ticket.id}</span>
@@ -75,10 +66,6 @@ export const EvaluationForm = ({ ticket, onSubmitted }: EvaluationFormProps) => 
       </div>
 
       <form onSubmit={handleSubmit}>
-        {/**
-           * `fieldset` y no un `label`: las cinco estrellas son cinco botones, no
-           * un control, asi que el `legend` es lo que los agrupa y anuncia.
-           */}
         <fieldset className="mb-6">
           <legend className="mb-2 text-sm font-medium text-slate-500">
             Califica la atención recibida

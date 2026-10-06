@@ -29,14 +29,6 @@ export const TicketsPage = () => {
   const [isNewTicketOpen, setIsNewTicketOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
-  /**
-   * Los setState van dentro de los callbacks de la promesa, nunca en el cuerpo
-   * del efecto: llamarlos de forma sincrona ahi provoca renders en cascada
-   * (`react-hooks/set-state-in-effect`).
-   *
-   * El URL, el parseo y el formato de error viven en ticketsApi, asi que aqui
-   * solo queda el encadenado, que es lo unico que cambia entre carga y refresco.
-   */
   useEffect(() => {
     const controller = new AbortController();
 
@@ -46,7 +38,6 @@ export const TicketsPage = () => {
         setError(null);
       })
       .catch((loadError: unknown) => {
-        // Un abort es lo normal al desmontar o recargar: no es un fallo que mostrar.
         if (isAbortError(loadError)) return;
         setError(toMessage(loadError));
       })
@@ -80,8 +71,6 @@ export const TicketsPage = () => {
     );
   }, [tickets, searchTerm]);
 
-  /** Los contadores responden a la busqueda, pero no al filtro activo: si no,
-      al elegir un filtro los demas serian cero y perderian sentido. */
   const counts = useMemo<Record<TicketFilter, number>>(
     () => ({
       todos: searched.length,
@@ -114,15 +103,9 @@ export const TicketsPage = () => {
 
   const handleCreate = async (input: CreateTicketInput) => {
     const created = await createTicket(input);
-    // El back responde el ticket ya creado, asi que no hay que recargar la lista.
     setTickets((prev) => [created, ...prev]);
   };
 
-  /**
-   * El back devuelve el ticket ya movido de estado, asi que se reemplaza en la
-   * lista y en el modal en vez de recargar. Si el modal queda abierto, el
-   * `status` del ticket seleccionado cambia y los botones se reevaluan solos.
-   */
   const handleChangeStatus = async (ticket: Ticket, status: TicketStatus) => {
     const updated = await changeTicketStatus(ticket.id, status);
 
@@ -130,7 +113,6 @@ export const TicketsPage = () => {
     setSelectedTicket((prev) => (prev?.id === updated.id ? updated : prev));
   };
 
-  /** "Dar conformidad" lleva al formulario con el ticket ya elegido. */
   const handleEvaluate = (ticket: Ticket) => {
     setSelectedTicket(null);
     navigate('/evaluaciones', { state: { ticketId: ticket.id } });
