@@ -80,7 +80,7 @@ export const RegisterEquipmentModal = ({
       <div className="flex items-center justify-between pb-4">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center text-blue-600">
-            <Server className="h-6 w-6 stroke-[2]" />
+            <Server className="h-6 w-6 stroke-2" />
           </div>
           <h2 className="text-base md:text-lg font-bold text-slate-800 tracking-tight">
             Registrar nuevo equipo

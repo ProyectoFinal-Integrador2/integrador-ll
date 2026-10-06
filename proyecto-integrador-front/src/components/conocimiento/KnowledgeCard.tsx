@@ -1,5 +1,5 @@
 import { Eye, User } from 'lucide-react';
-import { KNOWLEDGE_CATEGORY_STYLES } from '@/constants/knowledgeCategoryStyles';
+import { KNOWLEDGE_CATEGORY_STYLES } from '@/components/conocimiento/knowledgeCategoryStyles';
 import { formatDate } from '@/utils/date';
 import type { KnowledgeArticle } from '@/types/knowledge.types';
 

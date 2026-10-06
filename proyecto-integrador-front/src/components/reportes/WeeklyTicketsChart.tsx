@@ -1,4 +1,4 @@
-import { TICKET_STATUS_STYLES } from '@/constants/ticketStyles';
+import { TICKET_STATUS_STYLES } from '@/utils/ticketStyles';
 import { TICKET_STATUSES } from '@/types/ticket.types';
 import type { DashboardWeekDay } from '@/types/dashboard.types';
 

@@ -1,4 +1,4 @@
-import { EQUIPMENT_STATUS_STYLES } from '@/constants/equipmentStyles';
+import { EQUIPMENT_STATUS_STYLES } from '@/components/equipos/equipmentStyles';
 import type { EquipmentStatus } from '@/types/equipment.types';
 
 interface EquipmentStatusBadgeProps {

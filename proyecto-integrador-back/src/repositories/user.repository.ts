@@ -1,11 +1,5 @@
-import type {
-  AvatarColor,
-  CreateUserInput,
-  UpdateUserInput,
-  User,
-  UserRole,
-} from '../types/user.types';
-import { USER_SEED } from './users.seed';
+import type { AvatarColor, CreateUserInput, UpdateUserInput, User,UserRole} from '../types/user.types';
+import { USER_SEED } from '../seeds/users.seed';
 
 export interface UserRepository {
   findAll(): Promise<User[]>;
@@ -21,10 +15,6 @@ const AVATAR_COLOR_BY_ROLE: Record<UserRole, AvatarColor> = {
   'Usuario': 'amber',
 };
 
-/**
- * Iniciales a partir del nombre: la primera letra del primer nombre y la del
- * ultimo. Con un solo nombre se cae al nombre completo ("Ana" -> "A").
- */
 export const initialsFromName = (name: string): string => {
   const parts = name.trim().split(/\s+/).filter(Boolean);
 
@@ -34,11 +24,6 @@ export const initialsFromName = (name: string): string => {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 };
 
-/**
- * Implementacion en memoria. Esta capa es el unico punto que habla con la
- * base de datos: cuando exista, se agrega una `SupabaseUserRepository` con la
- * misma interfaz y los services y controllers no se tocan.
- */
 export class InMemoryUserRepository implements UserRepository {
   private readonly users: User[] = [...USER_SEED];
 
@@ -69,9 +54,6 @@ export class InMemoryUserRepository implements UserRepository {
   async update(id: string, input: UpdateUserInput): Promise<User | undefined> {
     const index = this.users.findIndex((user) => user.id === id);
     if (index === -1) return undefined;
-
-    // Se reconstruye el usuario en vez de mutar campos sueltos: el avatar se
-    // recalcula para que siga correspondiendo al nombre y al rol nuevos.
     const updated: User = {
       ...this.users[index],
       name: input.name,
@@ -86,7 +68,6 @@ export class InMemoryUserRepository implements UserRepository {
     return updated;
   }
 
-  /** Los ids del seed son correlativos, asi que basta con el maximo + 1. */
   private nextId(): string {
     const max = this.users.reduce((acc, user) => {
       const value = Number(user.id);

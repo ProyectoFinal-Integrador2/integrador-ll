@@ -1,9 +1,5 @@
 import type { EvaluationRating } from '../types/evaluation.types';
 
-/**
- * Lo que se guarda de verdad: referencias, no nombres. Los `technicianId` y
- * `reviewerId` apuntan a usuarios, y el `ticketId` a tickets.
- */
 export interface EvaluationRecord {
   id: string;
   ticketId: string;
@@ -14,16 +10,6 @@ export interface EvaluationRecord {
   createdAt: string;
 }
 
-/**
- * Solo hay evaluaciones de tickets cerrados: no se califica un servicio que
- * todavia no termino.
- *
- * Cada registro cumple las mismas reglas que impone `EvaluationService.create`:
- * el ticket esta cerrado, su `technicianId` es el de aqui y el `reviewerId` es
- * el solicitante del ticket (quien pide soporte es quien califica la atencion).
- * El ticket 8 esta cerrado a proposito sin evaluacion: es el pendiente de
- * conformidad que el formulario tiene que ofrecer.
- */
 export const EVALUATION_SEED: EvaluationRecord[] = [
   {
     id: '1',

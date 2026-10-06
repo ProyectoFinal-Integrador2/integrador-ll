@@ -1,11 +1,5 @@
 import type { SlaPriority } from '../types/sla.types';
 
-/**
- * Datos de arranque. Cifras en minutos: se formatean al pintarlas.
- *
- * Los tiempos salen de la politica de Quimesa: un critico se atiende en el
- * acto y se resuelve en 4 horas; uno bajo puede esperar un dia.
- */
 export const SLA_SEED: SlaPriority[] = [
   {
     id: '1',

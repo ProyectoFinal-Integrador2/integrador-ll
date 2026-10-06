@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {BadgeCheck, CheckCircle2,Loader2,PlayCircle,Ban,X,} from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
-import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/constants/ticketStyles';
+import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/utils/ticketStyles';
 import { fetchSlaPriorities } from '@/services/slasApi';
 import { fetchServiceEvaluations } from '@/services/evaluationsApi';
 import { useSession } from '@/context/session';

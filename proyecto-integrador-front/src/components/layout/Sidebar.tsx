@@ -1,8 +1,8 @@
 import { Headset, Users, UserRound, X, LogOut, Ticket, Server, Clock, UserRoundCheck, Star, BarChart3, BookOpen, LayoutDashboard } from "lucide-react";
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { AVATAR_STYLES } from '@/constants/avatarStyles';
-import { ROLE_STYLES } from '@/constants/roleStyles';
+import { AVATAR_STYLES } from '@/utils/avatarStyles';
+import { ROLE_STYLES } from '@/utils/roleStyles';
 import { useSession } from '@/context/session';
 import type { UserRole } from '@/types/roles';
 

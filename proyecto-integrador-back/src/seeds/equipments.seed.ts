@@ -1,9 +1,5 @@
 import type { Equipment } from '../types/equipment.types';
 
-/**
- * Datos de arranque. El frontend no los tiene: esta es la unica fuente de la
- * tabla de equipos hasta que exista la base de datos.
- */
 export const EQUIPMENT_SEED: Equipment[] = [
   {
     id: '1',

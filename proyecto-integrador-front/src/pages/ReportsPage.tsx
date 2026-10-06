@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { RefreshCw, Star, Ticket, CircleCheckBig } from 'lucide-react';
 import { ReportBarList } from '@/components/reportes/ReportBarList';
 import { ReportStatCard } from '@/components/reportes/ReportStatCard';
-import {RATING_BAR_STYLE,TICKET_PRIORITY_BAR_STYLES,TICKET_STATUS_BAR_STYLES} from '@/constants/reportBarStyles';
+import {RATING_BAR_STYLE,TICKET_PRIORITY_BAR_STYLES,TICKET_STATUS_BAR_STYLES} from '@/components/reportes/reportBarStyles';
 import { fetchServiceReport } from '@/services/reportsApi';
 import type { ServiceReport } from '@/types/report.types';
 

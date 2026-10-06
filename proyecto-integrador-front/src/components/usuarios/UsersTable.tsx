@@ -1,5 +1,5 @@
 import { SquarePen } from 'lucide-react';
-import { AVATAR_STYLES } from '@/constants/avatarStyles';
+import { AVATAR_STYLES } from '@/utils/avatarStyles';
 import type { User } from '@/types/user.types';
 import { UserRoleBadge } from '@/components/usuarios/UserRoleBadge';
 import { UserStatusBadge } from '@/components/usuarios/UserStatusBadge';

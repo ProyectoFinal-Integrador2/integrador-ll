@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ROLE_STYLES } from '@/constants/roleStyles';
+import { ROLE_STYLES } from '@/utils/roleStyles';
 import { useSession } from '@/context/session';
 
 const IconoOjo = ({ visible }: { visible: boolean }) => (

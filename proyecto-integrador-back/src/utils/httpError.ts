@@ -1,7 +1,4 @@
-/**
- * Error con codigo HTTP. Permite que los services lancen el fallo de dominio
- * y que el errorHandler lo traduzca, sin que el service conozca `res`.
- */
+
 export class HttpError extends Error {
   readonly status: number;
 

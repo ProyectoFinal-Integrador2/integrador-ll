@@ -1,4 +1,4 @@
-import type { AvatarColor } from '@/constants/avatarStyles';
+import type { AvatarColor } from '@/utils/avatarStyles';
 import type { UserRole } from '@/types/roles';
 
 export type { UserRole, AvatarColor };

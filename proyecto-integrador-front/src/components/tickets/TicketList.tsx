@@ -1,4 +1,4 @@
-import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/constants/ticketStyles';
+import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/utils/ticketStyles';
 import { formatDate } from '@/utils/date';
 import type { Ticket } from '@/types/ticket.types';
 

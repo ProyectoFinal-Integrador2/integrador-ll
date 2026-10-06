@@ -1,5 +1,5 @@
 import { Laptop,Printer,Server,Tv, type LucideIcon} from 'lucide-react';
-import type { EquipmentStatus, EquipmentType } from '../types/equipment.types';
+import type { EquipmentStatus, EquipmentType } from '../../types/equipment.types';
 
 export const EQUIPMENT_STATUS_STYLES: Record<EquipmentStatus, string> = {
   'Operativo': 'bg-[#dcfce7] text-[#16a34a]',

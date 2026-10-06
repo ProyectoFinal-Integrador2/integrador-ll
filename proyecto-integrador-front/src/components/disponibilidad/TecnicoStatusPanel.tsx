@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TECHNICIAN_STATUS_STYLES } from '@/constants/technicianStatusStyles';
+import { TECHNICIAN_STATUS_STYLES } from '@/components/disponibilidad/technicianStatusStyles';
 import type { TechnicianAvailability } from '@/types/availability.types';
 
 interface TecnicoStatusPanelProps {

@@ -1,4 +1,4 @@
-import { TICKET_PRIORITY_STYLES } from '@/constants/ticketStyles';
+import { TICKET_PRIORITY_STYLES } from '@/utils/ticketStyles';
 import type { SlaLevel } from '@/types/sla.types';
 
 interface SlaLevelBadgeProps {

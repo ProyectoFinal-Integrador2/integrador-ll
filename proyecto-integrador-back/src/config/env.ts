@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 
-// `quiet` evita que dotenv v17 imprima su banner en cada arranque.
 dotenv.config({ quiet: true });
 
 const parsePort = (value: string | undefined): number => {

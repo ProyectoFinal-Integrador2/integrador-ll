@@ -1,9 +1,5 @@
 import type { KnowledgeCategory } from '../types/knowledge.types';
 
-/**
- * Lo que se guarda de verdad. `authorId` apunta a un usuario y `category` al
- * catalogo de categorias; el nombre del autor no se duplica.
- */
 export interface KnowledgeRecord {
   id: string;
   title: string;
@@ -13,10 +9,6 @@ export interface KnowledgeRecord {
   createdAt: string;
 }
 
-/**
- * Las vistas son un dato de arranque: todavia no hay endpoint que las
- * aumente, asi que el contador no se mueve por si solo.
- */
 export const KNOWLEDGE_SEED: KnowledgeRecord[] = [
   {
     id: '1',

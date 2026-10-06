@@ -1,10 +1,5 @@
 import type { User } from '../types/user.types';
 
-/**
- * Datos de arranque. El frontend ya no los tiene: MOCK_USERS paso a ser el
- * seed de este repositorio, asi que la tabla de usuarios tiene una sola
- * fuente de verdad.
- */
 export const USER_SEED: User[] = [
   {
     id: '1',

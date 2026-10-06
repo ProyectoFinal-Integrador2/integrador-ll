@@ -14,8 +14,6 @@ app.get('/', (req: Request, res: Response) => {
   res.json({ message: '¡Servidor Express con TypeScript funcionando :D!!' });
 });
 
-// notFound y errorHandler van al final: solo se ejecutan si ninguna ruta
-// anterior respondio.
 app.use(notFound);
 app.use(errorHandler);
 

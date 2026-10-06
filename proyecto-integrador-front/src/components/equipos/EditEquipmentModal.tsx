@@ -98,7 +98,7 @@ export const EditEquipmentModal = ({
       {/* Cabecera del Modal */}
       <div className="flex items-center gap-2.5 pb-4">
         <div className="flex items-center justify-center text-blue-600">
-          <SquarePen className="h-5 w-5 stroke-[2]" />
+          <SquarePen className="h-5 w-5 stroke-2" />
         </div>
         <h2 className="text-base md:text-lg font-bold text-slate-800 tracking-tight">
           Editar Equipo

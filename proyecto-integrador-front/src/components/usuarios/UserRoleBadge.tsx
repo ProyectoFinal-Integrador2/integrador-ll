@@ -1,4 +1,4 @@
-import { ROLE_STYLES } from '@/constants/roleStyles';
+import { ROLE_STYLES } from '@/utils/roleStyles';
 import type { UserRole } from '@/types/roles';
 
 interface UserRoleBadgeProps {

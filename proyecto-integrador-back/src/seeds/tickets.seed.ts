@@ -1,21 +1,5 @@
 import type { Ticket } from '../types/ticket.types';
 
-/**
- * Datos de arranque. Mismo criterio que MOCK_USERS en el frontend: mientras
- * no haya base de datos, el repositorio arranca con una lista fija.
- *
- * `userId` apunta a USER_SEED y `technicianId` a un tecnico (2 = Luis García,
- * 3 = Carlos Medina).
- *
- * Tres reglas que el seed cumple a proposito, porque el backend ahora las
- * valida y un seed que las rompa daria errores de prueba:
- *
- * 1. Nadie atiende su propio ticket: `userId` y `technicianId` son distintos.
- * 2. Los tickets `Abierto` van sin tecnico: son la cola de trabajo disponible.
- * 3. Todo ticket `Cerrado` con evaluacion en evaluations.seed tiene a su
- *    solicitante como `reviewerId`, y el ticket 8 esta cerrado pero sin
- *    evaluar: es lo que alimenta el formulario de conformidad.
- */
 export const TICKET_SEED: Ticket[] = [
   {
     id: '1',

@@ -1,4 +1,4 @@
-import type { KnowledgeCategory } from '../types/knowledge.types';
+import type { KnowledgeCategory } from '../../types/knowledge.types';
 
 export const KNOWLEDGE_CATEGORY_STYLES: Record<KnowledgeCategory, string> = {
   Red: 'bg-blue-100 text-blue-700',

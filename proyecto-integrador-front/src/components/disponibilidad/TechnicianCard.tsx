@@ -1,6 +1,6 @@
 import { CalendarCheck } from 'lucide-react';
-import { AVATAR_STYLES } from '@/constants/avatarStyles';
-import { TECHNICIAN_STATUS_STYLES } from '@/constants/technicianStatusStyles';
+import { AVATAR_STYLES } from '@/utils/avatarStyles';
+import { TECHNICIAN_STATUS_STYLES } from '@/components/disponibilidad/technicianStatusStyles';
 import type { TechnicianAvailability } from '@/types/availability.types';
 
 interface TechnicianCardProps {

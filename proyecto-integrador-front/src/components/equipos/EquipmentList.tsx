@@ -1,5 +1,5 @@
 import { SquarePen } from 'lucide-react';
-import { EQUIPMENT_TYPE_ICONS } from '@/constants/equipmentStyles';
+import { EQUIPMENT_TYPE_ICONS } from '@/components/equipos/equipmentStyles';
 import type { Equipment } from '@/types/equipment.types';
 import { EquipmentStatusBadge } from '@/components/equipos/EquipmentStatusBadge';
 
