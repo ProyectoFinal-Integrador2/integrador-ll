@@ -24,8 +24,8 @@ router.use('/tickets', ticketRoutes);
 router.use('/knowledge-base', knowledgeRoutes);
 
 router.use('/users', userRoutes);
-router.use('/equipments', requerirRol('Jefe TI'), equipmentRoutes);
-router.use('/sla', requerirRol('Jefe TI'), slaRoutes);
+router.use('/equipments', equipmentRoutes);
+router.use('/sla', slaRoutes);
 router.use('/reports', requerirRol('Jefe TI'), reportRoutes);
 
 router.use('/availability', requerirRol('Jefe TI', 'Técnico'), availabilityRoutes);

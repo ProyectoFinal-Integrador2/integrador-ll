@@ -48,6 +48,30 @@ export const TicketsPage = () => {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const timer = setInterval(() => {
+      if (document.hidden) return; // pestaña en segundo plano: no consulta
+
+      obtenerTickets(controller.signal)
+        .then((data) => {
+          setTickets(data);
+          setError(null);
+          setSelectedTicket((prev) =>
+            prev ? (data.find((ticket) => ticket.id === prev.id) ?? prev) : prev,
+          );
+        })
+        .catch(() => {
+          // Silencioso: si falla este ciclo, el siguiente lo reintenta.
+        });
+    }, 15_000);
+
+    return () => {
+      clearInterval(timer);
+      controller.abort();
+    };
+  }, []);
   const handleRefresh = () => {
     setIsLoading(true);
 

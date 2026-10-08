@@ -1,12 +1,11 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import {BadgeCheck, CheckCircle2,Loader2,PlayCircle,Ban,X,} from 'lucide-react';
+import { BadgeCheck, CheckCircle2, Loader2, PlayCircle, Ban, X, } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
 import { ESTILOS_PRIORIDAD, ESTILOS_ESTADO } from '@/utils/ticketStyles';
 import { obtenerSlaPrioridades } from '@/services/slasApi';
 import { obtenerEvaluaciones } from '@/services/evaluationsApi';
 import { useSession } from '@/context/session';
 import { formatearFecha } from '@/utils/date';
-import { formatearMinutos } from '@/utils/slaTime';
 import type { SlaPrioridad } from '@/types/sla.types';
 import type { Ticket, EstadoTicket } from '@/types/ticket.types';
 
@@ -183,25 +182,9 @@ export const TicketDetailModal = ({
                 )}
               </InfoRow>
 
-              <InfoRow label="SLA limite">
+              <InfoRow label="SLA">
                 {slaLimit ? (
-                  <span className="font-bold text-orange-600">
-                    {formatearMinutos(slaLimit.minutosResolucion)}
-                  </span>
-                ) : (
-                  <span className="text-slate-400">Sin SLA configurado</span>
-                )}
-              </InfoRow>
-
-              <InfoRow label="SLA asignado">
-                {slaLimit ? (
-                  <span>
-                    {slaLimit.nivel} - Resp:{' '}
-                    {formatearMinutos(slaLimit.minutosRespuesta)} - Resol:{' '}
-                    {formatearMinutos(slaLimit.minutosResolucion)} - Escal:{' '}
-                    {formatearMinutos(slaLimit.minutosEscalamiento)}
-                    {slaLimit.descripcion ? ` - ${slaLimit.descripcion}` : ''}
-                  </span>
+                  <span className="font-bold text-orange-600">{slaLimit.nivel}</span>
                 ) : (
                   <span className="text-slate-400">Sin SLA configurado</span>
                 )}
