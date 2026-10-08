@@ -1,32 +1,32 @@
 import type { Request, Response } from 'express';
-import { slaService } from '../services/sla.service';
+import { slaServicio } from '../services/sla.service';
 import { HttpError } from '../utils/httpError';
-import type { CreateSlaPriorityInput, UpdateSlaPriorityInput } from '../types/sla.types';
+import type { CrearSlaPrioridadInput, ActualizarSlaPrioridadInput } from '../types/sla.types';
 
-export class SlaController {
-  static async list(_req: Request, res: Response): Promise<void> {
-    const priorities = await slaService.list();
-    res.json(priorities);
+export class SlaControlador {
+  static async listar(_req: Request, res: Response): Promise<void> {
+    const prioridades = await slaServicio.listar();
+    res.json(prioridades);
   }
 
-  static async create(req: Request, res: Response): Promise<void> {
-     const priority = await slaService.create(
-      req.body as Partial<CreateSlaPriorityInput>,
+  static async crear(req: Request, res: Response): Promise<void> {
+    const prioridad = await slaServicio.crear(
+      req.body as Partial<CrearSlaPrioridadInput>,
     );
-    res.status(201).json(priority);
+    res.status(201).json(prioridad);
   }
 
-  static async update(req: Request, res: Response): Promise<void> {
+  static async actualizar(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-   if (typeof id !== 'string') {
+    if (typeof id !== 'string') {
       throw HttpError.badRequest('El id de la prioridad SLA no es valido.');
     }
 
-    const priority = await slaService.update(
+    const prioridad = await slaServicio.actualizar(
       id,
-      req.body as Partial<UpdateSlaPriorityInput>,
+      req.body as Partial<ActualizarSlaPrioridadInput>,
     );
-    res.json(priority);
+    res.json(prioridad);
   }
 }

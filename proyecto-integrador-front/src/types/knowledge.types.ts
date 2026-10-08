@@ -1,4 +1,4 @@
-export const KNOWLEDGE_CATEGORIES = [
+export const CATEGORIAS_CONOCIMIENTO = [
   'Red',
   'Hardware',
   'Software',
@@ -6,22 +6,22 @@ export const KNOWLEDGE_CATEGORIES = [
   'ERP',
 ] as const;
 
-export type KnowledgeCategory = (typeof KNOWLEDGE_CATEGORIES)[number];
+export type CategoriaConocimiento = (typeof CATEGORIAS_CONOCIMIENTO)[number];
 
-export const ALL_CATEGORIES = 'todos' as const;
+export const TODAS_CATEGORIAS = 'todos' as const;
 
-export type KnowledgeFilter = KnowledgeCategory | typeof ALL_CATEGORIES;
+export type FiltroConocimiento = CategoriaConocimiento | typeof TODAS_CATEGORIAS;
 
-export const KNOWLEDGE_FILTERS: KnowledgeFilter[] = [
-  ALL_CATEGORIES,
-  ...KNOWLEDGE_CATEGORIES,
+export const FILTROS_CONOCIMIENTO: FiltroConocimiento[] = [
+  TODAS_CATEGORIAS,
+  ...CATEGORIAS_CONOCIMIENTO,
 ];
 
-export interface KnowledgeArticle {
+export interface ArticuloConocimiento {
   id: string;
-  title: string;
-  category: KnowledgeCategory;
-  authorName: string;
-  views: number;
-  createdAt: string;
+  titulo: string;
+  categoria: CategoriaConocimiento;
+  autorNombre: string;
+  vistas: number;
+  creadoEn: string;
 }

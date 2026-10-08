@@ -1,35 +1,35 @@
 import type { Request, Response } from 'express';
-import { equipmentService } from '../services/equipment.service';
+import { equipoServicio } from '../services/equipment.service';
 import { HttpError } from '../utils/httpError';
 import type {
-  CreateEquipmentInput,
-  UpdateEquipmentInput,
+  CrearEquipoInput,
+  ActualizarEquipoInput,
 } from '../types/equipment.types';
 
-export class EquipmentController {
-  static async list(_req: Request, res: Response): Promise<void> {
-    const equipments = await equipmentService.list();
-    res.json(equipments);
+export class EquipoControlador {
+  static async listar(_req: Request, res: Response): Promise<void> {
+    const equipos = await equipoServicio.listar();
+    res.json(equipos);
   }
 
-  static async create(req: Request, res: Response): Promise<void> {
-       const equipment = await equipmentService.create(
-      req.body as Partial<CreateEquipmentInput>,
+  static async crear(req: Request, res: Response): Promise<void> {
+    const equipo = await equipoServicio.crear(
+      req.body as Partial<CrearEquipoInput>,
     );
-    res.status(201).json(equipment);
+    res.status(201).json(equipo);
   }
 
-  static async update(req: Request, res: Response): Promise<void> {
+  static async actualizar(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-       if (typeof id !== 'string') {
+    if (typeof id !== 'string') {
       throw HttpError.badRequest('El id del equipo no es valido.');
     }
 
-    const equipment = await equipmentService.update(
+    const equipo = await equipoServicio.actualizar(
       id,
-      req.body as Partial<UpdateEquipmentInput>,
+      req.body as Partial<ActualizarEquipoInput>,
     );
-    res.json(equipment);
+    res.json(equipo);
   }
 }

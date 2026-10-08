@@ -14,12 +14,12 @@ import { EvaluationsPage } from '@/pages/EvaluationsPage';
 import { ReportsPage } from '@/pages/ReportsPage';
 import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage';
 import { SlaPage } from '@/pages/SlaPage';
-import type { UserRole } from '@/types/roles';
+import type { RolUsuario } from '@/types/roles';
 
-const TODOS: UserRole[] = ['Jefe TI', 'Técnico', 'Usuario'];
-const OPERATIVOS: UserRole[] = ['Jefe TI', 'Técnico'];
-const JEFES: UserRole[] = ['Jefe TI'];
-const CALIFICAN: UserRole[] = ['Jefe TI', 'Usuario'];
+const TODOS: RolUsuario[] = ['Jefe TI', 'Técnico', 'Usuario'];
+const OPERATIVOS: RolUsuario[] = ['Jefe TI', 'Técnico'];
+const JEFES: RolUsuario[] = ['Jefe TI'];
+const CALIFICAN: RolUsuario[] = ['Jefe TI', 'Usuario'];
 
 const router = createBrowserRouter([
   {

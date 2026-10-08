@@ -1,17 +1,17 @@
-export const TICKET_PRIORITIES = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
+export const PRIORIDADES_TICKET = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
 
-export const TICKET_STATUSES = [
+export const ESTADOS_TICKET = [
   'Abierto',
   'En progreso',
   'Cerrado',
   'Cancelado',
 ] as const;
 
-export type TicketPriority = (typeof TICKET_PRIORITIES)[number];
+export type PrioridadTicket = (typeof PRIORIDADES_TICKET)[number];
 
-export type TicketStatus = (typeof TICKET_STATUSES)[number];
+export type EstadoTicket = (typeof ESTADOS_TICKET)[number];
 
-export type TicketFilter =
+export type FiltroTicket =
   | 'todos'
   | 'abiertos'
   | 'en-progreso'
@@ -21,19 +21,19 @@ export type TicketFilter =
 
 export interface Ticket {
   id: string;
-  description: string;
-  user: string;
-  userId: string | null;
-  priority: TicketPriority;
-  status: TicketStatus;
-  technicianId: string | null;
-  technicianName: string | null;
-  createdAt: string;
+  descripcion: string;
+  solicitante: string;
+  usuarioId: string | null;
+  prioridad: PrioridadTicket;
+  estado: EstadoTicket;
+  tecnicoId: string | null;
+  tecnicoNombre: string | null;
+  creadoEn: string;
 }
 
-export interface CreateTicketInput {
-  description: string;
-  user: string;
-  userId?: string;
-  priority: TicketPriority;
+export interface CrearTicketInput {
+  descripcion: string;
+  solicitante: string;
+  usuarioId?: string;
+  prioridad: PrioridadTicket;
 }

@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
-import { availabilityService } from '../services/availability.service';
+import { disponibilidadServicio } from '../services/availability.service';
 
-export class AvailabilityController {
-  static async list(_req: Request, res: Response): Promise<void> {
-    const technicians = await availabilityService.list();
-    res.json(technicians);
+export class DisponibilidadControlador {
+  static async listar(_req: Request, res: Response): Promise<void> {
+    const tecnicos = await disponibilidadServicio.listar();
+    res.json(tecnicos);
   }
 }

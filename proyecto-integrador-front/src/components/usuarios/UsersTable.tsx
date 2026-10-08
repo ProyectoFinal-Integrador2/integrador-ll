@@ -1,12 +1,12 @@
 import { SquarePen } from 'lucide-react';
-import { AVATAR_STYLES } from '@/utils/avatarStyles';
-import type { User } from '@/types/user.types';
+import { ESTILOS_AVATAR } from '@/utils/avatarStyles';
+import type { Usuario } from '@/types/user.types';
 import { UserRoleBadge } from '@/components/usuarios/UserRoleBadge';
 import { UserStatusBadge } from '@/components/usuarios/UserStatusBadge';
 
 interface UsersTableProps {
-  users: User[];
-  onEditUser?: (user: User) => void;
+  users: Usuario[];
+  onEditUser?: (user: Usuario) => void;
   isLoading?: boolean;
 }
 
@@ -61,26 +61,26 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                 <td className="whitespace-nowrap px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${AVATAR_STYLES[
-                        user.avatarColor
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${ESTILOS_AVATAR[
+                        user.colorAvatar
                       ]}`}
                     >
-                      {user.avatarInitials}
+                      {user.avatarIniciales}
                     </div>
                     <span className="text-sm font-semibold text-slate-800">
-                      {user.name}
+                      {user.nombre}
                     </span>
                   </div>
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4">
                   <span className="text-sm text-slate-400 underline decoration-slate-300 decoration-1 underline-offset-2 hover:text-slate-600 transition-colors cursor-pointer">
-                    {user.email}
+                    {user.correo}
                   </span>
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4">
-                  <UserRoleBadge role={user.role} />
+                  <UserRoleBadge role={user.rol} />
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4">
@@ -90,7 +90,7 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4">
-                  <UserStatusBadge status={user.status} />
+                  <UserStatusBadge status={user.estado} />
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4 text-right">
@@ -98,7 +98,7 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                     type="button"
                     onClick={() => onEditUser?.(user)}
                     className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
-                    aria-label={`Editar usuario ${user.name}`}
+                    aria-label={`Editar usuario ${user.nombre}`}
                   >
                     <SquarePen className="h-4 w-4" />
                   </button>

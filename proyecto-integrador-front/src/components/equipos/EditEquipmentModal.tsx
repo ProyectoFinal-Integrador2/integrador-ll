@@ -2,27 +2,27 @@ import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { SquarePen, ChevronDown, Check } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
 import {
-  EQUIPMENT_STATUSES,
-  EQUIPMENT_TYPES,
-  type Equipment,
-  type EquipmentStatus,
-  type EquipmentType,
-  type UpdateEquipmentInput,
+  ESTADOS_EQUIPO,
+  TIPOS_EQUIPO,
+  type Equipo,
+  type EstadoEquipo,
+  type TipoEquipo,
+  type ActualizarEquipoInput,
 } from '@/types/equipment.types';
 
 export interface EditEquipmentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  equipment: Equipment | null;
-  onSubmit?: (input: UpdateEquipmentInput) => Promise<void>;
+  equipment: Equipo | null;
+  onSubmit?: (input: ActualizarEquipoInput) => Promise<void>;
 }
 
 interface EditFormData {
   codigo: string;
   nombre: string;
   area: string;
-  tipo: EquipmentType;
-  estado: EquipmentStatus;
+  tipo: TipoEquipo;
+  estado: EstadoEquipo;
 }
 
 const EMPTY_FORM_DATA: EditFormData = {
@@ -33,24 +33,24 @@ const EMPTY_FORM_DATA: EditFormData = {
   estado: 'Operativo',
 };
 
-const toFormData = (equipment: Equipment | null): EditFormData => {
+const toFormData = (equipment: Equipo | null): EditFormData => {
   if (!equipment) return EMPTY_FORM_DATA;
 
   return {
-    codigo: equipment.code,
-    nombre: equipment.name,
+    codigo: equipment.codigo,
+    nombre: equipment.nombre,
     area: equipment.area,
-    tipo: equipment.type,
-    estado: equipment.status,
+    tipo: equipment.tipo,
+    estado: equipment.estado,
   };
 };
 
-const toPayload = (form: EditFormData): UpdateEquipmentInput => ({
-  code: form.codigo.trim(),
-  name: form.nombre.trim(),
+const toPayload = (form: EditFormData): ActualizarEquipoInput => ({
+  codigo: form.codigo.trim(),
+  nombre: form.nombre.trim(),
   area: form.area.trim(),
-  type: form.tipo,
-  status: form.estado,
+  tipo: form.tipo,
+  estado: form.estado,
 });
 
 const toMessage = (error: unknown): string =>
@@ -183,7 +183,7 @@ export const EditEquipmentModal = ({
                 onChange={handleChange}
                 className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 transition-all duration-150 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
-                {EQUIPMENT_TYPES.map((type) => (
+                {TIPOS_EQUIPO.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -208,7 +208,7 @@ export const EditEquipmentModal = ({
                 onChange={handleChange}
                 className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 transition-all duration-150 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
-                {EQUIPMENT_STATUSES.map((status) => (
+                {ESTADOS_EQUIPO.map((status) => (
                   <option key={status} value={status}>
                     {status}
                   </option>

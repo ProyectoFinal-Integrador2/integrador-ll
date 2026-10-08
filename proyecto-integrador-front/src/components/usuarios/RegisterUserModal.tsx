@@ -1,20 +1,21 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Users, X, ChevronDown, Check } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
-import type { CreateUserInput, UserRole } from '@/types/user.types';
+import type { CrearUsuarioInput, RolUsuario } from '@/types/user.types';
 
 export interface RegisterUserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit?: (input: CreateUserInput) => Promise<void>;
+  onSubmit?: (input: CrearUsuarioInput) => Promise<void>;
 }
 
 interface RegisterUserFormData {
   nombre: string;
   apellido: string;
   correo: string;
-  rol: UserRole;
+  rol: RolUsuario;
   area: string;
+  contrasena: string;
 }
 
 const INITIAL_FORM_DATA: RegisterUserFormData = {
@@ -23,14 +24,24 @@ const INITIAL_FORM_DATA: RegisterUserFormData = {
   correo: '',
   rol: 'Usuario',
   area: '',
+  contrasena: '',
 };
 
-const toPayload = (form: RegisterUserFormData): CreateUserInput => ({
-  name: `${form.nombre} ${form.apellido}`.trim(),
-  email: form.correo.trim(),
-  role: form.rol,
+const toPayload = (form: RegisterUserFormData): CrearUsuarioInput => ({
+  nombre: `${form.nombre} ${form.apellido}`.trim(),
+  correo: form.correo.trim(),
+  rol: form.rol,
   area: form.area.trim(),
+  contrasena: form.contrasena,
 });
+
+const REGLAS_CONTRASENA: { test: (value: string) => boolean; message: string }[] = [
+  { test: (value) => value.length >= 8, message: 'La contraseña debe tener al menos 8 caracteres.' },
+  { test: (value) => /[a-zA-Z]/.test(value), message: 'La contraseña debe contener una letra.' },
+  { test: (value) => /[A-Z]/.test(value), message: 'La contraseña debe contener una mayúscula.' },
+  { test: (value) => /[0-9]/.test(value), message: 'La contraseña debe contener un número.' },
+  { test: (value) => /[^a-zA-Z0-9]/.test(value), message: 'La contraseña debe contener un carácter especial.' },
+];
 
 const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
@@ -55,6 +66,15 @@ export const RegisterUserModal = ({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!onSubmit) return;
+
+    const fallas = REGLAS_CONTRASENA.filter((rule) => !rule.test(formData.contrasena)).map(
+      (rule) => rule.message,
+    );
+
+    if (fallas.length > 0) {
+      setError(fallas[0]);
+      return;
+    }
 
     setIsSaving(true);
     setError(null);
@@ -194,6 +214,30 @@ export const RegisterUserModal = ({
               className="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors"
             />
           </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="contrasena"
+            className="block text-xs font-semibold text-slate-600 mb-1.5"
+          >
+            Contraseña inicial *
+          </label>
+          <input
+            type="password"
+            id="contrasena"
+            name="contrasena"
+            required
+            value={formData.contrasena}
+            onChange={handleChange}
+            placeholder="••••••••"
+            autoComplete="new-password"
+            className="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors"
+          />
+          <p className="mt-1 text-[10px] text-slate-400">
+            Mínimo 8 caracteres, con letra, mayúscula, número y símbolo. El usuario podrá
+            cambiarla después desde su perfil.
+          </p>
         </div>
 
         {error && (

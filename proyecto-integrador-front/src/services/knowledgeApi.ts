@@ -1,7 +1,7 @@
 import { apiGet } from './apiClient';
-import type { KnowledgeArticle } from '../types/knowledge.types';
+import type { ArticuloConocimiento } from '../types/knowledge.types';
 
-export const fetchKnowledgeArticles = (
+export const obtenerArticulos = (
   signal?: AbortSignal,
-): Promise<KnowledgeArticle[]> =>
-  apiGet<KnowledgeArticle[]>('/knowledge-base', signal);
+): Promise<ArticuloConocimiento[]> =>
+  apiGet<ArticuloConocimiento[]>('/knowledge-base', signal);

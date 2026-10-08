@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { KnowledgeController } from '../controllers/knowledge.controller';
+import { ConocimientoControlador } from '../controllers/knowledge.controller';
 
 const knowledgeRoutes = Router();
 
-knowledgeRoutes.get('/', KnowledgeController.list);
+knowledgeRoutes.get('/', ConocimientoControlador.listar);
 
 export default knowledgeRoutes;

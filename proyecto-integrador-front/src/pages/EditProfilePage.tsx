@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { ROLE_STYLES } from '@/utils/roleStyles';
+import { useEffect, useState } from 'react';
+import { ESTILOS_ROL } from '@/utils/roleStyles';
 import { useSession } from '@/context/session';
+import { actualizarPerfil, cambiarContrasena } from '@/services/usersApi';
 
 const IconoOjo = ({ visible }: { visible: boolean }) => (
     visible ? (
@@ -15,30 +16,28 @@ const IconoOjo = ({ visible }: { visible: boolean }) => (
     )
 );
 
+const getIniciales = (nombre: string, fallback: string): string => {
+    const partes = nombre.trim().split(' ').filter(Boolean);
+    if (partes.length === 0) return fallback.charAt(0).toUpperCase();
+    if (partes.length === 1) return partes[0].charAt(0).toUpperCase();
+    return (partes[0].charAt(0) + partes[1].charAt(0)).toUpperCase();
+};
+
+const REGLAS_CONTRASENA: { test: (value: string) => boolean; message: string }[] = [
+    { test: (value) => value.length >= 8, message: 'La contraseña debe tener al menos 8 caracteres.' },
+    { test: (value) => /[a-zA-Z]/.test(value), message: 'La contraseña debe contener una letra.' },
+    { test: (value) => /[A-Z]/.test(value), message: 'La contraseña debe contener una mayúscula.' },
+    { test: (value) => /[0-9]/.test(value), message: 'La contraseña debe contener un número.' },
+    { test: (value) => /[^a-zA-Z0-9]/.test(value), message: 'La contraseña debe contener un carácter especial.' },
+];
+
 const EditProfilePage = () => {
-    const { user } = useSession();
-    const rolUsuario = user?.role ?? 'Usuario';
-
-    const getIniciales = (nombre: string) => {
-        const partes = nombre.trim().split(' ');
-        if (partes.length === 0 || partes[0] === '') return rolUsuario.charAt(0);
-        if (partes.length === 1) return partes[0].charAt(0).toUpperCase();
-        return (partes[0].charAt(0) + partes[1].charAt(0)).toUpperCase();
-    };
-
-    const [usuarioActual, setUsuarioActual] = useState({
-        nombre: 'Ana Torres',
-        correo: 'ana.torres@empresa.pe',
-        rol: rolUsuario,
-        iniciales: getIniciales('Ana Torres')
-    });
+    const { user, actualizarSesion } = useSession();
+    const rolUsuario = user?.rol ?? 'Usuario';
 
     const [datosPerfil, setDatosPerfil] = useState({
-        nombreCompleto: usuarioActual.nombre,
-        area: 'Tecnología de la Información',
-        correo: usuarioActual.correo,
-        telefono: 'Ext. 201',
-        cargo: rolUsuario as string
+        nombreCompleto: user?.nombre ?? '',
+        area: user?.area ?? '',
     });
 
     const [passwords, setPasswords] = useState({
@@ -51,30 +50,83 @@ const EditProfilePage = () => {
     const [verPassNueva, setVerPassNueva] = useState(false);
     const [verPassConfirmar, setVerPassConfirmar] = useState(false);
 
-    const [mostrarToastDatos, setMostrarToastDatos] = useState(false);
-    const [mostrarToastPass, setMostrarToastPass] = useState(false);
+    const [guardandoDatos, setGuardandoDatos] = useState(false);
+    const [guardandoPass, setGuardandoPass] = useState(false);
+    const [errorDatos, setErrorDatos] = useState<string | null>(null);
+    const [errorPass, setErrorPass] = useState<string | null>(null);
+    const [toast, setToast] = useState<string | null>(null);
 
-    const handleGuardarDatos = (e: React.FormEvent) => {
-        e.preventDefault();
-        setUsuarioActual(prev => ({
-            ...prev,
-            nombre: datosPerfil.nombreCompleto,
-            iniciales: getIniciales(datosPerfil.nombreCompleto)
-        }));
-        setMostrarToastDatos(true);
-        setTimeout(() => setMostrarToastDatos(false), 3000);
-    };
+    useEffect(() => {
+        if (!toast) return;
+        const timer = setTimeout(() => setToast(null), 3000);
+        return () => clearTimeout(timer);
+    }, [toast]);
 
-    const handleActualizarContrasena = (e: React.FormEvent) => {
+    const handleGuardarDatos = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (passwords.nueva !== passwords.confirmar) {
-            alert("Las contraseñas nuevas no coinciden");
+        if (!user || guardandoDatos) return;
+
+        const nombre = datosPerfil.nombreCompleto.trim();
+        const area = datosPerfil.area.trim();
+
+        if (nombre.length < 3) {
+            setErrorDatos('El nombre debe tener al menos 3 caracteres.');
             return;
         }
-        setPasswords({ actual: '', nueva: '', confirmar: '' });
-        setMostrarToastPass(true);
-        setTimeout(() => setMostrarToastPass(false), 3000);
+
+        if (area.length === 0) {
+            setErrorDatos('El área es obligatoria.');
+            return;
+        }
+
+        setGuardandoDatos(true);
+        setErrorDatos(null);
+
+        try {
+            const actualizado = await actualizarPerfil(user.id, { nombre, area });
+            actualizarSesion(actualizado);
+            setDatosPerfil({ nombreCompleto: actualizado.nombre, area: actualizado.area });
+            setToast('Datos de perfil actualizados');
+        } catch (saveError) {
+            setErrorDatos(saveError instanceof Error ? saveError.message : 'No se pudo guardar.');
+        } finally {
+            setGuardandoDatos(false);
+        }
     };
+
+    const handleActualizarContrasena = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!user || guardandoPass) return;
+
+        if (passwords.nueva !== passwords.confirmar) {
+            setErrorPass('Las contraseñas nuevas no coinciden.');
+            return;
+        }
+
+        const falla = REGLAS_CONTRASENA.find((rule) => !rule.test(passwords.nueva));
+        if (falla) {
+            setErrorPass(falla.message);
+            return;
+        }
+
+        setGuardandoPass(true);
+        setErrorPass(null);
+
+        try {
+            await cambiarContrasena(user.id, {
+                actual: passwords.actual,
+                nueva: passwords.nueva,
+            });
+            setPasswords({ actual: '', nueva: '', confirmar: '' });
+            setToast('Contraseña actualizada correctamente');
+        } catch (saveError) {
+            setErrorPass(saveError instanceof Error ? saveError.message : 'No se pudo actualizar la contraseña.');
+        } finally {
+            setGuardandoPass(false);
+        }
+    };
+
+    if (!user) return null;
 
     return (
         <div className="w-full max-w-4xl p-6 mx-auto">
@@ -82,11 +134,11 @@ const EditProfilePage = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-6 relative">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-xl font-bold shadow-sm">
-                        {usuarioActual.iniciales}
+                        {user.avatarIniciales || getIniciales(user.nombre, rolUsuario)}
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold text-gray-900">{usuarioActual.nombre}</h2>
-                        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-md mt-1 ${ROLE_STYLES[rolUsuario]}`}>
+                        <h2 className="text-lg font-bold text-gray-900">{user.nombre}</h2>
+                        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-md mt-1 ${ESTILOS_ROL[rolUsuario]}`}>
                             {rolUsuario}
                         </span>
                     </div>
@@ -116,35 +168,37 @@ const EditProfilePage = () => {
                             <label className="block text-[11px] text-gray-500 mb-1">Correo electrónico</label>
                             <input
                                 type="email"
-                                value={datosPerfil.correo}
-                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 text-gray-700"
+                                value={user.correo}
+                                disabled
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50 text-slate-500"
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-[11px] text-gray-500 mb-1">Telefono interno</label>
-                            <input
-                                type="text"
-                                value={datosPerfil.telefono}
-                                onChange={(e) => setDatosPerfil({ ...datosPerfil, telefono: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 text-gray-700"
-                            />
-                        </div>
                         <div>
                             <label className="block text-[11px] text-gray-500 mb-1">Cargo</label>
                             <input
                                 type="text"
-                                value={datosPerfil.cargo}
-                                onChange={(e) => setDatosPerfil({ ...datosPerfil, cargo: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 text-gray-700"
+                                value={rolUsuario}
+                                disabled
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-slate-50 text-slate-500"
                             />
                         </div>
                     </div>
 
+                    {errorDatos && (
+                        <p role="alert" className="mt-4 text-xs font-medium text-red-600">
+                            {errorDatos}
+                        </p>
+                    )}
+
                     <div className="flex justify-end mt-6">
-                        <button type="submit" className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                        <button
+                            type="submit"
+                            disabled={guardandoDatos}
+                            className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2 disabled:opacity-60"
+                        >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                            Guardar cambios
+                            {guardandoDatos ? 'Guardando...' : 'Guardar cambios'}
                         </button>
                     </div>
                 </form>
@@ -162,6 +216,7 @@ const EditProfilePage = () => {
                                 value={passwords.actual}
                                 onChange={(e) => setPasswords({ ...passwords, actual: e.target.value })}
                                 placeholder="••••••••••••"
+                                autoComplete="current-password"
                                 required
                                 className="w-full px-3 py-2 pr-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 text-gray-700"
                             />
@@ -188,6 +243,7 @@ const EditProfilePage = () => {
                                     value={passwords.nueva}
                                     onChange={(e) => setPasswords({ ...passwords, nueva: e.target.value })}
                                     placeholder="••••••••••••"
+                                    autoComplete="new-password"
                                     required
                                     className="w-full px-3 py-2 pr-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 text-gray-700"
                                 />
@@ -212,6 +268,7 @@ const EditProfilePage = () => {
                                     value={passwords.confirmar}
                                     onChange={(e) => setPasswords({ ...passwords, confirmar: e.target.value })}
                                     placeholder="••••••••••••"
+                                    autoComplete="new-password"
                                     required
                                     className="w-full px-3 py-2 pr-10 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 text-gray-700"
                                 />
@@ -230,35 +287,40 @@ const EditProfilePage = () => {
                         </div>
                     </div>
 
+                    {errorPass && (
+                        <p role="alert" className="mb-4 text-xs font-medium text-red-600">
+                            {errorPass}
+                        </p>
+                    )}
+
                     <div className="flex justify-end gap-3">
                         <button
                             type="button"
-                            onClick={() => setPasswords({ actual: '', nueva: '', confirmar: '' })}
+                            onClick={() => {
+                                setPasswords({ actual: '', nueva: '', confirmar: '' });
+                                setErrorPass(null);
+                            }}
                             className="px-5 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
                         >
                             Cancelar
                         </button>
-                        <button type="submit" className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                        <button
+                            type="submit"
+                            disabled={guardandoPass}
+                            className="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2 disabled:opacity-60"
+                        >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                            Actualizar contraseña
+                            {guardandoPass ? 'Actualizando...' : 'Actualizar contraseña'}
                         </button>
                     </div>
                 </form>
             </div>
 
-            {/* TOASTS */}
-            <div className={`fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${mostrarToastDatos ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
+            <div className={`fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${toast ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
                 <div className="bg-green-500 rounded-full p-0.5">
                     <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                 </div>
-                <span className="text-sm font-medium">Datos de perfil actualizados</span>
-            </div>
-
-            <div className={`fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 transform ${mostrarToastPass ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
-                <div className="bg-green-500 rounded-full p-0.5">
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                </div>
-                <span className="text-sm font-medium">Contraseña actualizada correctamente</span>
+                <span className="text-sm font-medium">{toast ?? ''}</span>
             </div>
 
         </div>

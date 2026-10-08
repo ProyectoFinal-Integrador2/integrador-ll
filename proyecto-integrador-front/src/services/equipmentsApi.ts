@@ -1,13 +1,13 @@
 import { apiGet, apiSend } from './apiClient';
-import type { CreateEquipmentInput, Equipment, UpdateEquipmentInput} from '../types/equipment.types';
+import type { CrearEquipoInput, Equipo, ActualizarEquipoInput } from '../types/equipment.types';
 
-export const fetchEquipments = (signal?: AbortSignal): Promise<Equipment[]> =>
-  apiGet<Equipment[]>('/equipments', signal);
+export const obtenerEquipos = (signal?: AbortSignal): Promise<Equipo[]> =>
+  apiGet<Equipo[]>('/equipments', signal);
 
-export const createEquipment = (input: CreateEquipmentInput): Promise<Equipment> =>
-  apiSend<Equipment>('/equipments', 'POST', input);
+export const crearEquipo = (input: CrearEquipoInput): Promise<Equipo> =>
+  apiSend<Equipo>('/equipments', 'POST', input);
 
-export const updateEquipment = (
+export const actualizarEquipo = (
   id: string,
-  input: UpdateEquipmentInput,
-): Promise<Equipment> => apiSend<Equipment>(`/equipments/${id}`, 'PUT', input);
+  input: ActualizarEquipoInput,
+): Promise<Equipo> => apiSend<Equipo>(`/equipments/${id}`, 'PUT', input);

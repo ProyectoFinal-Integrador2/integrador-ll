@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Star } from 'lucide-react';
-import { EVALUATION_RATINGS, type EvaluationRating } from '@/types/evaluation.types';
+import { PUNTUACIONES_EVALUACION, type PuntuacionEvaluacion } from '@/types/evaluation.types';
 
 interface StarRatingInputProps {
-  value: EvaluationRating | null;
-  onChange: (rating: EvaluationRating) => void;
+  value: PuntuacionEvaluacion | null;
+  onChange: (rating: PuntuacionEvaluacion) => void;
   disabled?: boolean;
 }
 
@@ -13,13 +13,13 @@ export const StarRatingInput = ({
   onChange,
   disabled = false,
 }: StarRatingInputProps) => {
-  const [hoveredRating, setHoveredRating] = useState<EvaluationRating | null>(null);
+  const [hoveredRating, setHoveredRating] = useState<PuntuacionEvaluacion | null>(null);
 
   const visibleRating = hoveredRating ?? value ?? 0;
 
   return (
     <div className="flex items-center gap-1" role="group" aria-label="Calificación">
-      {EVALUATION_RATINGS.map((star) => (
+      {PUNTUACIONES_EVALUACION.map((star) => (
         <button
           key={star}
           type="button"

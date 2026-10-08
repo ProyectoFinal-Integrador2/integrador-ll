@@ -1,29 +1,33 @@
 import type { Request, Response } from 'express';
-import { evaluationService } from '../services/evaluation.service';
+import { evaluacionServicio } from '../services/evaluation.service';
 import { HttpError } from '../utils/httpError';
-import type { CreateEvaluationInput } from '../types/evaluation.types';
+import type { CrearEvaluacionInput } from '../types/evaluation.types';
 
-export class EvaluationController {
-  static async list(_req: Request, res: Response): Promise<void> {
-    const evaluations = await evaluationService.list();
-    res.json(evaluations);
+export class EvaluacionControlador {
+  static async listar(_req: Request, res: Response): Promise<void> {
+    const evaluaciones = await evaluacionServicio.listar();
+    res.json(evaluaciones);
   }
 
-  static async listPending(req: Request, res: Response): Promise<void> {
-    const { userId } = req.query;
+  static async listarPendientes(req: Request, res: Response): Promise<void> {
+    const { usuarioId } = req.query;
 
-    if (typeof userId !== 'string' || userId.length === 0) {
-      throw HttpError.badRequest('El userId es obligatorio.');
+    if (typeof usuarioId !== 'string' || usuarioId.length === 0) {
+      throw HttpError.badRequest('El usuarioId es obligatorio.');
     }
 
-    res.json(await evaluationService.listPending(userId));
+    if (req.sesion?.rol === 'Usuario' && usuarioId !== req.sesion.id) {
+      throw HttpError.forbidden('Solo puedes consultar tus propias evaluaciones.');
+    }
+
+    res.json(await evaluacionServicio.listarPendientes(usuarioId));
   }
 
-  static async create(req: Request, res: Response): Promise<void> {
-    const evaluation = await evaluationService.create(
-      req.body as Partial<CreateEvaluationInput>,
+  static async crear(req: Request, res: Response): Promise<void> {
+    const evaluacion = await evaluacionServicio.crear(
+      req.body as Partial<CrearEvaluacionInput>,
     );
 
-    res.status(201).json(evaluation);
+    res.status(201).json(evaluacion);
   }
 }

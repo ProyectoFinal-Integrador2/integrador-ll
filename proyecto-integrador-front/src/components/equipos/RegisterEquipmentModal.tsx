@@ -2,22 +2,22 @@ import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Server, X, ChevronDown, Check } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
 import {
-  EQUIPMENT_TYPES,
-  type CreateEquipmentInput,
-  type EquipmentType,
+  TIPOS_EQUIPO,
+  type CrearEquipoInput,
+  type TipoEquipo,
 } from '@/types/equipment.types';
 
 export interface RegisterEquipmentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit?: (input: CreateEquipmentInput) => Promise<void>;
+  onSubmit?: (input: CrearEquipoInput) => Promise<void>;
 }
 
 interface RegisterEquipmentFormData {
   codigo: string;
   nombre: string;
   area: string;
-  tipo: EquipmentType;
+  tipo: TipoEquipo;
 }
 
 const INITIAL_FORM_DATA: RegisterEquipmentFormData = {
@@ -27,11 +27,11 @@ const INITIAL_FORM_DATA: RegisterEquipmentFormData = {
   tipo: 'Laptop',
 };
 
-const toPayload = (form: RegisterEquipmentFormData): CreateEquipmentInput => ({
-  code: form.codigo.trim(),
-  name: form.nombre.trim(),
+const toPayload = (form: RegisterEquipmentFormData): CrearEquipoInput => ({
+  codigo: form.codigo.trim(),
+  nombre: form.nombre.trim(),
   area: form.area.trim(),
-  type: form.tipo,
+  tipo: form.tipo,
 });
 
 const toMessage = (error: unknown): string =>
@@ -175,7 +175,7 @@ export const RegisterEquipmentModal = ({
               onChange={handleChange}
               className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
-              {EQUIPMENT_TYPES.map((type) => (
+              {TIPOS_EQUIPO.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>

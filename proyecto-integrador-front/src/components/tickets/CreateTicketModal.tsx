@@ -1,25 +1,25 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Check, ChevronDown, Ticket, X } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
-import { TICKET_PRIORITIES, type CreateTicketInput, type TicketPriority } from '@/types/ticket.types';
+import { PRIORIDADES_TICKET, type CrearTicketInput, type PrioridadTicket } from '@/types/ticket.types';
 
 export interface CreateTicketModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (input: CreateTicketInput) => Promise<void>;
+  onCreate: (input: CrearTicketInput) => Promise<void>;
   solicitante?: { nombre: string; userId: string } | null;
 }
 
 interface FormState {
-  description: string;
-  user: string;
-  priority: TicketPriority;
+  descripcion: string;
+  solicitante: string;
+  prioridad: PrioridadTicket;
 }
 
 const INITIAL_FORM: FormState = {
-  description: '',
-  user: '',
-  priority: 'Medio',
+  descripcion: '',
+  solicitante: '',
+  prioridad: 'Medio',
 };
 
 export const CreateTicketModal = ({
@@ -31,7 +31,7 @@ export const CreateTicketModal = ({
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const userName = solicitante?.nombre ?? form.user;
+  const userName = solicitante?.nombre ?? form.solicitante;
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -47,7 +47,11 @@ export const CreateTicketModal = ({
     setError(null);
 
     try {
-      await onCreate({ ...form, user: userName, userId: solicitante?.userId });
+      await onCreate({
+        ...form,
+        solicitante: userName,
+        usuarioId: solicitante?.userId,
+      });
       setForm(INITIAL_FORM);
       onClose();
     } catch (createError) {
@@ -82,14 +86,14 @@ export const CreateTicketModal = ({
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         <div>
-          <label htmlFor="description" className="mb-1.5 block text-xs font-semibold text-slate-600">
+          <label htmlFor="descripcion" className="mb-1.5 block text-xs font-semibold text-slate-600">
             Descripcion *
           </label>
           <textarea
-            id="description"
-            name="description"
+            id="descripcion"
+            name="descripcion"
             rows={3}
-            value={form.description}
+            value={form.descripcion}
             onChange={handleChange}
             placeholder="Describe el problema (minimo 10 caracteres)"
             className="w-full resize-none rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
@@ -98,13 +102,13 @@ export const CreateTicketModal = ({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="user" className="mb-1.5 block text-xs font-semibold text-slate-600">
+            <label htmlFor="solicitante" className="mb-1.5 block text-xs font-semibold text-slate-600">
               Usuario *
             </label>
             <input
               type="text"
-              id="user"
-              name="user"
+              id="solicitante"
+              name="solicitante"
               value={userName}
               onChange={handleChange}
               readOnly={solicitante !== null}
@@ -123,18 +127,18 @@ export const CreateTicketModal = ({
           </div>
 
           <div>
-            <label htmlFor="priority" className="mb-1.5 block text-xs font-semibold text-slate-600">
+            <label htmlFor="prioridad" className="mb-1.5 block text-xs font-semibold text-slate-600">
               Prioridad *
             </label>
             <div className="relative">
               <select
-                id="priority"
-                name="priority"
-                value={form.priority}
+                id="prioridad"
+                name="prioridad"
+                value={form.prioridad}
                 onChange={handleChange}
                 className="w-full cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-700 transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
               >
-                {TICKET_PRIORITIES.map((priority) => (
+                {PRIORIDADES_TICKET.map((priority) => (
                   <option key={priority} value={priority}>
                     {priority}
                   </option>

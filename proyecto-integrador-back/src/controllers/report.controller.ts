@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
-import { reportService } from '../services/report.service';
+import { servicioDeReportes } from '../services/report.service';
 
-export class ReportController {
-  static async summary(_req: Request, res: Response): Promise<void> {
-    const report = await reportService.summary();
-    res.json(report);
+export class ReporteControlador {
+  static async resumen(_req: Request, res: Response): Promise<void> {
+    const reporte = await servicioDeReportes.resumen();
+    res.json(reporte);
   }
 }

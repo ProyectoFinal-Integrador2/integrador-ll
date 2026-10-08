@@ -1,8 +1,8 @@
-import type { ReportSlice } from '@/types/report.types';
+import type { RebanadaReporte } from '@/types/report.types';
 
 interface ReportBarListProps {
   title: string;
-  slices: ReportSlice[];
+  slices: RebanadaReporte[];
   colorFor: (label: string) => string;
   emptyMessage: string;
 }
@@ -13,7 +13,7 @@ export const ReportBarList = ({
   colorFor,
   emptyMessage,
 }: ReportBarListProps) => {
-  const hasData = slices.some((slice) => slice.count > 0);
+  const hasData = slices.some((slice) => slice.conteo > 0);
 
   return (
     <section className="rounded-2xl border border-slate-100 bg-white p-6 shadow-xs">
@@ -24,13 +24,13 @@ export const ReportBarList = ({
       ) : (
         <ul className="mt-5 space-y-4">
           {slices.map((slice) => (
-            <li key={slice.label}>
+            <li key={slice.etiqueta}>
               <div className="mb-1.5 flex items-baseline justify-between gap-3">
-                <span className="text-sm text-slate-600">{slice.label}</span>
+                <span className="text-sm text-slate-600">{slice.etiqueta}</span>
                 <span className="text-xs font-semibold text-slate-500">
-                  {slice.count}
+                  {slice.conteo}
                   <span className="ml-2 font-normal text-slate-400">
-                    {slice.percentage}%
+                    {slice.porcentaje}%
                   </span>
                 </span>
               </div>
@@ -40,8 +40,8 @@ export const ReportBarList = ({
                 aria-hidden="true"
               >
                 <div
-                  className={`h-full rounded-full ${colorFor(slice.label)}`}
-                  style={{ width: `${slice.percentage}%` }}
+                  className={`h-full rounded-full ${colorFor(slice.etiqueta)}`}
+                  style={{ width: `${slice.porcentaje}%` }}
                 />
               </div>
             </li>

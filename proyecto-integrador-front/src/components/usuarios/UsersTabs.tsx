@@ -1,11 +1,11 @@
-import type { UserTabFilter } from '@/types/user.types';
+import type { FiltroUsuario } from '@/types/user.types';
 
 interface UsersTabsProps {
-  activeTab: UserTabFilter;
-  onTabChange: (tab: UserTabFilter) => void;
+  activeTab: FiltroUsuario;
+  onTabChange: (tab: FiltroUsuario) => void;
 }
 
-const TABS: { id: UserTabFilter; label: string }[] = [
+const TABS: { id: FiltroUsuario; label: string }[] = [
   { id: 'todos', label: 'Todos' },
   { id: 'tecnicos', label: 'Técnicos' },
   { id: 'usuarios', label: 'Usuarios' },

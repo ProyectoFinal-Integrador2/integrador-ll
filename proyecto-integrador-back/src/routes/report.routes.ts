@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { ReportController } from '../controllers/report.controller';
+import { ReporteControlador } from '../controllers/report.controller';
 
 const reportRoutes = Router();
 
-reportRoutes.get('/summary', ReportController.summary);
+reportRoutes.get('/summary', ReporteControlador.resumen);
 
 export default reportRoutes;

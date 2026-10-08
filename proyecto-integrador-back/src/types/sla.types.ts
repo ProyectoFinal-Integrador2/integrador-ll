@@ -3,9 +3,9 @@
  * porque son conceptos distintos: el ticket dice que tan urgente es una
  * incidencia, el SLA dice que se le garantiza a esa urgencia.
  */
-export const SLA_LEVELS = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
+export const NIVELES_SLA = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
 
-export type SlaLevel = (typeof SLA_LEVELS)[number];
+export type NivelSla = (typeof NIVELES_SLA)[number];
 
 /**
  * Los tiempos van en minutos, no como texto ("1 hora").
@@ -14,15 +14,15 @@ export type SlaLevel = (typeof SLA_LEVELS)[number];
  * respuesta contra el comprometido: con el texto ya formateado habria que
  * parsearlo otra vez en el reporte. El frontend arma el "1 h 30 min" al pintar.
  */
-export interface SlaPriority {
+export interface SlaPrioridad {
   id: string;
-  level: SlaLevel;
-  description: string;
-  responseMinutes: number;
-  resolutionMinutes: number;
+  nivel: NivelSla;
+  descripcion: string;
+  minutosRespuesta: number;
+  minutosResolucion: number;
   /** Minutos para escalar a un superior. `0` significa de inmediato. */
-  escalationMinutes: number;
-  updatedAt: string;
+  minutosEscalamiento: number;
+  actualizadoEn: string;
 }
 
 /**
@@ -30,12 +30,12 @@ export interface SlaPriority {
  * haber varios compromisos del mismo nivel (por ejemplo, uno por area), asi
  * que no se guarda `status` ni nada mas que el dominio ya sepa.
  */
-export interface CreateSlaPriorityInput {
-  level: SlaLevel;
-  description: string;
-  responseMinutes: number;
-  resolutionMinutes: number;
-  escalationMinutes: number;
+export interface CrearSlaPrioridadInput {
+  nivel: NivelSla;
+  descripcion: string;
+  minutosRespuesta: number;
+  minutosResolucion: number;
+  minutosEscalamiento: number;
 }
 
-export type UpdateSlaPriorityInput = CreateSlaPriorityInput;
+export type ActualizarSlaPrioridadInput = CrearSlaPrioridadInput;

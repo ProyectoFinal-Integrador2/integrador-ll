@@ -1,12 +1,12 @@
-import type { TicketFilter } from '@/types/ticket.types';
+import type { FiltroTicket } from '@/types/ticket.types';
 
 interface TicketFiltersProps {
-  activeFilter: TicketFilter;
-  onFilterChange: (filter: TicketFilter) => void;
-  counts: Record<TicketFilter, number>;
+  activeFilter: FiltroTicket;
+  onFilterChange: (filter: FiltroTicket) => void;
+  counts: Record<FiltroTicket, number>;
 }
 
-const FILTERS: { id: TicketFilter; label: string }[] = [
+const FILTERS: { id: FiltroTicket; label: string }[] = [
   { id: 'todos', label: 'Todos' },
   { id: 'abiertos', label: 'Abiertos' },
   { id: 'en-progreso', label: 'En progreso' },

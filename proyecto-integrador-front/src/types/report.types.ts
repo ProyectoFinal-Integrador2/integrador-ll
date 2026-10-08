@@ -1,25 +1,25 @@
-export interface ReportSlice {
-  label: string;
-  count: number;
-  percentage: number;
+export interface RebanadaReporte {
+  etiqueta: string;
+  conteo: number;
+  porcentaje: number;
 }
 
-export interface TicketsReport {
+export interface ReporteTickets {
   total: number;
-  open: number;
-  closed: number;
-  byStatus: ReportSlice[];
-  byPriority: ReportSlice[];
+  abiertos: number;
+  cerrados: number;
+  porEstado: RebanadaReporte[];
+  porPrioridad: RebanadaReporte[];
 }
 
-export interface EvaluationsReport {
+export interface ReporteEvaluaciones {
   total: number;
-  averageRating: number | null;
-  byRating: ReportSlice[];
+  promedioPuntuacion: number | null;
+  porPuntuacion: RebanadaReporte[];
 }
 
-export interface ServiceReport {
-  tickets: TicketsReport;
-  evaluations: EvaluationsReport;
-  generatedAt: string;
+export interface ReporteServicio {
+  tickets: ReporteTickets;
+  evaluaciones: ReporteEvaluaciones;
+  generadoEn: string;
 }

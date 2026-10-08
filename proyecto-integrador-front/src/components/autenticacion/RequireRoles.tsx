@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSession } from '@/context/session';
-import type { UserRole } from '@/types/roles';
+import type { RolUsuario } from '@/types/roles';
 
 interface RequireRolesProps {
-  allow: UserRole[];
+  allow: RolUsuario[];
 }
 
 export const RequireRoles = ({ allow }: RequireRolesProps) => {
@@ -11,7 +11,7 @@ export const RequireRoles = ({ allow }: RequireRolesProps) => {
 
   if (!user) return <Navigate to="/login" replace />;
 
-  if (!allow.includes(user.role)) {
+  if (!allow.includes(user.rol)) {
     return <Navigate to="/perfil" replace />;
   }
 

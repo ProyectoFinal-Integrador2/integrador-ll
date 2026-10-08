@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
-import { knowledgeService } from '../services/knowledge.service';
+import { conocimientoServicio } from '../services/knowledge.service';
 
-export class KnowledgeController {
-  static async list(_req: Request, res: Response): Promise<void> {
-    const articles = await knowledgeService.list();
-    res.json(articles);
+export class ConocimientoControlador {
+  static async listar(_req: Request, res: Response): Promise<void> {
+    const articulos = await conocimientoServicio.listar();
+    res.json(articulos);
   }
 }

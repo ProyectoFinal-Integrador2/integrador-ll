@@ -1,45 +1,45 @@
-export const EQUIPMENT_TYPES = [
+export const TIPOS_EQUIPO = [
   'Laptop',
   'Desktop',
   'Impresora',
   'Monitor',
 ] as const;
 
-export const EQUIPMENT_STATUSES = [
+export const ESTADOS_EQUIPO = [
   'Operativo',
   'En reparación',
   'Dado de baja',
 ] as const;
 
-export type EquipmentType = (typeof EQUIPMENT_TYPES)[number];
+export type TipoEquipo = (typeof TIPOS_EQUIPO)[number];
 
-export type EquipmentStatus = (typeof EQUIPMENT_STATUSES)[number];
+export type EstadoEquipo = (typeof ESTADOS_EQUIPO)[number];
 
-export interface Equipment {
+export interface Equipo {
   id: string;
   /** Codigo de inventario, ej. `LT-014`. Es la identidad visible del equipo. */
-  code: string;
-  name: string;
+  codigo: string;
+  nombre: string;
   area: string;
-  type: EquipmentType;
-  status: EquipmentStatus;
+  tipo: TipoEquipo;
+  estado: EstadoEquipo;
   /** ISO 8601. El formateo a texto legible ocurre en el frontend. */
-  registeredAt: string;
+  creadoEn: string;
 }
 
 /** El alta la decide el dominio: un equipo nace operativo y con fecha. */
-export interface CreateEquipmentInput {
-  code: string;
-  name: string;
+export interface CrearEquipoInput {
+  codigo: string;
+  nombre: string;
   area: string;
-  type: EquipmentType;
+  tipo: TipoEquipo;
 }
 
 /** La edicion si permite cambiar el estado, a diferencia del alta. */
-export interface UpdateEquipmentInput {
-  code: string;
-  name: string;
+export interface ActualizarEquipoInput {
+  codigo: string;
+  nombre: string;
   area: string;
-  type: EquipmentType;
-  status: EquipmentStatus;
+  tipo: TipoEquipo;
+  estado: EstadoEquipo;
 }

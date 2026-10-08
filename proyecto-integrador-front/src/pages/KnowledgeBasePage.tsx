@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { KnowledgeCard } from '@/components/conocimiento/KnowledgeCard';
 import { KnowledgeFilters } from '@/components/conocimiento/KnowledgeFilters';
 import { KnowledgeToolbar } from '@/components/conocimiento/KnowledgeToolbar';
-import { fetchKnowledgeArticles } from '@/services/knowledgeApi';
-import { normalizeForSearch } from '@/utils/text';
-import { ALL_CATEGORIES, KNOWLEDGE_FILTERS, type KnowledgeArticle, type KnowledgeFilter } from '@/types/knowledge.types';
+import { obtenerArticulos } from '@/services/knowledgeApi';
+import { normalizarParaBusqueda } from '@/utils/text';
+import { TODAS_CATEGORIAS, FILTROS_CONOCIMIENTO, type ArticuloConocimiento, type FiltroConocimiento } from '@/types/knowledge.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -13,19 +13,19 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const KnowledgeBasePage = () => {
-  const [articles, setArticles] = useState<KnowledgeArticle[]>([]);
+  const [articles, setArticles] = useState<ArticuloConocimiento[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeFilter, setActiveFilter] = useState<KnowledgeFilter>(
-    ALL_CATEGORIES,
+  const [activeFilter, setActiveFilter] = useState<FiltroConocimiento>(
+    TODAS_CATEGORIAS,
   );
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchKnowledgeArticles(controller.signal)
+    obtenerArticulos(controller.signal)
       .then((data) => {
         setArticles(data);
         setError(null);
@@ -44,7 +44,7 @@ export const KnowledgeBasePage = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchKnowledgeArticles()
+    obtenerArticulos()
       .then((data) => {
         setArticles(data);
         setError(null);
@@ -54,24 +54,24 @@ export const KnowledgeBasePage = () => {
   };
 
   const searched = useMemo(() => {
-    const query = normalizeForSearch(searchTerm);
+    const query = normalizarParaBusqueda(searchTerm);
     if (query.length === 0) return articles;
 
     return articles.filter((article) =>
-      [article.title, article.authorName, article.category]
-        .map(normalizeForSearch)
+      [article.titulo, article.autorNombre, article.categoria]
+        .map(normalizarParaBusqueda)
         .some((field) => field.includes(query)),
     );
   }, [articles, searchTerm]);
 
   const counts = useMemo(() => {
-    const result = {} as Record<KnowledgeFilter, number>;
+    const result = {} as Record<FiltroConocimiento, number>;
 
-    for (const filter of KNOWLEDGE_FILTERS) {
+    for (const filter of FILTROS_CONOCIMIENTO) {
       result[filter] =
-        filter === ALL_CATEGORIES
+        filter === TODAS_CATEGORIAS
           ? searched.length
-          : searched.filter((article) => article.category === filter).length;
+          : searched.filter((article) => article.categoria === filter).length;
     }
 
     return result;
@@ -79,13 +79,13 @@ export const KnowledgeBasePage = () => {
 
   const visibleArticles = useMemo(
     () =>
-      activeFilter === ALL_CATEGORIES
+      activeFilter === TODAS_CATEGORIAS
         ? searched
-        : searched.filter((article) => article.category === activeFilter),
+        : searched.filter((article) => article.categoria === activeFilter),
     [activeFilter, searched],
   );
 
-  const hasActiveSearch = normalizeForSearch(searchTerm).length > 0;
+  const hasActiveSearch = normalizarParaBusqueda(searchTerm).length > 0;
 
   return (
     <div className="w-full">
@@ -121,12 +121,12 @@ export const KnowledgeBasePage = () => {
       ) : visibleArticles.length === 0 ? (
         <div className="rounded-2xl border border-slate-100 bg-white p-10 text-center shadow-xs">
           <p className="text-sm font-semibold text-slate-700">
-            {hasActiveSearch || activeFilter !== ALL_CATEGORIES
+            {hasActiveSearch || activeFilter !== TODAS_CATEGORIAS
               ? 'Sin coincidencias'
               : 'Sin articulos'}
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            {hasActiveSearch || activeFilter !== ALL_CATEGORIES
+            {hasActiveSearch || activeFilter !== TODAS_CATEGORIAS
               ? 'Ningun articulo coincide con los filtros aplicados.'
               : 'Todavia no se publico ningun articulo.'}
           </p>

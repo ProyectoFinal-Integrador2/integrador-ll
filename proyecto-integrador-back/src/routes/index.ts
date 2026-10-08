@@ -1,5 +1,7 @@
 import { Router } from 'express';
+import { requerirAutenticacion, requerirRol } from '../middlewares/auth';
 import availabilityRoutes from './availability.routes';
+import authRoutes from './auth.routes';
 import dashboardRoutes from './dashboard.routes';
 import equipmentRoutes from './equipment.routes';
 import evaluationRoutes from './evaluation.routes';
@@ -10,18 +12,23 @@ import slaRoutes from './sla.routes';
 import ticketRoutes from './ticket.routes';
 import userRoutes from './user.routes';
 
-//Por cada Router que tengamos, lo importamos y lo usamos en el router principal
 const router = Router();
 
 router.use('/health', healthRoutes);
-router.use('/tickets', ticketRoutes);
-router.use('/users', userRoutes);
-router.use('/equipments', equipmentRoutes);
-router.use('/sla', slaRoutes);
-router.use('/availability', availabilityRoutes);
+router.use('/auth', authRoutes);
+
+router.use(requerirAutenticacion);
+
 router.use('/dashboard', dashboardRoutes);
-router.use('/evaluations', evaluationRoutes);
-router.use('/reports', reportRoutes);
+router.use('/tickets', ticketRoutes);
 router.use('/knowledge-base', knowledgeRoutes);
+
+router.use('/users', userRoutes);
+router.use('/equipments', requerirRol('Jefe TI'), equipmentRoutes);
+router.use('/sla', requerirRol('Jefe TI'), slaRoutes);
+router.use('/reports', requerirRol('Jefe TI'), reportRoutes);
+
+router.use('/availability', requerirRol('Jefe TI', 'Técnico'), availabilityRoutes);
+router.use('/evaluations', requerirRol('Jefe TI', 'Usuario'), evaluationRoutes);
 
 export default router;

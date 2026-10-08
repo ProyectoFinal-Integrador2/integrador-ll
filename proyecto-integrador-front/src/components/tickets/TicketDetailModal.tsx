@@ -1,19 +1,19 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {BadgeCheck, CheckCircle2,Loader2,PlayCircle,Ban,X,} from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
-import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/utils/ticketStyles';
-import { fetchSlaPriorities } from '@/services/slasApi';
-import { fetchServiceEvaluations } from '@/services/evaluationsApi';
+import { ESTILOS_PRIORIDAD, ESTILOS_ESTADO } from '@/utils/ticketStyles';
+import { obtenerSlaPrioridades } from '@/services/slasApi';
+import { obtenerEvaluaciones } from '@/services/evaluationsApi';
 import { useSession } from '@/context/session';
-import { formatDate } from '@/utils/date';
-import { formatMinutes } from '@/utils/slaTime';
-import type { SlaPriority } from '@/types/sla.types';
-import type { Ticket, TicketStatus } from '@/types/ticket.types';
+import { formatearFecha } from '@/utils/date';
+import { formatearMinutos } from '@/utils/slaTime';
+import type { SlaPrioridad } from '@/types/sla.types';
+import type { Ticket, EstadoTicket } from '@/types/ticket.types';
 
 interface TicketDetailModalProps {
   ticket: Ticket | null;
   onClose: () => void;
-  onChangeStatus?: (ticket: Ticket, status: TicketStatus) => Promise<void>;
+  onChangeStatus?: (ticket: Ticket, status: EstadoTicket) => Promise<void>;
   onEvaluate?: (ticket: Ticket) => void;
 }
 
@@ -34,8 +34,8 @@ export const TicketDetailModal = ({
 }: TicketDetailModalProps) => {
   const { user } = useSession();
 
-  const [sla, setSla] = useState<SlaPriority[]>([]);
-  const [pendingStatus, setPendingStatus] = useState<TicketStatus | null>(null);
+  const [sla, setSla] = useState<SlaPrioridad[]>([]);
+  const [pendingStatus, setPendingStatus] = useState<EstadoTicket | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [reviewedTicketId, setReviewedTicketId] = useState<string | null>(null);
 
@@ -47,7 +47,7 @@ export const TicketDetailModal = ({
 
     const controller = new AbortController();
 
-    fetchSlaPriorities(controller.signal)
+    obtenerSlaPrioridades(controller.signal)
       .then(setSla)
       .catch(() => {
         setSla([]);
@@ -57,15 +57,15 @@ export const TicketDetailModal = ({
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isOpen || !ticket || user?.role !== 'Usuario') return;
+    if (!isOpen || !ticket || user?.rol !== 'Usuario') return;
 
     const controller = new AbortController();
 
-    fetchServiceEvaluations(controller.signal)
+    obtenerEvaluaciones(controller.signal)
       .then((evaluations) => {
         const reviewed = evaluations.some(
           (evaluation) =>
-            evaluation.ticketId === ticket.id && evaluation.reviewerId === user.id,
+            evaluation.idTicket === ticket.id && evaluation.idEvaluador === user.id,
         );
 
         if (reviewed) setReviewedTicketId(ticket.id);
@@ -76,34 +76,34 @@ export const TicketDetailModal = ({
     return () => controller.abort();
   }, [isOpen, ticket, user]);
 
-  const slaLimit = ticket ? sla.find((item) => item.level === ticket.priority) : undefined;
-  const isTecnico = user?.role === 'Técnico';
-  const isOwner = user?.role === 'Usuario' && ticket?.userId === user?.id;
+  const slaLimit = ticket ? sla.find((item) => item.nivel === ticket.prioridad) : undefined;
+  const isTecnico = user?.rol === 'Técnico';
+  const isOwner = user?.rol === 'Usuario' && ticket?.usuarioId === user?.id;
   const canAct = onChangeStatus !== undefined;
   const actionHint = isTecnico
-    ? ticket?.status === 'Cerrado' || ticket?.status === 'Cancelado'
-      ? `Este ticket ya esta ${ticket.status.toLowerCase()}: no admite mas cambios de estado.`
-      : ticket?.status === 'Abierto'
+    ? ticket?.estado === 'Cerrado' || ticket?.estado === 'Cancelado'
+      ? `Este ticket ya esta ${ticket.estado.toLowerCase()}: no admite mas cambios de estado.`
+      : ticket?.estado === 'Abierto'
         ? 'Podés iniciar el soporte para tomar el ticket.'
         : 'Cuando termines, culminá el reporte para cerrarlo.'
     : isOwner
-      ? ticket?.status === 'Cancelado'
+      ? ticket?.estado === 'Cancelado'
         ? 'Cancelaste este ticket: ya no admite mas cambios.'
-        : ticket?.status === 'Cerrado'
+        : ticket?.estado === 'Cerrado'
           ? isReviewed
             ? 'Ya diste conformidad a este ticket.'
             : 'Podés dar conformidad al servicio que recibiste.'
           : 'Podés cancelar el ticket mientras nadie lo atienda.'
       : 'Cancelar y dar conformidad son acciones del rol Usuario sobre sus propios tickets.';
 
-  const handleChangeStatus = async (status: TicketStatus) => {
+  const handleChangeStatus = async (estado: EstadoTicket) => {
     if (!ticket || !onChangeStatus) return;
 
-    setPendingStatus(status);
+    setPendingStatus(estado);
     setActionError(null);
 
     try {
-      await onChangeStatus(ticket, status);
+      await onChangeStatus(ticket, estado);
     } catch (changeError) {
       setActionError(
         changeError instanceof Error
@@ -134,25 +134,25 @@ export const TicketDetailModal = ({
             </button>
           </div>
           <p className="mt-3 text-base leading-relaxed font-semibold text-slate-800">
-            {ticket.description}
+            {ticket.descripcion}
           </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-2">
             <span
-              className={`rounded px-2.5 py-1 text-xs font-bold ${TICKET_PRIORITY_STYLES[ticket.priority]}`}
+              className={`rounded px-2.5 py-1 text-xs font-bold ${ESTILOS_PRIORIDAD[ticket.prioridad]}`}
             >
-              Prioridad: {ticket.priority}
+              Prioridad: {ticket.prioridad}
             </span>
 
             <span
-              className={`rounded px-2.5 py-1 text-xs font-bold ${TICKET_STATUS_STYLES[ticket.status]}`}
+              className={`rounded px-2.5 py-1 text-xs font-bold ${ESTILOS_ESTADO[ticket.estado]}`}
             >
-              {ticket.status}
+              {ticket.estado}
             </span>
 
             <span className="rounded bg-slate-200 px-2.5 py-1 text-xs font-bold text-slate-600">
               Tecnico:{' '}
-              {ticket.technicianName ?? (
+              {ticket.tecnicoNombre ?? (
                 <span className="font-normal text-slate-400">Sin asignar</span>
               )}
             </span>
@@ -160,8 +160,8 @@ export const TicketDetailModal = ({
 
           <div className="mt-5 grid grid-cols-1 gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4 text-xs text-slate-700 sm:grid-cols-2 sm:gap-x-4">
             <div className="flex flex-col gap-3">
-              <InfoRow label="Usuario">{ticket.user}</InfoRow>
-              <InfoRow label="Apertura">{formatDate(ticket.createdAt)}</InfoRow>
+              <InfoRow label="Usuario">{ticket.solicitante}</InfoRow>
+              <InfoRow label="Apertura">{formatearFecha(ticket.creadoEn)}</InfoRow>
               <InfoRow label="Equipo">
                 <span className="text-slate-400">{PENDING}</span>
               </InfoRow>
@@ -175,7 +175,7 @@ export const TicketDetailModal = ({
               <InfoRow label="SLA limite">
                 {slaLimit ? (
                   <span className="font-bold text-orange-600">
-                    {formatMinutes(slaLimit.resolutionMinutes)}
+                    {formatearMinutos(slaLimit.minutosResolucion)}
                   </span>
                 ) : (
                   <span className="text-slate-400">Sin SLA configurado</span>
@@ -195,12 +195,12 @@ export const TicketDetailModal = ({
                   onClick={() => handleChangeStatus('En progreso')}
                   disabled={
                     !canAct ||
-                    ticket.status !== 'Abierto' ||
+                    ticket.estado !== 'Abierto' ||
                     pendingStatus !== null
                   }
                   title={
-                    ticket.status !== 'Abierto'
-                      ? ticket.status === 'Cerrado'
+                    ticket.estado !== 'Abierto'
+                      ? ticket.estado === 'Cerrado'
                         ? 'El ticket ya esta cerrado.'
                         : 'El soporte ya esta iniciado.'
                       : 'Solo el tecnico puede iniciar el soporte.'
@@ -220,15 +220,15 @@ export const TicketDetailModal = ({
                   onClick={() => handleChangeStatus('Cerrado')}
                   disabled={
                     !canAct ||
-                    ticket.status !== 'En progreso' ||
+                    ticket.estado !== 'En progreso' ||
                     pendingStatus !== null
                   }
                   title={
-                    ticket.status === 'Abierto'
+                    ticket.estado === 'Abierto'
                       ? 'Primero tenes que iniciar el soporte.'
-                      : ticket.status === 'Cancelado'
+                      : ticket.estado === 'Cancelado'
                         ? 'El ticket esta cancelado.'
-                        : ticket.status === 'Cerrado'
+                        : ticket.estado === 'Cerrado'
                           ? 'El ticket ya esta cerrado.'
                           : 'Solo el tecnico puede culminar el soporte.'
                   }
@@ -250,13 +250,13 @@ export const TicketDetailModal = ({
                   disabled={
                     !canAct ||
                     !isOwner ||
-                    ticket.status !== 'Abierto' ||
+                    ticket.estado !== 'Abierto' ||
                     pendingStatus !== null
                   }
                   title={
                     !isOwner
                       ? 'Solo el solicitante puede cancelar su ticket.'
-                      : ticket.status !== 'Abierto'
+                      : ticket.estado !== 'Abierto'
                         ? 'Solo se puede cancelar un ticket abierto.'
                         : 'Cancelar el ticket si ya no lo necesitas.'
                   }
@@ -275,7 +275,7 @@ export const TicketDetailModal = ({
                   onClick={() => onEvaluate?.(ticket)}
                   disabled={
                     !isOwner ||
-                    ticket.status !== 'Cerrado' ||
+                    ticket.estado !== 'Cerrado' ||
                     isReviewed ||
                     onEvaluate === undefined
                   }
@@ -284,7 +284,7 @@ export const TicketDetailModal = ({
                       ? 'Solo el solicitante puede calificar su ticket.'
                       : isReviewed
                         ? 'Ya diste conformidad a este ticket.'
-                        : ticket.status !== 'Cerrado'
+                        : ticket.estado !== 'Cerrado'
                           ? 'Se puede conformar cuando el soporte termine.'
                           : 'Calificar la atención recibida.'
                   }

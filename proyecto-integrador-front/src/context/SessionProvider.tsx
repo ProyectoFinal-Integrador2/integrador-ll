@@ -1,50 +1,54 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
-import { MOCK_USERS } from '@/services/mockUsers';
-import type { User } from '@/types/user.types';
-import type { UserRole } from '@/types/roles';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { borrarToken, guardarToken, leerToken } from '@/services/sessionStore';
+import { iniciarSesion, obtenerSesion } from '@/services/authApi';
+import type { Usuario } from '@/types/user.types';
 import { SessionContext } from './session';
 
-const STORAGE_KEY = 'helpdesk.session.role';
-
-const findUserByRole = (role: UserRole): User => {
-  const match = MOCK_USERS.find((candidate) => candidate.role === role);
-  return match ?? MOCK_USERS[0];
-};
-
-const readStoredRole = (): UserRole | null => {
-  try {
-    const stored = sessionStorage.getItem(STORAGE_KEY);
-    return stored === 'Jefe TI' || stored === 'Técnico' || stored === 'Usuario' ? stored : null;
-  } catch {
-    return null;
-  }
-};
-
 export const SessionProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const role = readStoredRole();
-    return role ? findUserByRole(role) : null;
-  });
+  const [user, setUser] = useState<Usuario | null>(null);
+  const [cargando, setCargando] = useState<boolean>(() => leerToken() !== null);
 
-  const login = useCallback((role: UserRole) => {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, role);
-    } catch {
-      // Sin persistencia la sesion vive solo mientras no se recargue.
-    }
-    setUser(findUserByRole(role));
+  useEffect(() => {
+    if (!leerToken()) return;
+
+    let cancelado = false;
+
+    obtenerSesion()
+      .then((usuario) => {
+        if (!cancelado) setUser(usuario);
+      })
+      .catch(() => {
+        borrarToken();
+        if (!cancelado) setUser(null);
+      })
+      .finally(() => {
+        if (!cancelado) setCargando(false);
+      });
+
+    return () => {
+      cancelado = true;
+    };
+  }, []);
+
+  const login = useCallback(async (correo: string, contrasena: string) => {
+    const sesion = await iniciarSesion(correo, contrasena);
+    guardarToken(sesion.token);
+    setUser(sesion.usuario);
   }, []);
 
   const logout = useCallback(() => {
-    try {
-      sessionStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // Ver login().
-    }
+    borrarToken();
     setUser(null);
   }, []);
 
-  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+  const actualizarSesion = useCallback((usuario: Usuario) => {
+    setUser(usuario);
+  }, []);
+
+  const value = useMemo(
+    () => ({ user, cargando, login, logout, actualizarSesion }),
+    [user, cargando, login, logout, actualizarSesion],
+  );
 
   return <SessionContext value={value}>{children}</SessionContext>;
 };

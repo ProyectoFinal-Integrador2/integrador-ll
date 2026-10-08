@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { TECHNICIAN_STATUS_STYLES } from '@/components/disponibilidad/technicianStatusStyles';
-import type { TechnicianAvailability } from '@/types/availability.types';
+import { ESTILOS_ESTADO_TECNICO } from '@/components/disponibilidad/technicianStatusStyles';
+import type { DisponibilidadTecnico } from '@/types/availability.types';
 
 interface TecnicoStatusPanelProps {
-  technician: TechnicianAvailability;
+  technician: DisponibilidadTecnico;
 }
 
 export const TecnicoStatusPanel = ({ technician }: TecnicoStatusPanelProps) => {
@@ -22,22 +22,22 @@ export const TecnicoStatusPanel = ({ technician }: TecnicoStatusPanelProps) => {
 
       <div className="flex items-center gap-3">
         <span
-          className={`h-4 w-4 rounded-full ${TECHNICIAN_STATUS_STYLES[technician.status]}`}
+          className={`h-4 w-4 rounded-full ${ESTILOS_ESTADO_TECNICO[technician.estado]}`}
           aria-hidden="true"
         />
 
         <div>
-          <p className="text-lg font-bold text-slate-800">{technician.status}</p>
-          <p className="text-xs text-slate-400">{technician.schedule}</p>
+          <p className="text-lg font-bold text-slate-800">{technician.estado}</p>
+          <p className="text-xs text-slate-400">{technician.horario}</p>
         </div>
       </div>
 
       <p className="mt-4 border-t border-slate-100 pt-4 text-xs text-slate-500">
-        {technician.activeTickets === 0
+        {technician.ticketsActivos === 0
           ? 'No tenes tickets activos en este momento.'
-          : `Tenes ${technician.activeTickets} ticket${
-              technician.activeTickets === 1 ? '' : 's'
-            } activo${technician.activeTickets === 1 ? '' : 's'}.`}
+          : `Tenes ${technician.ticketsActivos} ticket${
+              technician.ticketsActivos === 1 ? '' : 's'
+            } activo${technician.ticketsActivos === 1 ? '' : 's'}.`}
       </p>
     </section>
   );

@@ -1,5 +1,5 @@
-import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/utils/ticketStyles';
-import { formatDate } from '@/utils/date';
+import { ESTILOS_PRIORIDAD, ESTILOS_ESTADO } from '@/utils/ticketStyles';
+import { formatearFecha } from '@/utils/date';
 import type { Ticket } from '@/types/ticket.types';
 
 interface TicketListProps {
@@ -69,31 +69,31 @@ export const TicketList = ({
               <span className="text-xs font-bold text-slate-400">#{ticket.id}</span>
 
               <span className="text-sm font-semibold text-slate-800">
-                {ticket.description}
+                {ticket.descripcion}
               </span>
 
               <span className="text-xs text-slate-500 lg:text-sm lg:text-slate-600">
-                {ticket.user}
+                {ticket.solicitante}
               </span>
 
               <span>
                 <span
-                  className={`inline-block w-full rounded px-2 py-1 text-center text-xs font-semibold lg:w-20 ${TICKET_PRIORITY_STYLES[ticket.priority]}`}
+                  className={`inline-block w-full rounded px-2 py-1 text-center text-xs font-semibold lg:w-20 ${ESTILOS_PRIORIDAD[ticket.prioridad]}`}
                 >
-                  {ticket.priority}
+                  {ticket.prioridad}
                 </span>
               </span>
 
               <span>
                 <span
-                  className={`inline-block w-full rounded px-2 py-1 text-center text-xs font-semibold lg:w-28 ${TICKET_STATUS_STYLES[ticket.status]}`}
+                  className={`inline-block w-full rounded px-2 py-1 text-center text-xs font-semibold lg:w-28 ${ESTILOS_ESTADO[ticket.estado]}`}
                 >
-                  {ticket.status}
+                  {ticket.estado}
                 </span>
               </span>
 
               <span className="text-xs text-slate-400 lg:text-right">
-                {formatDate(ticket.createdAt)}
+                {formatearFecha(ticket.creadoEn)}
               </span>
             </button>
           </li>

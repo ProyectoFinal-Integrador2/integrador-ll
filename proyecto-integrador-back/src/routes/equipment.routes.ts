@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { EquipmentController } from '../controllers/equipment.controller';
+import { EquipoControlador } from '../controllers/equipment.controller';
 
 const equipmentRoutes = Router();
 
-equipmentRoutes.get('/', EquipmentController.list);
-equipmentRoutes.post('/', EquipmentController.create);
-equipmentRoutes.put('/:id', EquipmentController.update);
+equipmentRoutes.get('/', EquipoControlador.listar);
+equipmentRoutes.post('/', EquipoControlador.crear);
+equipmentRoutes.put('/:id', EquipoControlador.actualizar);
 
 export default equipmentRoutes;

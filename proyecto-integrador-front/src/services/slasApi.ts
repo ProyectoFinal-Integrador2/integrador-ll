@@ -1,13 +1,17 @@
 import { apiGet, apiSend } from './apiClient';
-import type { SlaPriority, SlaPriorityInput } from '../types/sla.types';
+import type { SlaPrioridad, EntradaSlaPrioridad } from '../types/sla.types';
 
-export const fetchSlaPriorities = (signal?: AbortSignal): Promise<SlaPriority[]> =>
-  apiGet<SlaPriority[]>('/sla', signal);
+export const obtenerSlaPrioridades = (
+  signal?: AbortSignal,
+): Promise<SlaPrioridad[]> =>
+  apiGet<SlaPrioridad[]>('/sla', signal);
 
-export const createSlaPriority = (input: SlaPriorityInput): Promise<SlaPriority> =>
-  apiSend<SlaPriority>('/sla', 'POST', input);
+export const crearSlaPrioridad = (
+  input: EntradaSlaPrioridad,
+): Promise<SlaPrioridad> =>
+  apiSend<SlaPrioridad>('/sla', 'POST', input);
 
-export const updateSlaPriority = (
+export const actualizarSlaPrioridad = (
   id: string,
-  input: SlaPriorityInput,
-): Promise<SlaPriority> => apiSend<SlaPriority>(`/sla/${id}`, 'PUT', input);
+  input: EntradaSlaPrioridad,
+): Promise<SlaPrioridad> => apiSend<SlaPrioridad>(`/sla/${id}`, 'PUT', input);

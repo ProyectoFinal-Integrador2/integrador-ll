@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { EvaluationController } from '../controllers/evaluation.controller';
+import { EvaluacionControlador } from '../controllers/evaluation.controller';
 
 const evaluationRoutes = Router();
 
-evaluationRoutes.get('/', EvaluationController.list);
+evaluationRoutes.get('/', EvaluacionControlador.listar);
 
 // Antes que el `post('/')` no importa, pero queda explicito: `pending` es un
-// caminho fijo y no un id.
-evaluationRoutes.get('/pending', EvaluationController.listPending);
+// camino fijo y no un id.
+evaluationRoutes.get('/pending', EvaluacionControlador.listarPendientes);
 
-evaluationRoutes.post('/', EvaluationController.create);
+evaluationRoutes.post('/', EvaluacionControlador.crear);
 
 export default evaluationRoutes;

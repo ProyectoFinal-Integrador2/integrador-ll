@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { TECHNICIAN_STATUS_STYLES } from '@/components/disponibilidad/technicianStatusStyles';
-import type { TechnicianAvailability } from '@/types/availability.types';
+import { ESTILOS_ESTADO_TECNICO } from '@/components/disponibilidad/technicianStatusStyles';
+import type { DisponibilidadTecnico } from '@/types/availability.types';
 
 interface TechnicianAvailabilityPanelProps {
-  technicians: TechnicianAvailability[];
+  technicians: DisponibilidadTecnico[];
 }
 
 export const TechnicianAvailabilityPanel = ({
@@ -36,14 +36,14 @@ export const TechnicianAvailabilityPanel = ({
               className="flex flex-col items-center justify-center gap-1 rounded-lg border border-slate-100 bg-white p-3"
             >
               <span
-                className={`h-3 w-3 rounded-full ${TECHNICIAN_STATUS_STYLES[technician.status]}`}
+                className={`h-3 w-3 rounded-full ${ESTILOS_ESTADO_TECNICO[technician.estado]}`}
                 aria-hidden="true"
               />
               <span className="text-center text-xs font-bold text-slate-800">
-                {technician.name}
+                {technician.nombre}
               </span>
               <span className="text-[10px] font-medium text-slate-400">
-                {technician.status}
+                {technician.estado}
               </span>
             </li>
           ))}

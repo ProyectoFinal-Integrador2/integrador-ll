@@ -1,81 +1,137 @@
-import type { AvatarColor, CreateUserInput, UpdateUserInput, User,UserRole} from '../types/user.types';
-import { USER_SEED } from '../seeds/users.seed';
+import { query, queryOne } from '../config/db';
+import type {
+  ActualizarUsuarioInput,
+  CrearUsuarioInput,
+  EstadoUsuario,
+  RolUsuario,
+  Usuario,
+} from '../types/user.types';
+import { COLOR_AVATAR_POR_ROL, inicialesDeNombre } from '../utils/avatar';
 
-export interface UserRepository {
-  findAll(): Promise<User[]>;
-  findById(id: string): Promise<User | undefined>;
-  create(input: CreateUserInput): Promise<User>;
-  update(id: string, input: UpdateUserInput): Promise<User | undefined>;
+interface FilaUsuario {
+  id: number;
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
+  area: string;
+  estado: EstadoUsuario;
 }
 
-/** Un color por rol, para que el avatar no dependa de datos guardados. */
-const AVATAR_COLOR_BY_ROLE: Record<UserRole, AvatarColor> = {
-  'Jefe TI': 'blue',
-  'Técnico': 'green',
-  'Usuario': 'amber',
-};
+/** Traduce la fila de Postgres a la entidad del dominio. */
+const aDominio = (fila: FilaUsuario): Usuario => ({
+  id: String(fila.id),
+  nombre: fila.nombre,
+  correo: fila.correo,
+  rol: fila.rol,
+  area: fila.area,
+  estado: fila.estado,
+  avatarIniciales: inicialesDeNombre(fila.nombre),
+  colorAvatar: COLOR_AVATAR_POR_ROL[fila.rol],
+});
 
-export const initialsFromName = (name: string): string => {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
+const COLUMNAS = 'id, nombre, correo, rol, area, estado';
 
-  if (parts.length === 0) return '';
-  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+export interface UsuarioRepositorio {
+  listar(): Promise<Usuario[]>;
+  obtenerPorId(id: string): Promise<Usuario | undefined>;
+  obtenerCredencialPorCorreo(
+    correo: string,
+  ): Promise<{ usuario: Usuario; passwordHash: string } | undefined>;
+  obtenerPasswordHash(id: string): Promise<string | undefined>;
+  actualizarPasswordHash(id: string, passwordHash: string): Promise<boolean>;
+  crear(input: Omit<CrearUsuarioInput, 'contrasena'>, passwordHash: string): Promise<Usuario>;
+  actualizar(
+    id: string,
+    input: ActualizarUsuarioInput,
+  ): Promise<Usuario | undefined>;
+  actualizarPerfil(id: string, input: { nombre: string; area: string }): Promise<Usuario | undefined>;
+}
 
-  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
-};
-
-export class InMemoryUserRepository implements UserRepository {
-  private readonly users: User[] = [...USER_SEED];
-
-  async findAll(): Promise<User[]> {
-    return [...this.users];
+export class PostgresUsuarioRepositorio implements UsuarioRepositorio {
+  async listar(): Promise<Usuario[]> {
+    const filas = await query<FilaUsuario>(`select ${COLUMNAS} from usuarios`);
+    return filas.map(aDominio);
   }
 
-  async findById(id: string): Promise<User | undefined> {
-    return this.users.find((user) => user.id === id);
+  async obtenerPorId(id: string): Promise<Usuario | undefined> {
+    const fila = await queryOne<FilaUsuario>(
+      `select ${COLUMNAS} from usuarios where id = $1`,
+      [Number(id)],
+    );
+    return fila ? aDominio(fila) : undefined;
   }
 
-  async create(input: CreateUserInput): Promise<User> {
-    const user: User = {
-      id: this.nextId(),
-      name: input.name,
-      email: input.email,
-      role: input.role,
-      area: input.area,
-      status: 'Activo',
-      avatarInitials: initialsFromName(input.name),
-      avatarColor: AVATAR_COLOR_BY_ROLE[input.role],
-    };
-
-    this.users.push(user);
-    return user;
+  async obtenerCredencialPorCorreo(
+    correo: string,
+  ): Promise<{ usuario: Usuario; passwordHash: string } | undefined> {
+    const fila = await queryOne<FilaUsuario & { password_hash: string }>(
+      `select ${COLUMNAS}, password_hash from usuarios where correo = $1`,
+      [correo],
+    );
+    if (!fila) return undefined;
+    return { usuario: aDominio(fila), passwordHash: fila.password_hash };
   }
 
-  async update(id: string, input: UpdateUserInput): Promise<User | undefined> {
-    const index = this.users.findIndex((user) => user.id === id);
-    if (index === -1) return undefined;
-    const updated: User = {
-      ...this.users[index],
-      name: input.name,
-      email: input.email,
-      role: input.role,
-      status: input.status,
-      avatarInitials: initialsFromName(input.name),
-      avatarColor: AVATAR_COLOR_BY_ROLE[input.role],
-    };
-
-    this.users[index] = updated;
-    return updated;
+  async obtenerPasswordHash(id: string): Promise<string | undefined> {
+    const fila = await queryOne<{ password_hash: string }>(
+      `select password_hash from usuarios where id = $1`,
+      [Number(id)],
+    );
+    return fila?.password_hash;
   }
 
-  private nextId(): string {
-    const max = this.users.reduce((acc, user) => {
-      const value = Number(user.id);
-      return Number.isInteger(value) && value > acc ? value : acc;
-    }, 0);
+  async actualizarPasswordHash(id: string, passwordHash: string): Promise<boolean> {
+    const filas = await query<{ id: number }>(
+      `update usuarios set password_hash = $2 where id = $1 returning id`,
+      [Number(id), passwordHash],
+    );
+    return filas.length === 1;
+  }
 
-    return String(max + 1);
+  async crear(
+    input: Omit<CrearUsuarioInput, 'contrasena'>,
+    passwordHash: string,
+  ): Promise<Usuario> {
+    const fila = await queryOne<FilaUsuario>(
+      `insert into usuarios (nombre, correo, rol, area, estado, password_hash)
+       values ($1, $2, $3, $4, 'Activo', $5)
+       returning ${COLUMNAS}`,
+      [input.nombre, input.correo, input.rol, input.area, passwordHash],
+    );
+
+    if (!fila) throw new Error('No se pudo crear el usuario.');
+    return aDominio(fila);
+  }
+
+  async actualizar(
+    id: string,
+    input: ActualizarUsuarioInput,
+  ): Promise<Usuario | undefined> {
+    const fila = await queryOne<FilaUsuario>(
+      `update usuarios
+       set nombre = $2, correo = $3, rol = $4, estado = $5
+       where id = $1
+       returning ${COLUMNAS}`,
+      [Number(id), input.nombre, input.correo, input.rol, input.estado],
+    );
+
+    return fila ? aDominio(fila) : undefined;
+  }
+
+  async actualizarPerfil(
+    id: string,
+    input: { nombre: string; area: string },
+  ): Promise<Usuario | undefined> {
+    const fila = await queryOne<FilaUsuario>(
+      `update usuarios
+       set nombre = $2, area = $3
+       where id = $1
+       returning ${COLUMNAS}`,
+      [Number(id), input.nombre, input.area],
+    );
+
+    return fila ? aDominio(fila) : undefined;
   }
 }
 
-export const userRepository = new InMemoryUserRepository();
+export const usuarioRepositorio = new PostgresUsuarioRepositorio();

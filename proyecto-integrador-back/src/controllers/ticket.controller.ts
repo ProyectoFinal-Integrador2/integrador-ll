@@ -1,26 +1,26 @@
 import type { Request, Response } from 'express';
-import { ticketService } from '../services/ticket.service';
-import type { CreateTicketInput, UpdateTicketStatusInput } from '../types/ticket.types';
+import { ticketServicio } from '../services/ticket.service';
+import type { CrearTicketInput, ActualizarEstadoTicketInput } from '../types/ticket.types';
 
-export class TicketController {
-  static async list(_req: Request, res: Response): Promise<void> {
-    const tickets = await ticketService.list();
+export class TicketControlador {
+  static async listar(_req: Request, res: Response): Promise<void> {
+    const tickets = await ticketServicio.listar();
     res.json(tickets);
   }
 
-  static async create(req: Request, res: Response): Promise<void> {
-     const ticket = await ticketService.create(
-      req.body as Partial<CreateTicketInput>,
+  static async crear(req: Request, res: Response): Promise<void> {
+    const ticket = await ticketServicio.crear(
+      req.body as Partial<CrearTicketInput>,
     );
     res.status(201).json(ticket);
   }
 
-  static async changeStatus(req: Request, res: Response): Promise<void> {
-      const { id } = req.params;
+  static async cambiarEstado(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
 
-    const ticket = await ticketService.changeStatus(
+    const ticket = await ticketServicio.cambiarEstado(
       Array.isArray(id) ? id[0] : id,
-      req.body as Partial<UpdateTicketStatusInput>,
+      req.body as Partial<ActualizarEstadoTicketInput>,
     );
 
     res.json(ticket);

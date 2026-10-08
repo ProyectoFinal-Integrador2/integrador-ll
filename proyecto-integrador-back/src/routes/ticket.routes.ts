@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { TicketController } from '../controllers/ticket.controller';
+import { TicketControlador } from '../controllers/ticket.controller';
 
 const ticketRoutes = Router();
 
-ticketRoutes.get('/', TicketController.list);
-ticketRoutes.post('/', TicketController.create);
-ticketRoutes.patch('/:id', TicketController.changeStatus);
+ticketRoutes.get('/', TicketControlador.listar);
+ticketRoutes.post('/', TicketControlador.crear);
+ticketRoutes.patch('/:id', TicketControlador.cambiarEstado);
 
 export default ticketRoutes;

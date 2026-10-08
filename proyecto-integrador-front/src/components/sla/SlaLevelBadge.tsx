@@ -1,14 +1,14 @@
-import { TICKET_PRIORITY_STYLES } from '@/utils/ticketStyles';
-import type { SlaLevel } from '@/types/sla.types';
+import { ESTILOS_PRIORIDAD } from '@/utils/ticketStyles';
+import type { NivelSla } from '@/types/sla.types';
 
 interface SlaLevelBadgeProps {
-  level: SlaLevel;
+  level: NivelSla;
 }
 
 export const SlaLevelBadge = ({ level }: SlaLevelBadgeProps) => {
   return (
     <span
-      className={`inline-flex w-20 justify-center rounded-md px-4 py-1.5 text-sm font-semibold ${TICKET_PRIORITY_STYLES[level]}`}
+      className={`inline-flex w-20 justify-center rounded-md px-4 py-1.5 text-sm font-semibold ${ESTILOS_PRIORIDAD[level]}`}
     >
       {level}
     </span>

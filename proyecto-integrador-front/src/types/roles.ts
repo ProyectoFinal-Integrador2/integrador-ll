@@ -1,1 +1,1 @@
-export type UserRole = 'Jefe TI' | 'Técnico' | 'Usuario';
+export type RolUsuario = 'Jefe TI' | 'Técnico' | 'Usuario';

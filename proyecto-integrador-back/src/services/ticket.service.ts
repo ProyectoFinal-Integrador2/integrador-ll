@@ -1,115 +1,112 @@
 import {
-  ticketRepository,
-  type TicketRepository,
+  ticketRepositorio,
+  type TicketRepositorio,
 } from '../repositories/ticket.repository';
 import { HttpError } from '../utils/httpError';
 import {
-  TICKET_PRIORITIES,
-  TICKET_STATUSES,
-  TICKET_STATUS_TRANSITIONS,
-  type CreateTicketInput,
+  PRIORIDADES_TICKET,
+  ESTADOS_TICKET,
+  TRANSICIONES_ESTADO,
+  type ActualizarEstadoTicketInput,
+  type CrearTicketInput,
+  type EstadoTicket,
+  type PrioridadTicket,
   type Ticket,
-  type TicketPriority,
-  type TicketStatus,
-  type UpdateTicketStatusInput,
 } from '../types/ticket.types';
 
-const MIN_DESCRIPTION_LENGTH = 10;
+const MIN_LONGITUD_DESCRIPCION = 10;
 
 /** El body viene de `req.body`, o sea `any`: aqui se acota al dominio. */
-type UntrustedTicketInput = Partial<CreateTicketInput>;
+type EntradaTicketSinValidar = Partial<CrearTicketInput>;
 
-type UntrustedStatusInput = Partial<UpdateTicketStatusInput>;
+type EntradaEstadoSinValidar = Partial<ActualizarEstadoTicketInput>;
 
-export class TicketService {
-  constructor(private readonly repository: TicketRepository) {}
+export class TicketServicio {
+  constructor(private readonly repositorio: TicketRepositorio) {}
 
-  async list(): Promise<Ticket[]> {
-    const tickets = await this.repository.findAll();
-    return [...tickets].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  async listar(): Promise<Ticket[]> {
+    const tickets = await this.repositorio.listar();
+    return [...tickets].sort((a, b) => b.creadoEn.localeCompare(a.creadoEn));
   }
 
-  async create(input: UntrustedTicketInput): Promise<Ticket> {
-    const description = input.description?.trim() ?? '';
+  async crear(input: EntradaTicketSinValidar): Promise<Ticket> {
+    const descripcion = input.descripcion?.trim() ?? '';
 
-    if (description.length < MIN_DESCRIPTION_LENGTH) {
+    if (descripcion.length < MIN_LONGITUD_DESCRIPCION) {
       throw HttpError.badRequest(
-        `La descripcion debe tener al menos ${MIN_DESCRIPTION_LENGTH} caracteres.`,
+        `La descripcion debe tener al menos ${MIN_LONGITUD_DESCRIPCION} caracteres.`,
       );
     }
 
-    const user = input.user?.trim() ?? '';
+    const solicitante = input.solicitante?.trim() ?? '';
 
-    if (user.length === 0) {
-      throw HttpError.badRequest('El usuario es obligatorio.');
+    if (solicitante.length === 0) {
+      throw HttpError.badRequest('El solicitante es obligatorio.');
     }
 
-    const priority = input.priority;
+    const prioridad = input.prioridad;
 
-    if (!priority || !TICKET_PRIORITIES.includes(priority)) {
+    if (!prioridad || !PRIORIDADES_TICKET.includes(prioridad)) {
       throw HttpError.badRequest('La prioridad no es valida.');
     }
 
     /**
      * El id del solicitante es opcional: el Jefe TI puede abrir un ticket a
      * nombre de alguien escribiendo su nombre, y en ese caso no hay id que
-     * guardar. Quien se registra desde la sesion si lo manda. No se valida que
-     * exista, porque lo que lo garantiza va a ser la llave foranea; hoy el
-     * filtro "mis tickets" simplemente no lo encuentra si el id no corresponde.
+     * guardar. Quien se registra desde la sesion si lo manda. La integridad la
+     * garantiza la llave foranea de la base de datos.
      */
-    const userId = input.userId?.trim();
+    const usuarioId = input.usuarioId?.trim();
 
-    return this.repository.create({
-      description,
-      user,
-      userId: userId && userId.length > 0 ? userId : undefined,
-      priority: priority as TicketPriority,
+    return this.repositorio.crear({
+      descripcion,
+      solicitante,
+      usuarioId: usuarioId && usuarioId.length > 0 ? usuarioId : undefined,
+      prioridad: prioridad as PrioridadTicket,
     });
   }
 
   /**
-   * Mueve el ticket a `status`. El service es quien valida la transicion para
+   * Mueve el ticket a `estado`. El service es quien valida la transicion para
    * que ningun endpoint pueda saltarse el ciclo del soporte.
    *
-   * Ojo: todavia no se valida el rol de quien llama. Es la misma limitacion que
-   * en el resto del modulo: sin autenticacion, cualquiera que conozca la API
-   * podria culminar un ticket. Cuando exista auth, el rol del tecnico se valida
-   * aqui.
+   * Ojo: todavia no se valida el rol de quien llama. Sin autenticacion,
+   * cualquiera que conozca la API podria culminar un ticket.
    */
-  async changeStatus(id: string, input: UntrustedStatusInput): Promise<Ticket> {
-    const ticket = await this.repository.findById(id);
+  async cambiarEstado(id: string, input: EntradaEstadoSinValidar): Promise<Ticket> {
+    const ticket = await this.repositorio.obtenerPorId(id);
 
     if (!ticket) {
       throw HttpError.notFound('Ticket no encontrado.');
     }
 
-    const status = input.status;
+    const estado = input.estado;
 
-    if (!status || !TICKET_STATUSES.includes(status)) {
+    if (!estado || !ESTADOS_TICKET.includes(estado)) {
       throw HttpError.badRequest('El estado no es valido.');
     }
 
-    const allowed = TICKET_STATUS_TRANSITIONS[ticket.status];
+    const permitidos = TRANSICIONES_ESTADO[ticket.estado];
 
-    if (!allowed.includes(status as TicketStatus)) {
+    if (!permitidos.includes(estado as EstadoTicket)) {
       throw HttpError.badRequest(
-        allowed.length === 0
-          ? `El ticket ya esta ${ticket.status.toLowerCase()}: no admite mas cambios de estado.`
-          : `Un ticket en estado "${ticket.status}" solo puede pasar a ${allowed
-              .map((next) => `"${next}"`)
+        permitidos.length === 0
+          ? `El ticket ya esta ${ticket.estado.toLowerCase()}: no admite mas cambios de estado.`
+          : `Un ticket en estado "${ticket.estado}" solo puede pasar a ${permitidos
+              .map((siguiente) => `"${siguiente}"`)
               .join(' o ')}.`,
       );
     }
 
-    const updated = await this.repository.updateStatus(id, status as TicketStatus);
+    const actualizado = await this.repositorio.actualizarEstado(id, estado as EstadoTicket);
 
-    if (!updated) {
-      // Solo posible si el ticket desaparece entre findById y updateStatus.
+    if (!actualizado) {
+      // Solo posible si el ticket desaparece entre obtenerPorId y actualizarEstado.
       throw HttpError.notFound('Ticket no encontrado.');
     }
 
-    return updated;
+    return actualizado;
   }
 }
 
-export const ticketService = new TicketService(ticketRepository);
+export const ticketServicio = new TicketServicio(ticketRepositorio);

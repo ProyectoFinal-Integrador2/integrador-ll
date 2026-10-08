@@ -1,20 +1,20 @@
-export const EQUIPMENT_TYPES = [
+export const TIPOS_EQUIPO = [
   'Laptop',
   'Desktop',
   'Impresora',
   'Monitor',
 ] as const;
 
-export const EQUIPMENT_STATUSES = [
+export const ESTADOS_EQUIPO = [
   'Operativo',
   'En reparación',
   'Dado de baja',
 ] as const;
 
-export type EquipmentType = (typeof EQUIPMENT_TYPES)[number];
-export type EquipmentStatus = (typeof EQUIPMENT_STATUSES)[number];
+export type TipoEquipo = (typeof TIPOS_EQUIPO)[number];
+export type EstadoEquipo = (typeof ESTADOS_EQUIPO)[number];
 
-export const EQUIPMENT_FILTERS = [
+export const FILTROS_EQUIPO = [
   'todos',
   'Laptop',
   'Desktop',
@@ -22,28 +22,29 @@ export const EQUIPMENT_FILTERS = [
   'En reparación',
 ] as const;
 
-export type EquipmentFilter = (typeof EQUIPMENT_FILTERS)[number];
+export type FiltroEquipo = (typeof FILTROS_EQUIPO)[number];
 
-export interface Equipment {
+export interface Equipo {
   id: string;
-  code: string;
-  name: string;
+  codigo: string;
+  nombre: string;
   area: string;
-  type: EquipmentType;
-  status: EquipmentStatus;
-  registeredAt: string;
-}
-export interface CreateEquipmentInput {
-  code: string;
-  name: string;
-  area: string;
-  type: EquipmentType;
+  tipo: TipoEquipo;
+  estado: EstadoEquipo;
+  creadoEn: string;
 }
 
-export interface UpdateEquipmentInput {
-  code: string;
-  name: string;
+export interface CrearEquipoInput {
+  codigo: string;
+  nombre: string;
   area: string;
-  type: EquipmentType;
-  status: EquipmentStatus;
+  tipo: TipoEquipo;
+}
+
+export interface ActualizarEquipoInput {
+  codigo: string;
+  nombre: string;
+  area: string;
+  tipo: TipoEquipo;
+  estado: EstadoEquipo;
 }

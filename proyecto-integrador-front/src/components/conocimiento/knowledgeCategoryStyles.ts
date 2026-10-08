@@ -1,6 +1,6 @@
-import type { KnowledgeCategory } from '../../types/knowledge.types';
+import type { CategoriaConocimiento } from '../../types/knowledge.types';
 
-export const KNOWLEDGE_CATEGORY_STYLES: Record<KnowledgeCategory, string> = {
+export const ESTILOS_CATEGORIA_CONOCIMIENTO: Record<CategoriaConocimiento, string> = {
   Red: 'bg-blue-100 text-blue-700',
   Hardware: 'bg-orange-100 text-orange-700',
   Software: 'bg-green-100 text-green-700',

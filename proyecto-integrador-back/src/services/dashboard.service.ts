@@ -1,49 +1,49 @@
 import {
-  ticketRepository,
-  type TicketRepository,
+  ticketRepositorio,
+  type TicketRepositorio,
 } from '../repositories/ticket.repository';
 import {
-  evaluationRepository,
-  type EvaluationRepository,
+  evaluacionRepositorio,
+  type EvaluacionRepositorio,
 } from '../repositories/evaluation.repository';
 import {
-  availabilityRepository,
-  type AvailabilityRepository,
+  disponibilidadRepositorio,
+  type DisponibilidadRepositorio,
 } from '../repositories/availability.repository';
 import {
-  slaRepository,
-  type SlaRepository,
+  slaRepositorio,
+  type SlaRepositorio,
 } from '../repositories/sla.repository';
-import { userRepository, type UserRepository } from '../repositories/user.repository';
-import { sortSlaByUrgency } from './sla.service';
+import { usuarioRepositorio, type UsuarioRepositorio } from '../repositories/user.repository';
+import { ordenarSlaPorUrgencia } from './sla.service';
 import { HttpError } from '../utils/httpError';
-import type { ServiceEvaluation } from '../types/evaluation.types';
+import type { Evaluacion } from '../types/evaluation.types';
 import type { Ticket } from '../types/ticket.types';
-import { ACTIVE_TICKET_STATUSES } from '../types/ticket.types';
+import { ESTADOS_ACTIVOS } from '../types/ticket.types';
 import {
-  WEEKDAY_LABELS,
-  type DashboardReport,
-  type DashboardSatisfaction,
-  type DashboardTickets,
-  type DashboardWeekDay,
-  type JefeDashboardReport,
-  type TecnicoDashboardReport,
-  type UsuarioDashboardReport,
+  ETIQUETAS_SEMANA,
+  type DiaDashboard,
+  type ReporteDashboard,
+  type ReporteDashboardJefe,
+  type ReporteDashboardTecnico,
+  type ReporteDashboardUsuario,
+  type SatisfaccionDashboard,
+  type TicketsDashboard,
 } from '../types/dashboard.types';
 
-/** Cuantos tickets lists la tabla de "recientes". */
-const RECENT_LIMIT = 6;
+/** Cuantos tickets lista la tabla de "recientes". */
+const LIMITE_RECIENTES = 6;
 
 /** Cuantas evaluaciones se muestran en la vista del tecnico. */
-const EVALUATION_LIMIT = 5;
+const LIMITE_EVALUACIONES = 5;
 
-export class DashboardService {
+export class DashboardServicio {
   constructor(
-    private readonly tickets: TicketRepository = ticketRepository,
-    private readonly evaluations: EvaluationRepository = evaluationRepository,
-    private readonly technicians: AvailabilityRepository = availabilityRepository,
-    private readonly sla: SlaRepository = slaRepository,
-    private readonly users: UserRepository = userRepository,
+    private readonly tickets: TicketRepositorio = ticketRepositorio,
+    private readonly evaluaciones: EvaluacionRepositorio = evaluacionRepositorio,
+    private readonly tecnicos: DisponibilidadRepositorio = disponibilidadRepositorio,
+    private readonly sla: SlaRepositorio = slaRepositorio,
+    private readonly usuarios: UsuarioRepositorio = usuarioRepositorio,
   ) {}
 
   /**
@@ -52,160 +52,164 @@ export class DashboardService {
    * en el navegador.
    *
    * El alcance se decide por lo que llega: sin ids devuelve la vista global del
-   * Jefe TI, con `technicianId` la del tecnico y con `userId` la del solicitante.
+   * Jefe TI, con `tecnicoId` la del tecnico y con `usuarioId` la del solicitante.
    *
    * Ojo: hoy los ids llegan por query string porque no hay autenticacion, asi
-   * que son filtros y no autorizaciones. Cuando exista auth real, tienen que
-   * salir de la sesion validada en el servidor y dejar de venir del cliente.
+   * que son filtros y no autorizaciones.
    */
-  async summary(technicianId?: string, userId?: string): Promise<DashboardReport> {
-    if (technicianId) return this.buildTecnicoReport(technicianId);
-    if (userId) return this.buildUsuarioReport(userId);
-    return this.buildJefeReport();
+  async resumen(tecnicoId?: string, usuarioId?: string): Promise<ReporteDashboard> {
+    if (tecnicoId) return this.construirReporteTecnico(tecnicoId);
+    if (usuarioId) return this.construirReporteUsuario(usuarioId);
+    return this.construirReporteJefe();
   }
 
-  private async buildJefeReport(): Promise<JefeDashboardReport> {
-    const [allTickets, allEvaluations, allTechnicians, allSla] =
+  private async construirReporteJefe(): Promise<ReporteDashboardJefe> {
+    const [todosLosTickets, todasLasEvaluaciones, todosLosTecnicos, todosLosSla] =
       await Promise.all([
-        this.tickets.findAll(),
-        this.evaluations.findAll(),
-        this.technicians.findAll(),
-        this.sla.findAll(),
+        this.tickets.listar(),
+        this.evaluaciones.listar(),
+        this.tecnicos.listar(),
+        this.sla.listar(),
       ]);
 
     return {
-      scope: 'jefe',
-      tickets: this.buildTickets(allTickets),
-      satisfaction: this.buildSatisfaction(allEvaluations),
-      technicians: allTechnicians,
-      sla: sortSlaByUrgency(allSla),
-      generatedAt: new Date().toISOString(),
+      alcance: 'jefe',
+      tickets: this.construirTickets(todosLosTickets),
+      satisfaccion: this.construirSatisfaccion(todasLasEvaluaciones),
+      tecnicos: todosLosTecnicos,
+      sla: ordenarSlaPorUrgencia(todosLosSla),
+      generadoEn: new Date().toISOString(),
     };
   }
 
-  private async buildTecnicoReport(
-    technicianId: string,
-  ): Promise<TecnicoDashboardReport> {
-    const [allTechnicians, allEvaluations, allTickets, allSla] =
+  private async construirReporteTecnico(
+    tecnicoId: string,
+  ): Promise<ReporteDashboardTecnico> {
+    const [todosLosTecnicos, todasLasEvaluaciones, todosLosTickets, todosLosSla] =
       await Promise.all([
-        this.technicians.findAll(),
-        this.evaluations.findAll(),
-        this.tickets.findAll(),
-        this.sla.findAll(),
+        this.tecnicos.listar(),
+        this.evaluaciones.listar(),
+        this.tickets.listar(),
+        this.sla.listar(),
       ]);
 
     // La disponibilidad solo lista tecnicos activos: si el id no aparece, no es
     // un tecnico en condiciones de tener tablero.
-    const technician = allTechnicians.find(
-      (candidate) => candidate.id === technicianId,
+    const tecnico = todosLosTecnicos.find(
+      (candidato) => candidato.id === tecnicoId,
     );
 
-    if (!technician) {
+    if (!tecnico) {
       throw new HttpError(404, 'Tecnico no encontrado o inactivo');
     }
 
     // El repositorio ya las devuelve de mas reciente a mas antigua.
-    const evaluations = allEvaluations
-      .filter((evaluation) => evaluation.technicianId === technicianId)
-      .slice(0, EVALUATION_LIMIT);
+    const evaluaciones = todasLasEvaluaciones
+      .filter((evaluacion) => evaluacion.idTecnico === tecnicoId)
+      .slice(0, LIMITE_EVALUACIONES);
 
     /**
      * Solo `Abierto` y `En progreso`: un ticket cerrado o cancelado ya no esta
      * pidiendo trabajo, asi que listarlos como pendientes mandaria al tecnico a
      * algo que ya termino.
      */
-    const pendingTickets = this.sortByCreatedAtDesc(allTickets)
-      .filter((ticket) => ACTIVE_TICKET_STATUSES.includes(ticket.status))
-      .slice(0, RECENT_LIMIT);
+    const ticketsPendientes = this.ordenarPorCreadoDesc(todosLosTickets)
+      .filter((ticket) => ESTADOS_ACTIVOS.includes(ticket.estado))
+      .slice(0, LIMITE_RECIENTES);
 
     return {
-      scope: 'tecnico',
-      technician,
-      evaluations,
-      satisfaction: this.buildSatisfaction(evaluations),
-      pendingTickets,
-      sla: sortSlaByUrgency(allSla),
-      generatedAt: new Date().toISOString(),
+      alcance: 'tecnico',
+      tecnico,
+      evaluaciones,
+      satisfaccion: this.construirSatisfaccion(evaluaciones),
+      ticketsPendientes,
+      sla: ordenarSlaPorUrgencia(todosLosSla),
+      generadoEn: new Date().toISOString(),
     };
   }
 
-  private async buildUsuarioReport(userId: string): Promise<UsuarioDashboardReport> {
-    const [allTickets, allEvaluations, allSla, allUsers] = await Promise.all([
-      this.tickets.findAll(),
-      this.evaluations.findAll(),
-      this.sla.findAll(),
-      this.users.findAll(),
-    ]);
+  private async construirReporteUsuario(
+    usuarioId: string,
+  ): Promise<ReporteDashboardUsuario> {
+    const [todosLosTickets, todasLasEvaluaciones, todosLosSla, todosLosUsuarios] =
+      await Promise.all([
+        this.tickets.listar(),
+        this.evaluaciones.listar(),
+        this.sla.listar(),
+        this.usuarios.listar(),
+      ]);
 
-    const user = allUsers.find((candidate) => candidate.id === userId);
+    const usuario = todosLosUsuarios.find((candidato) => candidato.id === usuarioId);
 
-    if (!user) {
+    if (!usuario) {
       throw new HttpError(404, 'Usuario no encontrado');
     }
 
-    const ownTickets = allTickets.filter((ticket) => ticket.userId === userId);
-
-    const ownEvaluations = allEvaluations.filter(
-      (evaluation) => evaluation.reviewerId === userId,
+    const propiosTickets = todosLosTickets.filter(
+      (ticket) => ticket.usuarioId === usuarioId,
     );
 
-    // Yalds pendientes son los cerrados que todavia no tienen conformidad suya.
-    const evaluatedTicketIds = new Set(
-      ownEvaluations.map((evaluation) => evaluation.ticketId),
+    const propiasEvaluaciones = todasLasEvaluaciones.filter(
+      (evaluacion) => evaluacion.idEvaluador === usuarioId,
     );
 
-    const pendingEvaluations = this.sortByCreatedAtDesc(ownTickets).filter(
-      (ticket) => ticket.status === 'Cerrado' && !evaluatedTicketIds.has(ticket.id),
+    // Los pendientes son los cerrados que todavia no tienen conformidad suya.
+    const idsEvaluados = new Set(
+      propiasEvaluaciones.map((evaluacion) => evaluacion.idTicket),
+    );
+
+    const evaluacionesPendientes = this.ordenarPorCreadoDesc(propiosTickets).filter(
+      (ticket) => ticket.estado === 'Cerrado' && !idsEvaluados.has(ticket.id),
     );
 
     return {
-      scope: 'usuario',
-      tickets: this.buildTickets(ownTickets),
-      pendingEvaluations,
-      evaluations: ownEvaluations,
-      sla: sortSlaByUrgency(allSla),
-      generatedAt: new Date().toISOString(),
+      alcance: 'usuario',
+      tickets: this.construirTickets(propiosTickets),
+      evaluacionesPendientes,
+      evaluaciones: propiasEvaluaciones,
+      sla: ordenarSlaPorUrgencia(todosLosSla),
+      generadoEn: new Date().toISOString(),
     };
   }
 
-  private buildTickets(tickets: Ticket[]): DashboardTickets {
+  private construirTickets(tickets: Ticket[]): TicketsDashboard {
     const total = tickets.length;
 
     return {
-      open: tickets.filter((ticket) => ticket.status === 'Abierto').length,
-      inProgress: tickets.filter((ticket) => ticket.status === 'En progreso')
+      abiertos: tickets.filter((ticket) => ticket.estado === 'Abierto').length,
+      enProgreso: tickets.filter((ticket) => ticket.estado === 'En progreso')
         .length,
-      closed: tickets.filter((ticket) => ticket.status === 'Cerrado').length,
-      cancelled: tickets.filter((ticket) => ticket.status === 'Cancelado').length,
+      cerrados: tickets.filter((ticket) => ticket.estado === 'Cerrado').length,
+      cancelados: tickets.filter((ticket) => ticket.estado === 'Cancelado').length,
       total,
-      recent: this.sortByCreatedAtDesc(tickets).slice(0, RECENT_LIMIT),
-      week: this.buildWeek(tickets),
+      recientes: this.ordenarPorCreadoDesc(tickets).slice(0, LIMITE_RECIENTES),
+      semana: this.construirSemana(tickets),
     };
   }
 
-  private buildSatisfaction(
-    evaluations: ServiceEvaluation[],
-  ): DashboardSatisfaction {
-    const total = evaluations.length;
+  private construirSatisfaccion(
+    evaluaciones: Evaluacion[],
+  ): SatisfaccionDashboard {
+    const total = evaluaciones.length;
 
-    const ratingSum = evaluations.reduce(
-      (acc, evaluation) => acc + evaluation.rating,
+    const sumaPuntuacion = evaluaciones.reduce(
+      (acc, evaluacion) => acc + evaluacion.puntuacion,
       0,
     );
 
     return {
       total,
-      averageRating:
-        total === 0 ? null : Math.round((ratingSum / total) * 100) / 100,
+      promedioPuntuacion:
+        total === 0 ? null : Math.round((sumaPuntuacion / total) * 100) / 100,
     };
   }
 
   /** Mas recientes primero; `id` desempata porque dos tickets pueden compartir
-      `createdAt` y el orden no tiene que depender del azar. */
-  private sortByCreatedAtDesc(tickets: Ticket[]): Ticket[] {
+      `creadoEn` y el orden no tiene que depender del azar. */
+  private ordenarPorCreadoDesc(tickets: Ticket[]): Ticket[] {
     return [...tickets].sort(
       (a, b) =>
-        b.createdAt.localeCompare(a.createdAt) || Number(b.id) - Number(a.id),
+        b.creadoEn.localeCompare(a.creadoEn) || Number(b.id) - Number(a.id),
     );
   }
 
@@ -213,36 +217,36 @@ export class DashboardService {
    * Cuenta los tickets creados en cada dia de la semana en curso.
    *
    * Los limites se calculan con la hora local del servidor, que es la misma
-   * que usaria el usuario: comparar contra un "lunes UTC" correria al alguien
+   * que usaria el usuario: comparar contra un "lunes UTC" correria a alguien
    * que abre el dashboard un domingo por la tarde.
    */
-  private buildWeek(tickets: Ticket[]): DashboardWeekDay[] {
-    const now = new Date();
+  private construirSemana(tickets: Ticket[]): DiaDashboard[] {
+    const ahora = new Date();
 
     // `getDay()` da 0 para domingo; el lunes tiene que ser el indice 0.
-    const offsetFromMonday = (now.getDay() + 6) % 7;
+    const desplazamientoDesdeLunes = (ahora.getDay() + 6) % 7;
 
-    const monday = new Date(now);
-    monday.setHours(0, 0, 0, 0);
-    monday.setDate(monday.getDate() - offsetFromMonday);
+    const lunes = new Date(ahora);
+    lunes.setHours(0, 0, 0, 0);
+    lunes.setDate(lunes.getDate() - desplazamientoDesdeLunes);
 
-    return WEEKDAY_LABELS.map((label, index) => {
-      const dayStart = new Date(monday);
-      dayStart.setDate(monday.getDate() + index);
+    return ETIQUETAS_SEMANA.map((etiqueta, indice) => {
+      const inicioDia = new Date(lunes);
+      inicioDia.setDate(lunes.getDate() + indice);
 
       // El dia siguiente como tope exclusive: asi un ticket creado exactamente
       // a medianoche cae en el dia correcto y no en los dos.
-      const dayEnd = new Date(dayStart);
-      dayEnd.setDate(dayStart.getDate() + 1);
+      const finDia = new Date(inicioDia);
+      finDia.setDate(inicioDia.getDate() + 1);
 
-      const count = tickets.filter((ticket) => {
-        const createdAt = new Date(ticket.createdAt);
-        return createdAt >= dayStart && createdAt < dayEnd;
+      const conteo = tickets.filter((ticket) => {
+        const creadoEn = new Date(ticket.creadoEn);
+        return creadoEn >= inicioDia && creadoEn < finDia;
       }).length;
 
-      return { label, count };
+      return { etiqueta, conteo };
     });
   }
 }
 
-export const dashboardService = new DashboardService();
+export const dashboardServicio = new DashboardServicio();

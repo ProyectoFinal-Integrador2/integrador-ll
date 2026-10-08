@@ -1,14 +1,14 @@
-import { ROLE_STYLES } from '@/utils/roleStyles';
-import type { UserRole } from '@/types/roles';
+import { ESTILOS_ROL } from '@/utils/roleStyles';
+import type { RolUsuario } from '@/types/roles';
 
 interface UserRoleBadgeProps {
-  role: UserRole;
+  role: RolUsuario;
 }
 
 export const UserRoleBadge = ({ role }: UserRoleBadgeProps) => {
   return (
     <span
-      className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold ${ROLE_STYLES[role]}`}
+      className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold ${ESTILOS_ROL[role]}`}
     >
       {role}
     </span>

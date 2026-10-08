@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { TICKET_PRIORITY_STYLES, TICKET_STATUS_STYLES } from '@/utils/ticketStyles';
-import { formatDate } from '@/utils/date';
+import { ESTILOS_PRIORIDAD, ESTILOS_ESTADO } from '@/utils/ticketStyles';
+import { formatearFecha } from '@/utils/date';
 import type { Ticket } from '@/types/ticket.types';
 
 interface RecentTicketsPanelProps {
@@ -53,24 +53,24 @@ export const RecentTicketsPanel = ({
 
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold text-slate-700">
-                      {ticket.description}
+                      {ticket.descripcion}
                     </p>
                     <p className="text-[11px] text-slate-400">
-                      {ticket.user} &middot; {formatDate(ticket.createdAt)}
+                      {ticket.solicitante} &middot; {formatearFecha(ticket.creadoEn)}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex shrink-0 gap-2 pl-11 sm:pl-0">
                   <span
-                    className={`w-16 rounded px-2 py-1 text-center text-[10px] font-bold ${TICKET_PRIORITY_STYLES[ticket.priority]}`}
+                    className={`w-16 rounded px-2 py-1 text-center text-[10px] font-bold ${ESTILOS_PRIORIDAD[ticket.prioridad]}`}
                   >
-                    {ticket.priority}
+                    {ticket.prioridad}
                   </span>
                   <span
-                    className={`w-24 rounded px-2 py-1 text-center text-[10px] font-bold ${TICKET_STATUS_STYLES[ticket.status]}`}
+                    className={`w-24 rounded px-2 py-1 text-center text-[10px] font-bold ${ESTILOS_ESTADO[ticket.estado]}`}
                   >
-                    {ticket.status}
+                    {ticket.estado}
                   </span>
                 </div>
               </button>

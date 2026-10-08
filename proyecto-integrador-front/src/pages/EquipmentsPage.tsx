@@ -4,9 +4,9 @@ import { EquipmentList } from '@/components/equipos/EquipmentList';
 import { EquipmentToolbar } from '@/components/equipos/EquipmentToolbar';
 import { EditEquipmentModal } from '@/components/equipos/EditEquipmentModal';
 import { RegisterEquipmentModal } from '@/components/equipos/RegisterEquipmentModal';
-import { createEquipment, fetchEquipments, updateEquipment,} from '@/services/equipmentsApi';
-import { normalizeForSearch } from '@/utils/text';
-import type { CreateEquipmentInput, Equipment, EquipmentFilter, UpdateEquipmentInput,} from '@/types/equipment.types';
+import { crearEquipo, obtenerEquipos, actualizarEquipo,} from '@/services/equipmentsApi';
+import { normalizarParaBusqueda } from '@/utils/text';
+import type { CrearEquipoInput, Equipo, FiltroEquipo, ActualizarEquipoInput,} from '@/types/equipment.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -15,20 +15,20 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const EquipmentsPage = () => {
-  const [equipments, setEquipments] = useState<Equipment[]>([]);
+  const [equipments, setEquipments] = useState<Equipo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeFilter, setActiveFilter] = useState<EquipmentFilter>('todos');
-  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+  const [activeFilter, setActiveFilter] = useState<FiltroEquipo>('todos');
+  const [selectedEquipment, setSelectedEquipment] = useState<Equipo | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isNewEquipmentOpen, setIsNewEquipmentOpen] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchEquipments(controller.signal)
+    obtenerEquipos(controller.signal)
       .then((data) => {
         setEquipments(data);
         setError(null);
@@ -47,7 +47,7 @@ export const EquipmentsPage = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchEquipments()
+    obtenerEquipos()
       .then((data) => {
         setEquipments(data);
         setError(null);
@@ -57,23 +57,23 @@ export const EquipmentsPage = () => {
   };
 
   const searched = useMemo(() => {
-    const query = normalizeForSearch(searchTerm);
+    const query = normalizarParaBusqueda(searchTerm);
     if (query.length === 0) return equipments;
 
     return equipments.filter((equipment) =>
-      [equipment.code, equipment.name, equipment.area, equipment.type, equipment.status]
-        .map(normalizeForSearch)
+      [equipment.codigo, equipment.nombre, equipment.area, equipment.tipo, equipment.estado]
+        .map(normalizarParaBusqueda)
         .some((field) => field.includes(query)),
     );
   }, [equipments, searchTerm]);
 
-  const counts = useMemo<Record<EquipmentFilter, number>>(
+  const counts = useMemo<Record<FiltroEquipo, number>>(
     () => ({
       todos: searched.length,
-      Laptop: searched.filter((e) => e.type === 'Laptop').length,
-      Desktop: searched.filter((e) => e.type === 'Desktop').length,
-      Impresora: searched.filter((e) => e.type === 'Impresora').length,
-      'En reparación': searched.filter((e) => e.status === 'En reparación').length,
+      Laptop: searched.filter((e) => e.tipo === 'Laptop').length,
+      Desktop: searched.filter((e) => e.tipo === 'Desktop').length,
+      Impresora: searched.filter((e) => e.tipo === 'Impresora').length,
+      'En reparación': searched.filter((e) => e.estado === 'En reparación').length,
     }),
     [searched],
   );
@@ -81,28 +81,28 @@ export const EquipmentsPage = () => {
   const visibleEquipments = useMemo(() => {
     if (activeFilter === 'todos') return searched;
     if (activeFilter === 'En reparación') {
-      return searched.filter((e) => e.status === 'En reparación');
+      return searched.filter((e) => e.estado === 'En reparación');
     }
 
-    return searched.filter((e) => e.type === activeFilter);
+    return searched.filter((e) => e.tipo === activeFilter);
   }, [activeFilter, searched]);
 
-  const handleEditEquipment = (equipment: Equipment) => {
+  const handleEditEquipment = (equipment: Equipo) => {
     setSelectedEquipment(equipment);
     setIsEditModalOpen(true);
   };
 
-  const handleCreate = async (input: CreateEquipmentInput) => {
-    const created = await createEquipment(input);
+  const handleCreate = async (input: CrearEquipoInput) => {
+    const created = await crearEquipo(input);
     setEquipments((prev) =>
-      [...prev, created].sort((a, b) => a.code.localeCompare(b.code)),
+      [...prev, created].sort((a, b) => a.codigo.localeCompare(b.codigo)),
     );
   };
 
-  const handleSave = async (input: UpdateEquipmentInput) => {
+  const handleSave = async (input: ActualizarEquipoInput) => {
     if (!selectedEquipment) return;
 
-    const updated = await updateEquipment(selectedEquipment.id, input);
+    const updated = await actualizarEquipo(selectedEquipment.id, input);
     setEquipments((prev) =>
       prev.map((e) => (e.id === updated.id ? updated : e)),
     );

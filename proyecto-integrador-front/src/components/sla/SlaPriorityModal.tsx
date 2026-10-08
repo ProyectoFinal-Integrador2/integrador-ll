@@ -2,21 +2,21 @@ import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Check, Clock, X } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
 import {
-  SLA_LEVELS,
-  type SlaLevel,
-  type SlaPriority,
-  type SlaPriorityInput,
+  NIVELES_SLA,
+  type NivelSla,
+  type SlaPrioridad,
+  type EntradaSlaPrioridad,
 } from '@/types/sla.types';
 
 export interface SlaPriorityModalProps {
   isOpen: boolean;
   onClose: () => void;
-  priority: SlaPriority | null;
-  onSubmit?: (input: SlaPriorityInput) => Promise<void>;
+  priority: SlaPrioridad | null;
+  onSubmit?: (input: EntradaSlaPrioridad) => Promise<void>;
 }
 
 interface SlaFormData {
-  nivel: SlaLevel;
+  nivel: NivelSla;
   descripcion: string;
   respuesta: string;
   resolucion: string;
@@ -31,24 +31,24 @@ const INITIAL_FORM_DATA: SlaFormData = {
   escalamiento: '30',
 };
 
-const toFormData = (priority: SlaPriority | null): SlaFormData => {
+const toFormData = (priority: SlaPrioridad | null): SlaFormData => {
   if (!priority) return INITIAL_FORM_DATA;
 
   return {
-    nivel: priority.level,
-    descripcion: priority.description,
-    respuesta: String(priority.responseMinutes),
-    resolucion: String(priority.resolutionMinutes),
-    escalamiento: String(priority.escalationMinutes),
+    nivel: priority.nivel,
+    descripcion: priority.descripcion,
+    respuesta: String(priority.minutosRespuesta),
+    resolucion: String(priority.minutosResolucion),
+    escalamiento: String(priority.minutosEscalamiento),
   };
 };
 
-const toPayload = (form: SlaFormData): SlaPriorityInput => ({
-  level: form.nivel,
-  description: form.descripcion.trim(),
-  responseMinutes: Number(form.respuesta),
-  resolutionMinutes: Number(form.resolucion),
-  escalationMinutes: Number(form.escalamiento),
+const toPayload = (form: SlaFormData): EntradaSlaPrioridad => ({
+  nivel: form.nivel,
+  descripcion: form.descripcion.trim(),
+  minutosRespuesta: Number(form.respuesta),
+  minutosResolucion: Number(form.resolucion),
+  minutosEscalamiento: Number(form.escalamiento),
 });
 
 const toMessage = (error: unknown): string =>
@@ -134,7 +134,7 @@ export const SlaPriorityModal = ({
             onChange={handleChange}
             className={`${INPUT_CLASS} cursor-pointer appearance-none px-4 py-2.5`}
           >
-            {SLA_LEVELS.map((level) => (
+            {NIVELES_SLA.map((level) => (
               <option key={level} value={level}>
                 {level}
               </option>

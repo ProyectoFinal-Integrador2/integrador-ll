@@ -1,18 +1,18 @@
 import {
-  ticketRepository,
-  type TicketRepository,
+  ticketRepositorio,
+  type TicketRepositorio,
 } from '../repositories/ticket.repository';
 import {
-  evaluationRepository,
-  type EvaluationRepository,
+  evaluacionRepositorio,
+  type EvaluacionRepositorio,
 } from '../repositories/evaluation.repository';
-import { TICKET_STATUSES, TICKET_PRIORITIES, type Ticket } from '../types/ticket.types';
-import { EVALUATION_RATINGS, type ServiceEvaluation } from '../types/evaluation.types';
+import { ESTADOS_TICKET, PRIORIDADES_TICKET, type Ticket } from '../types/ticket.types';
+import { PUNTUACIONES_EVALUACION, type Evaluacion } from '../types/evaluation.types';
 import type {
-  EvaluationsReport,
-  ReportSlice,
-  ServiceReport,
-  TicketsReport,
+  RebanadaReporte,
+  ReporteEvaluaciones,
+  ReporteServicio,
+  ReporteTickets,
 } from '../types/report.types';
 
 /**
@@ -23,25 +23,25 @@ import type {
  * numero por separado sea correcto. Se reparte la parte entera de cada una y el
  * 1% que sobra va a las que mas pierden al truncar (mayor parte decimal).
  */
-const toPercentages = (counts: number[], total: number): number[] => {
-  if (total === 0) return counts.map(() => 0);
+const aPorcentajes = (conteos: number[], total: number): number[] => {
+  if (total === 0) return conteos.map(() => 0);
 
-  const exact = counts.map((count) => (count / total) * 100);
-  const result = exact.map(Math.floor);
+  const exactos = conteos.map((conteo) => (conteo / total) * 100);
+  const resultado = exactos.map(Math.floor);
 
-  let leftover = 100 - result.reduce((acc, value) => acc + value, 0);
+  let sobrante = 100 - resultado.reduce((acc, valor) => acc + valor, 0);
 
-  const byLostDecimal = exact
-    .map((value, index) => ({ index, lost: value - Math.floor(value) }))
-    .sort((a, b) => b.lost - a.lost);
+  const porDecimalPerdido = exactos
+    .map((valor, indice) => ({ indice, perdido: valor - Math.floor(valor) }))
+    .sort((a, b) => b.perdido - a.perdido);
 
-  for (const { index } of byLostDecimal) {
-    if (leftover <= 0) break;
-    result[index] += 1;
-    leftover -= 1;
+  for (const { indice } of porDecimalPerdido) {
+    if (sobrante <= 0) break;
+    resultado[indice] += 1;
+    sobrante -= 1;
   }
 
-  return result;
+  return resultado;
 };
 
 /**
@@ -49,97 +49,99 @@ const toPercentages = (counts: number[], total: number): number[] => {
  * orden de aparicion: "Critico" tiene que salir primero siempre, y las
  * categorias con cero igual se listan para que se vea que existen.
  */
-const toSlices = <T extends string>(
+const aRebanadas = <T extends string>(
   items: readonly T[],
-  countOf: (item: T) => number,
+  contarDe: (item: T) => number,
   total: number,
-): ReportSlice[] => {
-  const counts = items.map(countOf);
+): RebanadaReporte[] => {
+  const conteos = items.map(contarDe);
 
-  return items.map((label, index) => ({
-    label,
-    count: counts[index],
-    percentage: toPercentages(counts, total)[index],
+  return items.map((etiqueta, indice) => ({
+    etiqueta,
+    conteo: conteos[indice],
+    porcentaje: aPorcentajes(conteos, total)[indice],
   }));
 };
 
-export class ReportService {
+export class ServicioDeReportes {
   constructor(
-    private readonly tickets: TicketRepository = ticketRepository,
-    private readonly evaluations: EvaluationRepository = evaluationRepository,
+    private readonly tickets: TicketRepositorio = ticketRepositorio,
+    private readonly evaluaciones: EvaluacionRepositorio = evaluacionRepositorio,
   ) {}
 
   /**
    * Agrega en el servidor y no en el navegador: asi el frontend recibe el
-   * reporte listo y no las tablas completas para contar. Cuando haya base de
-   * datos esto pasa a ser un GROUP BY y el resto de la pantalla no cambia.
+   * reporte listo y no las tablas completas para contar.
    */
-  async summary(): Promise<ServiceReport> {
-    const [allTickets, allEvaluations] = await Promise.all([
-      this.tickets.findAll(),
-      this.evaluations.findAll(),
+  async resumen(): Promise<ReporteServicio> {
+    const [todosLosTickets, todasLasEvaluaciones] = await Promise.all([
+      this.tickets.listar(),
+      this.evaluaciones.listar(),
     ]);
 
     return {
-      tickets: this.buildTicketsReport(allTickets),
-      evaluations: this.buildEvaluationsReport(allEvaluations),
-      generatedAt: new Date().toISOString(),
+      tickets: this.construirReporteTickets(todosLosTickets),
+      evaluaciones: this.construirReporteEvaluaciones(todasLasEvaluaciones),
+      generadoEn: new Date().toISOString(),
     };
   }
 
-private buildTicketsReport(tickets: Ticket[]): TicketsReport {
+  private construirReporteTickets(tickets: Ticket[]): ReporteTickets {
     const total = tickets.length;
-    const closed = tickets.filter((ticket) => ticket.status === 'Cerrado').length;
-    const cancelled = tickets.filter((ticket) => ticket.status === 'Cancelado').length;
+    const cerrados = tickets.filter((ticket) => ticket.estado === 'Cerrado').length;
+    const cancelados = tickets.filter((ticket) => ticket.estado === 'Cancelado').length;
 
     return {
       total,
-      closed,
+      cerrados,
       /**
        * Un ticket cancelado esta terminado: no se esta trabajando en el. Por eso
-       * se resta tambien, y no como `total - closed`, que lo contaria como
+       * se resta tambien, y no como `total - cerrados`, que lo contaria como
        * abierto y haria que "abiertos" no cuadre con la barra por estado.
        */
-      open: total - closed - cancelled,
-      byStatus: toSlices(
-        TICKET_STATUSES,
-        (status) =>
-          tickets.filter((ticket) => ticket.status === status).length,
+      abiertos: total - cerrados - cancelados,
+      porEstado: aRebanadas(
+        ESTADOS_TICKET,
+        (estado) =>
+          tickets.filter((ticket) => ticket.estado === estado).length,
         total,
       ),
-      byPriority: toSlices(
-        TICKET_PRIORITIES,
-        (priority) =>
-          tickets.filter((ticket) => ticket.priority === priority).length,
+      porPrioridad: aRebanadas(
+        PRIORIDADES_TICKET,
+        (prioridad) =>
+          tickets.filter((ticket) => ticket.prioridad === prioridad).length,
         total,
       ),
     };
   }
 
-  private buildEvaluationsReport(evaluations: ServiceEvaluation[]): EvaluationsReport {
-    const total = evaluations.length;
+  private construirReporteEvaluaciones(
+    evaluaciones: Evaluacion[],
+  ): ReporteEvaluaciones {
+    const total = evaluaciones.length;
 
-    const totalRating = evaluations.reduce(
-      (acc, evaluation) => acc + evaluation.rating,
+    const sumaPuntuacion = evaluaciones.reduce(
+      (acc, evaluacion) => acc + evaluacion.puntuacion,
       0,
     );
 
     // De 5 a 1 estrellas: el reporte se lee de mejor a peor calificacion.
-    const byRating = toSlices(
-      [...EVALUATION_RATINGS].reverse().map(String),
-      (label) =>
-        evaluations.filter((evaluation) => String(evaluation.rating) === label)
-          .length,
+    const porPuntuacion = aRebanadas(
+      [...PUNTUACIONES_EVALUACION].reverse().map(String),
+      (etiqueta) =>
+        evaluaciones.filter(
+          (evaluacion) => String(evaluacion.puntuacion) === etiqueta,
+        ).length,
       total,
     );
 
     return {
       total,
-      averageRating:
-        total === 0 ? null : Math.round((totalRating / total) * 100) / 100,
-      byRating,
+      promedioPuntuacion:
+        total === 0 ? null : Math.round((sumaPuntuacion / total) * 100) / 100,
+      porPuntuacion,
     };
   }
 }
 
-export const reportService = new ReportService();
+export const servicioDeReportes = new ServicioDeReportes();

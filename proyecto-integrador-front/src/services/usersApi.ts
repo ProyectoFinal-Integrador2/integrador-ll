@@ -1,13 +1,24 @@
 import { apiGet, apiSend } from './apiClient';
-import type { CreateUserInput, UpdateUserInput, User } from '../types/user.types';
+import type { CrearUsuarioInput, ActualizarUsuarioInput, Usuario } from '../types/user.types';
 
-export const fetchUsers = (signal?: AbortSignal): Promise<User[]> =>
-  apiGet<User[]>('/users', signal);
+export const obtenerUsuarios = (signal?: AbortSignal): Promise<Usuario[]> =>
+  apiGet<Usuario[]>('/users', signal);
 
-export const createUser = (input: CreateUserInput): Promise<User> =>
-  apiSend<User>('/users', 'POST', input);
+export const crearUsuario = (input: CrearUsuarioInput): Promise<Usuario> =>
+  apiSend<Usuario>('/users', 'POST', input);
 
-export const updateUser = (
+export const actualizarUsuario = (
   id: string,
-  input: UpdateUserInput,
-): Promise<User> => apiSend<User>(`/users/${id}`, 'PUT', input);
+  input: ActualizarUsuarioInput,
+): Promise<Usuario> => apiSend<Usuario>(`/users/${id}`, 'PUT', input);
+
+export const actualizarPerfil = (
+  id: string,
+  input: { nombre: string; area: string },
+): Promise<Usuario> => apiSend<Usuario>(`/users/${id}/profile`, 'PATCH', input);
+
+export const cambiarContrasena = (
+  id: string,
+  input: { actual: string; nueva: string },
+): Promise<{ message: string }> =>
+  apiSend<{ message: string }>(`/users/${id}/password`, 'PATCH', input);

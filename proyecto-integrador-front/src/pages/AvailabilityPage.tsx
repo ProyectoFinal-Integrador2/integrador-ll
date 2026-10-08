@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AvailabilityToolbar } from '@/components/disponibilidad/AvailabilityToolbar';
 import { TechnicianCard } from '@/components/disponibilidad/TechnicianCard';
-import { fetchTechnicianAvailability } from '@/services/availabilityApi';
-import { normalizeForSearch } from '@/utils/text';
-import type { TechnicianAvailability } from '@/types/availability.types';
+import { obtenerDisponibilidadTecnicos } from '@/services/availabilityApi';
+import { normalizarParaBusqueda } from '@/utils/text';
+import type { DisponibilidadTecnico } from '@/types/availability.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -12,7 +12,7 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const AvailabilityPage = () => {
-  const [technicians, setTechnicians] = useState<TechnicianAvailability[]>([]);
+  const [technicians, setTechnicians] = useState<DisponibilidadTecnico[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,7 +20,7 @@ export const AvailabilityPage = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchTechnicianAvailability(controller.signal)
+    obtenerDisponibilidadTecnicos(controller.signal)
       .then((data) => {
         setTechnicians(data);
         setError(null);
@@ -39,7 +39,7 @@ export const AvailabilityPage = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchTechnicianAvailability()
+    obtenerDisponibilidadTecnicos()
       .then((data) => {
         setTechnicians(data);
         setError(null);
@@ -49,17 +49,17 @@ export const AvailabilityPage = () => {
   };
 
   const visibleTechnicians = useMemo(() => {
-    const query = normalizeForSearch(searchTerm);
+    const query = normalizarParaBusqueda(searchTerm);
     if (query.length === 0) return technicians;
 
     return technicians.filter((technician) =>
-      [technician.name, technician.schedule]
-        .map(normalizeForSearch)
+      [technician.nombre, technician.horario]
+        .map(normalizarParaBusqueda)
         .some((field) => field.includes(query)),
     );
   }, [technicians, searchTerm]);
 
-  const hasActiveSearch = normalizeForSearch(searchTerm).length > 0;
+  const hasActiveSearch = normalizarParaBusqueda(searchTerm).length > 0;
 
   return (
     <div className="w-full">

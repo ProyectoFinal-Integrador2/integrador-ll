@@ -1,5 +1,7 @@
 import { apiGet } from './apiClient';
-import type { ServiceReport } from '../types/report.types';
+import type { ReporteServicio } from '../types/report.types';
 
-export const fetchServiceReport = (signal?: AbortSignal): Promise<ServiceReport> =>
-  apiGet<ServiceReport>('/reports/summary', signal);
+export const obtenerReporte = (
+  signal?: AbortSignal,
+): Promise<ReporteServicio> =>
+  apiGet<ReporteServicio>('/reports/summary', signal);

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { RefreshCw, Star, Ticket, CircleCheckBig } from 'lucide-react';
 import { ReportBarList } from '@/components/reportes/ReportBarList';
 import { ReportStatCard } from '@/components/reportes/ReportStatCard';
-import {RATING_BAR_STYLE,TICKET_PRIORITY_BAR_STYLES,TICKET_STATUS_BAR_STYLES} from '@/components/reportes/reportBarStyles';
-import { fetchServiceReport } from '@/services/reportsApi';
-import type { ServiceReport } from '@/types/report.types';
+import {ESTILO_BARRA_PUNTUACION,ESTILOS_BARRAS_PRIORIDAD,ESTILOS_BARRAS_ESTADO} from '@/components/reportes/reportBarStyles';
+import { obtenerReporte } from '@/services/reportsApi';
+import type { ReporteServicio } from '@/types/report.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -13,14 +13,14 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const ReportsPage = () => {
-  const [report, setReport] = useState<ServiceReport | null>(null);
+  const [report, setReport] = useState<ReporteServicio | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchServiceReport(controller.signal)
+    obtenerReporte(controller.signal)
       .then((data) => {
         setReport(data);
         setError(null);
@@ -39,7 +39,7 @@ export const ReportsPage = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchServiceReport()
+    obtenerReporte()
       .then((data) => {
         setReport(data);
         setError(null);
@@ -83,18 +83,18 @@ export const ReportsPage = () => {
             <ReportStatCard
               label="Tickets totales"
               value={String(report.tickets.total)}
-              hint={`${report.tickets.open} sin cerrar`}
+              hint={`${report.tickets.abiertos} sin cerrar`}
               icon={<Ticket className="h-5 w-5" />}
             />
 
             <ReportStatCard
               label="Tickets cerrados"
-              value={String(report.tickets.closed)}
+              value={String(report.tickets.cerrados)}
               hint={
                 report.tickets.total === 0
                   ? 'Sin tickets registrados'
                   : `${Math.round(
-                      (report.tickets.closed / report.tickets.total) * 100,
+                      (report.tickets.cerrados / report.tickets.total) * 100,
                     )}% del total`
               }
               icon={<CircleCheckBig className="h-5 w-5" />}
@@ -104,13 +104,13 @@ export const ReportsPage = () => {
             <ReportStatCard
               label="Calificacion promedio"
               value={
-                report.evaluations.averageRating === null
+                report.evaluaciones.promedioPuntuacion === null
                   ? 'Sin datos'
-                  : `${report.evaluations.averageRating} / 5`
+                  : `${report.evaluaciones.promedioPuntuacion} / 5`
               }
-              hint={`${report.evaluations.total} evaluacion${
-                report.evaluations.total === 1 ? '' : 'es'
-              } registrada${report.evaluations.total === 1 ? '' : 's'}`}
+              hint={`${report.evaluaciones.total} evaluacion${
+                report.evaluaciones.total === 1 ? '' : 'es'
+              } registrada${report.evaluaciones.total === 1 ? '' : 's'}`}
               icon={<Star className="h-5 w-5" />}
               iconClassName="text-yellow-500"
             />
@@ -119,22 +119,22 @@ export const ReportsPage = () => {
           <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
             <ReportBarList
               title="Tickets por estado"
-              slices={report.tickets.byStatus}
-              colorFor={(label) => TICKET_STATUS_BAR_STYLES[label] ?? 'bg-slate-400'}
+              slices={report.tickets.porEstado}
+              colorFor={(label) => ESTILOS_BARRAS_ESTADO[label] ?? 'bg-slate-400'}
               emptyMessage="Todavia no hay tickets registrados."
             />
 
             <ReportBarList
               title="Tickets por prioridad"
-              slices={report.tickets.byPriority}
-              colorFor={(label) => TICKET_PRIORITY_BAR_STYLES[label] ?? 'bg-slate-400'}
+              slices={report.tickets.porPrioridad}
+              colorFor={(label) => ESTILOS_BARRAS_PRIORIDAD[label] ?? 'bg-slate-400'}
               emptyMessage="Todavia no hay tickets registrados."
             />
 
             <ReportBarList
               title="Calificacion por estrellas"
-              slices={report.evaluations.byRating}
-              colorFor={() => RATING_BAR_STYLE}
+              slices={report.evaluaciones.porPuntuacion}
+              colorFor={() => ESTILO_BARRA_PUNTUACION}
               emptyMessage="Todavia no hay evaluaciones de servicio."
             />
           </div>

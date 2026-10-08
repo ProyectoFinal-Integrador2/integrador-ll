@@ -1,7 +1,7 @@
-import type { UserStatus } from '@/types/user.types';
+import type { EstadoUsuario } from '@/types/user.types';
 
 interface UserStatusBadgeProps {
-  status: UserStatus;
+  status: EstadoUsuario;
 }
 
 export const UserStatusBadge = ({ status }: UserStatusBadgeProps) => {

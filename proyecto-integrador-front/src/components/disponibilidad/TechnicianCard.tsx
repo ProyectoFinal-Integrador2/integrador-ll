@@ -1,14 +1,14 @@
 import { CalendarCheck } from 'lucide-react';
-import { AVATAR_STYLES } from '@/utils/avatarStyles';
-import { TECHNICIAN_STATUS_STYLES } from '@/components/disponibilidad/technicianStatusStyles';
-import type { TechnicianAvailability } from '@/types/availability.types';
+import { ESTILOS_AVATAR } from '@/utils/avatarStyles';
+import { ESTILOS_ESTADO_TECNICO } from '@/components/disponibilidad/technicianStatusStyles';
+import type { DisponibilidadTecnico } from '@/types/availability.types';
 
 interface TechnicianCardProps {
-  technician: TechnicianAvailability;
+  technician: DisponibilidadTecnico;
 }
 
 export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
-  const { name, schedule, activeTickets, status, avatarInitials, avatarColor } =
+  const { nombre, horario, ticketsActivos, estado, avatarIniciales, colorAvatar } =
     technician;
 
   return (
@@ -16,30 +16,30 @@ export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
       <div>
         <div className="mb-6 flex items-center gap-4">
           <div
-            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white shadow-sm ${AVATAR_STYLES[avatarColor]}`}
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white shadow-sm ${ESTILOS_AVATAR[colorAvatar]}`}
             aria-hidden="true"
           >
-            {avatarInitials}
+            {avatarIniciales}
           </div>
 
           <div className="min-w-0">
-            <h3 className="truncate text-sm font-bold text-slate-800">{name}</h3>
-            <p className="truncate text-xs text-slate-400">{schedule}</p>
+            <h3 className="truncate text-sm font-bold text-slate-800">{nombre}</h3>
+            <p className="truncate text-xs text-slate-400">{horario}</p>
           </div>
         </div>
 
         <div className="mb-6 flex items-center justify-between gap-3">
           <p className="text-sm text-slate-500">
             Tickets:{' '}
-            <span className="font-bold text-slate-700">{activeTickets}</span>
+            <span className="font-bold text-slate-700">{ticketsActivos}</span>
           </p>
 
           <div className="flex items-center gap-2">
             <span
-              className={`h-2 w-2 rounded-full ${TECHNICIAN_STATUS_STYLES[status]}`}
+              className={`h-2 w-2 rounded-full ${ESTILOS_ESTADO_TECNICO[estado]}`}
               aria-hidden="true"
             />
-            <span className="text-sm font-bold text-slate-800">{status}</span>
+            <span className="text-sm font-bold text-slate-800">{estado}</span>
           </div>
         </div>
       </div>

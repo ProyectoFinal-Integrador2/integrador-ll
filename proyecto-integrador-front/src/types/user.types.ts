@@ -1,33 +1,34 @@
-import type { AvatarColor } from '@/utils/avatarStyles';
-import type { UserRole } from '@/types/roles';
+import type { ColorAvatar } from '@/utils/avatarStyles';
+import type { RolUsuario } from '@/types/roles';
 
-export type { UserRole, AvatarColor };
+export type { RolUsuario, ColorAvatar };
 
-export type UserStatus = 'Activo' | 'Inactivo';
+export type EstadoUsuario = 'Activo' | 'Inactivo';
 
-export type UserTabFilter = 'todos' | 'tecnicos' | 'usuarios';
+export type FiltroUsuario = 'todos' | 'tecnicos' | 'usuarios';
 
-export interface User {
+export interface Usuario {
   id: string;
-  name: string;
-  email: string;
-  role: UserRole;
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
   area: string;
-  status: UserStatus;
-  avatarInitials: string;
-  avatarColor: AvatarColor;
+  estado: EstadoUsuario;
+  avatarIniciales: string;
+  colorAvatar: ColorAvatar;
 }
 
-export interface CreateUserInput {
-  name: string;
-  email: string;
-  role: UserRole;
+export interface CrearUsuarioInput {
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
   area: string;
+  contrasena: string;
 }
 
-export interface UpdateUserInput {
-  name: string;
-  email: string;
-  role: UserRole;
-  status: UserStatus;
+export interface ActualizarUsuarioInput {
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
+  estado: EstadoUsuario;
 }

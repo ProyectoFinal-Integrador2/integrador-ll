@@ -1,11 +1,11 @@
 import { SquarePen } from 'lucide-react';
-import type { SlaPriority } from '@/types/sla.types';
-import { formatMinutes } from '@/utils/slaTime';
+import type { SlaPrioridad } from '@/types/sla.types';
+import { formatearMinutos } from '@/utils/slaTime';
 import { SlaLevelBadge } from '@/components/sla/SlaLevelBadge';
 
 interface SlaTableProps {
-  priorities: SlaPriority[];
-  onEditPriority?: (priority: SlaPriority) => void;
+  priorities: SlaPrioridad[];
+  onEditPriority?: (priority: SlaPrioridad) => void;
   isLoading: boolean;
   error: string | null;
   hasActiveSearch?: boolean;
@@ -90,30 +90,30 @@ export const SlaTable = ({
                 className="transition-colors hover:bg-slate-50/70"
               >
                 <td className="whitespace-nowrap px-6 py-5">
-                  <SlaLevelBadge level={priority.level} />
+                  <SlaLevelBadge level={priority.nivel} />
                 </td>
 
                 <td className="px-6 py-5 text-sm font-medium text-slate-600">
-                  {priority.description}
+                  {priority.descripcion}
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-5 text-center text-sm text-slate-500">
-                  {formatMinutes(priority.responseMinutes)}
+                  {formatearMinutos(priority.minutosRespuesta)}
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-5 text-center text-sm text-slate-500">
-                  {formatMinutes(priority.resolutionMinutes)}
+                  {formatearMinutos(priority.minutosResolucion)}
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-5 text-center text-sm text-slate-500">
-                  {formatMinutes(priority.escalationMinutes)}
+                  {formatearMinutos(priority.minutosEscalamiento)}
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-5 text-right">
                   <button
                     type="button"
                     onClick={() => onEditPriority?.(priority)}
-                    aria-label={`Editar prioridad ${priority.level}`}
+                    aria-label={`Editar prioridad ${priority.nivel}`}
                     className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-200 p-2 text-slate-600 shadow-xs transition-colors hover:bg-slate-100 hover:text-slate-900"
                   >
                     <SquarePen className="h-4 w-4" />

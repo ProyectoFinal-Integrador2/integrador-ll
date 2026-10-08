@@ -1,32 +1,32 @@
 import {
-  evaluationRepository,
-  type EvaluationRepository,
+  evaluacionRepositorio,
+  type EvaluacionRepositorio,
 } from '../repositories/evaluation.repository';
 import {
-  ticketRepository,
-  type TicketRepository,
+  ticketRepositorio,
+  type TicketRepositorio,
 } from '../repositories/ticket.repository';
 import { HttpError } from '../utils/httpError';
 import {
-  EVALUATION_RATINGS,
-  MAX_EVALUATION_COMMENT_LENGTH,
-  type CreateEvaluationInput,
-  type EvaluationRating,
-  type ServiceEvaluation,
+  PUNTUACIONES_EVALUACION,
+  MAX_LONGITUD_COMENTARIO,
+  type CrearEvaluacionInput,
+  type Evaluacion,
+  type PuntuacionEvaluacion,
 } from '../types/evaluation.types';
 import type { Ticket } from '../types/ticket.types';
 
 /** El body viene de `req.body`, o sea `any`: aqui se acota al dominio. */
-type UntrustedEvaluationInput = Partial<CreateEvaluationInput>;
+type EntradaEvaluacionSinValidar = Partial<CrearEvaluacionInput>;
 
-export class EvaluationService {
+export class EvaluacionServicio {
   constructor(
-    private readonly repository: EvaluationRepository = evaluationRepository,
-    private readonly tickets: TicketRepository = ticketRepository,
+    private readonly repositorio: EvaluacionRepositorio = evaluacionRepositorio,
+    private readonly tickets: TicketRepositorio = ticketRepositorio,
   ) {}
 
-  async list(): Promise<ServiceEvaluation[]> {
-    return this.repository.findAll();
+  async listar(): Promise<Evaluacion[]> {
+    return this.repositorio.listar();
   }
 
   /**
@@ -36,66 +36,62 @@ export class EvaluationService {
    * es el que lo atendio y el evaluador es su solicitante, asi que el cliente
    * no puede calificar a un tecnico que nunca vio su ticket ni hacerse pasar
    * por otra persona.
-   *
-   * Ojo: sigue sin haber autenticacion, asi que el `ticketId` se cree de lo que
-   * dice el body. Cuando exista auth, hay que comprobar que quien llama sea el
-   * `userId` del ticket antes de dejar que califique.
    */
-  async create(input: UntrustedEvaluationInput): Promise<ServiceEvaluation> {
-    const ticketId = input.ticketId?.trim() ?? '';
+  async crear(input: EntradaEvaluacionSinValidar): Promise<Evaluacion> {
+    const idTicket = input.idTicket?.trim() ?? '';
 
-    if (ticketId.length === 0) {
+    if (idTicket.length === 0) {
       throw HttpError.badRequest('El ticket es obligatorio.');
     }
 
-    const ticket = await this.tickets.findById(ticketId);
+    const ticket = await this.tickets.obtenerPorId(idTicket);
 
     if (!ticket) {
       throw HttpError.notFound('Ticket no encontrado.');
     }
 
-    if (ticket.status !== 'Cerrado') {
+    if (ticket.estado !== 'Cerrado') {
       throw HttpError.badRequest(
         'Solo se puede evaluar un ticket cerrado: el soporte todavia no termino.',
       );
     }
 
-    if (!ticket.userId) {
+    if (!ticket.usuarioId) {
       throw HttpError.badRequest(
         'Este ticket no tiene solicitante registrado: no se sabe a nombre de quien evaluar.',
       );
     }
 
-    if (!ticket.technicianId) {
+    if (!ticket.tecnicoId) {
       throw HttpError.badRequest(
         'Este ticket no tiene un tecnico asignado: no se puede evaluar la atencion.',
       );
     }
 
-    const rating = Number(input.rating);
+    const puntuacion = Number(input.puntuacion);
 
-    if (!EVALUATION_RATINGS.includes(rating as EvaluationRating)) {
+    if (!PUNTUACIONES_EVALUACION.includes(puntuacion as PuntuacionEvaluacion)) {
       throw HttpError.badRequest('La calificacion debe ser un numero del 1 al 5.');
     }
 
-    const comment = input.comment?.trim() ?? '';
+    const comentario = input.comentario?.trim() ?? '';
 
-    if (comment.length > MAX_EVALUATION_COMMENT_LENGTH) {
+    if (comentario.length > MAX_LONGITUD_COMENTARIO) {
       throw HttpError.badRequest(
-        `El comentario no puede superar los ${MAX_EVALUATION_COMMENT_LENGTH} caracteres.`,
+        `El comentario no puede superar los ${MAX_LONGITUD_COMENTARIO} caracteres.`,
       );
     }
 
-    if (await this.repository.hasReview(ticketId, ticket.userId)) {
+    if (await this.repositorio.tieneResena(idTicket, ticket.usuarioId)) {
       throw HttpError.badRequest('Ya evaluaste este ticket.');
     }
 
-    return this.repository.create({
-      ticketId: ticket.id,
-      technicianId: ticket.technicianId,
-      reviewerId: ticket.userId,
-      rating: rating as EvaluationRating,
-      comment,
+    return this.repositorio.crear({
+      idTicket: ticket.id,
+      idTecnico: ticket.tecnicoId,
+      idEvaluador: ticket.usuarioId,
+      puntuacion: puntuacion as PuntuacionEvaluacion,
+      comentario,
     });
   }
 
@@ -103,28 +99,28 @@ export class EvaluationService {
    * Tickets cerrados del solicitante que todavia no califico: lo que el
    * formulario de conformidad tiene para ofrecer.
    */
-  async listPending(userId: string): Promise<Ticket[]> {
-    const [allTickets, allEvaluations] = await Promise.all([
-      this.tickets.findAll(),
-      this.repository.findAll(),
+  async listarPendientes(usuarioId: string): Promise<Ticket[]> {
+    const [todosLosTickets, todasLasEvaluaciones] = await Promise.all([
+      this.tickets.listar(),
+      this.repositorio.listar(),
     ]);
 
-    const reviewed = new Set(
-      allEvaluations
-        .filter((evaluation) => evaluation.reviewerId === userId)
-        .map((evaluation) => evaluation.ticketId),
+    const evaluados = new Set(
+      todasLasEvaluaciones
+        .filter((evaluacion) => evaluacion.idEvaluador === usuarioId)
+        .map((evaluacion) => evaluacion.idTicket),
     );
 
-    return allTickets
+    return todosLosTickets
       .filter(
         (ticket) =>
-          ticket.userId === userId &&
-          ticket.status === 'Cerrado' &&
-          !reviewed.has(ticket.id),
+          ticket.usuarioId === usuarioId &&
+          ticket.estado === 'Cerrado' &&
+          !evaluados.has(ticket.id),
       )
       // Mas recientes primero: el pendiente que se ve primero es el ultimo caso.
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      .sort((a, b) => b.creadoEn.localeCompare(a.creadoEn));
   }
 }
 
-export const evaluationService = new EvaluationService();
+export const evaluacionServicio = new EvaluacionServicio();

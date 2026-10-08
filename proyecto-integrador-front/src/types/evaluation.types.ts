@@ -1,20 +1,21 @@
-export const EVALUATION_RATINGS = [1, 2, 3, 4, 5] as const;
+export const PUNTUACIONES_EVALUACION = [1, 2, 3, 4, 5] as const;
 
-export type EvaluationRating = (typeof EVALUATION_RATINGS)[number];
-export interface ServiceEvaluation {
+export type PuntuacionEvaluacion = (typeof PUNTUACIONES_EVALUACION)[number];
+
+export interface Evaluacion {
   id: string;
-  ticketId: string;
-  technicianId: string;
-  technicianName: string;
-  reviewerId: string;
-  reviewerName: string;
-  rating: EvaluationRating;
-  comment: string;
-  createdAt: string;
+  idTicket: string;
+  idTecnico: string;
+  tecnicoNombre: string;
+  idEvaluador: string;
+  evaluadorNombre: string;
+  puntuacion: PuntuacionEvaluacion;
+  comentario: string;
+  creadoEn: string;
 }
 
-export interface CreateEvaluationInput {
-  ticketId: string;
-  rating: EvaluationRating;
-  comment: string;
+export interface CrearEvaluacionInput {
+  idTicket: string;
+  puntuacion: PuntuacionEvaluacion;
+  comentario: string;
 }

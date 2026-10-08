@@ -6,10 +6,10 @@ import { TecnicoDashboardView } from '@/components/dashboard/TecnicoDashboardVie
 import { UsuarioDashboardView } from '@/components/dashboard/UsuarioDashboardView';
 import { TicketDetailModal } from '@/components/tickets/TicketDetailModal';
 import { useSession } from '@/context/session';
-import { fetchDashboard } from '@/services/dashboardApi';
-import { changeTicketStatus } from '@/services/ticketsApi';
-import type { DashboardReport } from '@/types/dashboard.types';
-import type { Ticket, TicketStatus } from '@/types/ticket.types';
+import { obtenerDashboard } from '@/services/dashboardApi';
+import { cambiarEstadoTicket } from '@/services/ticketsApi';
+import type { ReporteDashboard } from '@/types/dashboard.types';
+import type { Ticket, EstadoTicket } from '@/types/ticket.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -21,13 +21,13 @@ export const DashboardPage = () => {
   const { user } = useSession();
   const navigate = useNavigate();
 
-  const [report, setReport] = useState<DashboardReport | null>(null);
+  const [report, setReport] = useState<ReporteDashboard | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
-  const isTecnico = user?.role === 'Técnico';
-  const isUsuario = user?.role === 'Usuario';
+  const isTecnico = user?.rol === 'Técnico';
+  const isUsuario = user?.rol === 'Usuario';
 
   const technicianId = isTecnico ? user?.id : undefined;
   const userId = isUsuario ? user?.id : undefined;
@@ -35,7 +35,7 @@ export const DashboardPage = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchDashboard(controller.signal, technicianId, userId)
+    obtenerDashboard(controller.signal, technicianId, userId)
       .then((data) => {
         setReport(data);
         setError(null);
@@ -54,7 +54,7 @@ export const DashboardPage = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchDashboard(undefined, technicianId, userId)
+    obtenerDashboard(undefined, technicianId, userId)
       .then((data) => {
         setReport(data);
         setError(null);
@@ -64,14 +64,14 @@ export const DashboardPage = () => {
   };
 
   const reloadQuietly = useCallback(() => {
-    fetchDashboard(undefined, technicianId, userId)
+    obtenerDashboard(undefined, technicianId, userId)
       .then((data) => setReport(data))
       .catch(() => {
       });
   }, [technicianId, userId]);
 
-  const handleChangeStatus = async (ticket: Ticket, status: TicketStatus) => {
-    const updated = await changeTicketStatus(ticket.id, status);
+  const handleChangeStatus = async (ticket: Ticket, estado: EstadoTicket) => {
+    const updated = await cambiarEstadoTicket(ticket.id, estado);
 
     setSelectedTicket((prev) => (prev?.id === updated.id ? updated : prev));
     reloadQuietly();
@@ -111,9 +111,9 @@ export const DashboardPage = () => {
         <div className="rounded-2xl border border-slate-100 bg-white p-10 text-center shadow-xs">
           <p className="text-sm text-slate-500">Cargando dashboard...</p>
         </div>
-      ) : report.scope === 'jefe' ? (
+      ) : report.alcance === 'jefe' ? (
         <JefeDashboardView report={report} onSelectTicket={setSelectedTicket} />
-      ) : report.scope === 'tecnico' ? (
+      ) : report.alcance === 'tecnico' ? (
         <TecnicoDashboardView report={report} onSelectTicket={setSelectedTicket} />
       ) : (
         <UsuarioDashboardView report={report} onSelectTicket={setSelectedTicket} />

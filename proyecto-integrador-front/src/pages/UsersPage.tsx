@@ -4,9 +4,9 @@ import { UsersTable } from '@/components/usuarios/UsersTable';
 import { UsersToolbar } from '@/components/usuarios/UsersToolbar';
 import { EditUserModal } from '@/components/usuarios/EditUserModal';
 import { RegisterUserModal } from '@/components/usuarios/RegisterUserModal';
-import { createUser, fetchUsers, updateUser } from '@/services/usersApi';
-import { normalizeForSearch } from '@/utils/text';
-import type { CreateUserInput, UpdateUserInput, User, UserTabFilter } from '@/types/user.types';
+import { crearUsuario, obtenerUsuarios, actualizarUsuario } from '@/services/usersApi';
+import { normalizarParaBusqueda } from '@/utils/text';
+import type { CrearUsuarioInput, ActualizarUsuarioInput, Usuario, FiltroUsuario } from '@/types/user.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -15,20 +15,20 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const UsersPage = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<Usuario[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [activeTab, setActiveTab] = useState<UserTabFilter>('todos');
+  const [activeTab, setActiveTab] = useState<FiltroUsuario>('todos');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<Usuario | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchUsers(controller.signal)
+    obtenerUsuarios(controller.signal)
       .then((data) => {
         setUsers(data);
         setError(null);
@@ -47,7 +47,7 @@ export const UsersPage = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchUsers()
+    obtenerUsuarios()
       .then((data) => {
         setUsers(data);
         setError(null);
@@ -57,40 +57,40 @@ export const UsersPage = () => {
   };
 
   const visibleUsers = useMemo(() => {
-    const query = normalizeForSearch(searchTerm);
+    const query = normalizarParaBusqueda(searchTerm);
 
     return users.filter((user) => {
       const matchesTab =
         activeTab === 'todos'
           ? true
           : activeTab === 'tecnicos'
-            ? user.role === 'Técnico'
-            : user.role === 'Usuario';
+            ? user.rol === 'Técnico'
+            : user.rol === 'Usuario';
 
       const matchesQuery =
         query.length === 0 ||
-        normalizeForSearch(user.name).includes(query) ||
-        normalizeForSearch(user.email).includes(query) ||
-        normalizeForSearch(user.role).includes(query);
+        normalizarParaBusqueda(user.nombre).includes(query) ||
+        normalizarParaBusqueda(user.correo).includes(query) ||
+        normalizarParaBusqueda(user.rol).includes(query);
 
       return matchesTab && matchesQuery;
     });
   }, [activeTab, searchTerm, users]);
 
-  const handleEditUser = (user: User) => {
+  const handleEditUser = (user: Usuario) => {
     setSelectedUser(user);
     setIsEditModalOpen(true);
   };
 
-  const handleCreate = async (input: CreateUserInput) => {
-    const created = await createUser(input);
-    setUsers((prev) => [...prev, created].sort((a, b) => a.name.localeCompare(b.name, 'es')));
+  const handleCreate = async (input: CrearUsuarioInput) => {
+    const created = await crearUsuario(input);
+    setUsers((prev) => [...prev, created].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')));
   };
 
-  const handleSave = async (input: UpdateUserInput) => {
+  const handleSave = async (input: ActualizarUsuarioInput) => {
     if (!selectedUser) return;
 
-    const updated = await updateUser(selectedUser.id, input);
+    const updated = await actualizarUsuario(selectedUser.id, input);
     setUsers((prev) =>
       prev.map((u) => (u.id === updated.id ? updated : u))
     );

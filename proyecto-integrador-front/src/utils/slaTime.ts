@@ -1,16 +1,15 @@
+export const formatearMinutos = (minutos: number): string => {
+  if (!Number.isFinite(minutos) || minutos < 0) return '—';
+  if (minutos === 0) return 'Inmediato';
 
-export const formatMinutes = (minutes: number): string => {
-  if (!Number.isFinite(minutes) || minutes < 0) return '—';
-  if (minutes === 0) return 'Inmediato';
+  const horas = Math.floor(minutos / 60);
+  const resto = minutos % 60;
 
-  const hours = Math.floor(minutes / 60);
-  const rest = minutes % 60;
+  if (horas === 0) return `${resto} min`;
+  if (resto === 0) return `${horas} h`;
 
-  if (hours === 0) return `${rest} min`;
-  if (rest === 0) return `${hours} h`;
-
-  return `${hours} h ${rest} min`;
+  return `${horas} h ${resto} min`;
 };
 
-export const toMinutesInput = (minutes: number): number =>
-  Number.isFinite(minutes) && minutes >= 0 ? minutes : 0;
+export const aEntradaMinutos = (minutos: number): number =>
+  Number.isFinite(minutos) && minutos >= 0 ? minutos : 0;

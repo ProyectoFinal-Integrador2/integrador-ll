@@ -1,21 +1,21 @@
-export const SLA_LEVELS = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
+export const NIVELES_SLA = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
 
-export type SlaLevel = (typeof SLA_LEVELS)[number];
+export type NivelSla = (typeof NIVELES_SLA)[number];
 
-export interface SlaPriority {
+export interface SlaPrioridad {
   id: string;
-  level: SlaLevel;
-  description: string;
-  responseMinutes: number;
-  resolutionMinutes: number;
-  escalationMinutes: number;
-  updatedAt: string;
+  nivel: NivelSla;
+  descripcion: string;
+  minutosRespuesta: number;
+  minutosResolucion: number;
+  minutosEscalamiento: number;
+  actualizadoEn: string;
 }
 
-export interface SlaPriorityInput {
-  level: SlaLevel;
-  description: string;
-  responseMinutes: number;
-  resolutionMinutes: number;
-  escalationMinutes: number;
+export interface EntradaSlaPrioridad {
+  nivel: NivelSla;
+  descripcion: string;
+  minutosRespuesta: number;
+  minutosResolucion: number;
+  minutosEscalamiento: number;
 }

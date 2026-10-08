@@ -9,11 +9,11 @@ import { RecentTicketsPanel } from '@/components/reportes/RecentTicketsPanel';
 import { ReportStatCard } from '@/components/reportes/ReportStatCard';
 import { SlaCommitmentPanel } from '@/components/sla/SlaCommitmentPanel';
 import { WeeklyTicketsChart } from '@/components/reportes/WeeklyTicketsChart';
-import type { UsuarioDashboardReport } from '@/types/dashboard.types';
+import type { ReporteDashboardUsuario } from '@/types/dashboard.types';
 import type { Ticket } from '@/types/ticket.types';
 
 interface UsuarioDashboardViewProps {
-  report: UsuarioDashboardReport;
+  report: ReporteDashboardUsuario;
   onSelectTicket: (ticket: Ticket) => void;
 }
 
@@ -23,8 +23,8 @@ export const UsuarioDashboardView = ({
 }: UsuarioDashboardViewProps) => {
   const navigate = useNavigate();
 
-  const { tickets, pendingEvaluations } = report;
-  const activeCount = tickets.open + tickets.inProgress;
+  const { tickets, evaluacionesPendientes } = report;
+  const activeCount = tickets.abiertos + tickets.enProgreso;
 
   return (
     <>
@@ -38,7 +38,7 @@ export const UsuarioDashboardView = ({
 
         <ReportStatCard
           label="Abiertos"
-          value={String(tickets.open)}
+          value={String(tickets.abiertos)}
           hint="Esperando que los tome un técnico"
           icon={<Timer className="h-5 w-5" />}
           iconClassName="text-yellow-500"
@@ -46,7 +46,7 @@ export const UsuarioDashboardView = ({
 
         <ReportStatCard
           label="En progreso"
-          value={String(tickets.inProgress)}
+          value={String(tickets.enProgreso)}
           hint={
             activeCount === 1
               ? '1 ticket en curso'
@@ -58,25 +58,25 @@ export const UsuarioDashboardView = ({
 
         <ReportStatCard
           label="Cerrados"
-          value={String(tickets.closed)}
+          value={String(tickets.cerrados)}
           hint={
-            pendingEvaluations.length === 0
+            evaluacionesPendientes.length === 0
               ? 'Nada pendiente de calificar'
-              : `${pendingEvaluations.length} por calificar`
+              : `${evaluacionesPendientes.length} por calificar`
           }
           icon={<CircleCheckBig className="h-5 w-5" />}
           iconClassName="text-green-600"
         />
       </div>
 
-      {pendingEvaluations.length > 0 && (
+      {evaluacionesPendientes.length > 0 && (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
           <div className="flex items-center gap-3">
             <BadgeCheck className="h-5 w-5 text-amber-600" />
 
             <p className="text-sm font-semibold text-amber-900">
-              Tenés {pendingEvaluations.length}{' '}
-              {pendingEvaluations.length === 1
+              Tenés {evaluacionesPendientes.length}{' '}
+              {evaluacionesPendientes.length === 1
                 ? 'ticket cerrado'
                 : 'tickets cerrados'}{' '}
               sin calificar
@@ -97,18 +97,18 @@ export const UsuarioDashboardView = ({
         <div className="lg:col-span-2">
           <RecentTicketsPanel
             title="Mis ultimos tickets"
-            tickets={tickets.recent}
+            tickets={tickets.recientes}
             onSelectTicket={onSelectTicket}
           />
         </div>
 
         <WeeklyTicketsChart
-          week={tickets.week}
+          week={tickets.semana}
           statusTotals={{
-            Abierto: tickets.open,
-            'En progreso': tickets.inProgress,
-            Cerrado: tickets.closed,
-            Cancelado: tickets.cancelled,
+            Abierto: tickets.abiertos,
+            'En progreso': tickets.enProgreso,
+            Cerrado: tickets.cerrados,
+            Cancelado: tickets.cancelados,
           }}
         />
       </div>

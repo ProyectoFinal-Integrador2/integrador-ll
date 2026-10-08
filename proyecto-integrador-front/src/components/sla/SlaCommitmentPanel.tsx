@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { SlaLevelBadge } from '@/components/sla/SlaLevelBadge';
-import { formatMinutes } from '@/utils/slaTime';
-import type { SlaPriority } from '@/types/sla.types';
+import { formatearMinutos } from '@/utils/slaTime';
+import type { SlaPrioridad } from '@/types/sla.types';
 
 interface SlaCommitmentPanelProps {
-  sla: SlaPriority[];
+  sla: SlaPrioridad[];
 }
 
 export const SlaCommitmentPanel = ({ sla }: SlaCommitmentPanelProps) => {
@@ -31,7 +31,7 @@ export const SlaCommitmentPanel = ({ sla }: SlaCommitmentPanelProps) => {
         <ul className="space-y-3">
           {sla.map((priority) => (
             <li key={priority.id} className="flex items-center gap-3">
-              <SlaLevelBadge level={priority.level} />
+              <SlaLevelBadge level={priority.nivel} />
 
               <dl className="flex flex-1 items-center justify-end gap-5 text-xs">
                 <div className="text-right">
@@ -39,7 +39,7 @@ export const SlaCommitmentPanel = ({ sla }: SlaCommitmentPanelProps) => {
                     Respuesta
                   </dt>
                   <dd className="font-bold text-slate-700">
-                    {formatMinutes(priority.responseMinutes)}
+                    {formatearMinutos(priority.minutosRespuesta)}
                   </dd>
                 </div>
 
@@ -48,7 +48,7 @@ export const SlaCommitmentPanel = ({ sla }: SlaCommitmentPanelProps) => {
                     Resolucion
                   </dt>
                   <dd className="font-bold text-slate-700">
-                    {formatMinutes(priority.resolutionMinutes)}
+                    {formatearMinutos(priority.minutosResolucion)}
                   </dd>
                 </div>
               </dl>

@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { SlaTable } from '@/components/sla/SlaTable';
 import { SlaPriorityModal } from '@/components/sla/SlaPriorityModal';
 import { SlaToolbar } from '@/components/sla/SlaToolbar';
-import { createSlaPriority, fetchSlaPriorities, updateSlaPriority } from '@/services/slasApi';
-import { normalizeForSearch } from '@/utils/text';
-import { SLA_LEVELS, type SlaPriority, type SlaPriorityInput } from '@/types/sla.types';
+import { crearSlaPrioridad, obtenerSlaPrioridades, actualizarSlaPrioridad } from '@/services/slasApi';
+import { normalizarParaBusqueda } from '@/utils/text';
+import { NIVELES_SLA, type SlaPrioridad, type EntradaSlaPrioridad } from '@/types/sla.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -12,24 +12,24 @@ const isAbortError = (error: unknown): boolean =>
 const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
-const sortByUrgency = (priorities: SlaPriority[]): SlaPriority[] =>
+const sortByUrgency = (priorities: SlaPrioridad[]): SlaPrioridad[] =>
   [...priorities].sort(
-    (a, b) => SLA_LEVELS.indexOf(a.level) - SLA_LEVELS.indexOf(b.level),
+    (a, b) => NIVELES_SLA.indexOf(a.nivel) - NIVELES_SLA.indexOf(b.nivel),
   );
 
 export const SlaPage = () => {
-  const [priorities, setPriorities] = useState<SlaPriority[]>([]);
+  const [priorities, setPriorities] = useState<SlaPrioridad[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [selectedPriority, setSelectedPriority] = useState<SlaPriority | null>(null);
+  const [selectedPriority, setSelectedPriority] = useState<SlaPrioridad | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
 useEffect(() => {
     const controller = new AbortController();
 
-    fetchSlaPriorities(controller.signal)
+    obtenerSlaPrioridades(controller.signal)
       .then((data) => {
         setPriorities(data);
         setError(null);
@@ -48,7 +48,7 @@ useEffect(() => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchSlaPriorities()
+    obtenerSlaPrioridades()
       .then((data) => {
         setPriorities(data);
         setError(null);
@@ -58,31 +58,31 @@ useEffect(() => {
   };
 
 const visiblePriorities = useMemo(() => {
-  const query = normalizeForSearch(searchTerm);
+  const query = normalizarParaBusqueda(searchTerm);
   if (query.length === 0) return priorities;
 
   return priorities.filter((priority) =>
-    [priority.level, priority.description]
-      .map(normalizeForSearch)
+    [priority.nivel, priority.descripcion]
+      .map(normalizarParaBusqueda)
       .some((field) => field.includes(query)),
   );
 }, [priorities, searchTerm]);
 
-const handleCreate = async (input: SlaPriorityInput) => {
-    const created = await createSlaPriority(input);
+const handleCreate = async (input: EntradaSlaPrioridad) => {
+    const created = await crearSlaPrioridad(input);
     setPriorities((prev) => sortByUrgency([...prev, created]));
   };
 
-  const handleSave = async (input: SlaPriorityInput) => {
+  const handleSave = async (input: EntradaSlaPrioridad) => {
     if (!selectedPriority) return;
 
-    const updated = await updateSlaPriority(selectedPriority.id, input);
+    const updated = await actualizarSlaPrioridad(selectedPriority.id, input);
     setPriorities((prev) =>
       sortByUrgency(prev.map((p) => (p.id === updated.id ? updated : p))),
     );
   };
 
-  const handleEditPriority = (priority: SlaPriority) => {
+  const handleEditPriority = (priority: SlaPrioridad) => {
     setSelectedPriority(priority);
     setIsModalOpen(true);
   };
@@ -107,7 +107,7 @@ const handleCreate = async (input: SlaPriorityInput) => {
         onEditPriority={handleEditPriority}
         isLoading={isLoading}
         error={error}
-        hasActiveSearch={normalizeForSearch(searchTerm).length > 0}
+        hasActiveSearch={normalizarParaBusqueda(searchTerm).length > 0}
       />
 
       <SlaPriorityModal

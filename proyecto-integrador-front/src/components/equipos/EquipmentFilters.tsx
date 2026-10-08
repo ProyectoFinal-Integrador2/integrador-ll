@@ -1,12 +1,12 @@
-import { EQUIPMENT_FILTERS, type EquipmentFilter } from '@/types/equipment.types';
+import { FILTROS_EQUIPO, type FiltroEquipo } from '@/types/equipment.types';
 
 interface EquipmentFiltersProps {
-  activeFilter: EquipmentFilter;
-  onFilterChange: (filter: EquipmentFilter) => void;
-  counts: Record<EquipmentFilter, number>;
+  activeFilter: FiltroEquipo;
+  onFilterChange: (filter: FiltroEquipo) => void;
+  counts: Record<FiltroEquipo, number>;
 }
 
-const FILTER_LABELS: Record<EquipmentFilter, string> = {
+const FILTER_LABELS: Record<FiltroEquipo, string> = {
   todos: 'Todos',
   Laptop: 'Laptops',
   Desktop: 'Desktops',
@@ -21,7 +21,7 @@ export const EquipmentFilters = ({
 }: EquipmentFiltersProps) => {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {EQUIPMENT_FILTERS.map((id) => {
+      {FILTROS_EQUIPO.map((id) => {
         const isActive = activeFilter === id;
 
         return (

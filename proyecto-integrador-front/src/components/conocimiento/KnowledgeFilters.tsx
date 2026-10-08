@@ -1,13 +1,13 @@
 import {
-  ALL_CATEGORIES,
-  KNOWLEDGE_FILTERS,
-  type KnowledgeFilter,
+  TODAS_CATEGORIAS,
+  FILTROS_CONOCIMIENTO,
+  type FiltroConocimiento,
 } from '@/types/knowledge.types';
 
 interface KnowledgeFiltersProps {
-  activeFilter: KnowledgeFilter;
-  onFilterChange: (filter: KnowledgeFilter) => void;
-  counts: Record<KnowledgeFilter, number>;
+  activeFilter: FiltroConocimiento;
+  onFilterChange: (filter: FiltroConocimiento) => void;
+  counts: Record<FiltroConocimiento, number>;
 }
 
 export const KnowledgeFilters = ({
@@ -17,7 +17,7 @@ export const KnowledgeFilters = ({
 }: KnowledgeFiltersProps) => {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {KNOWLEDGE_FILTERS.map((filter) => {
+      {FILTROS_CONOCIMIENTO.map((filter) => {
         const isActive = filter === activeFilter;
 
         return (
@@ -33,7 +33,7 @@ export const KnowledgeFilters = ({
             }`}
           >
             <span>
-              {filter === ALL_CATEGORIES ? 'Todos' : filter}
+              {filter === TODAS_CATEGORIAS ? 'Todos' : filter}
             </span>
             <span
               className={`rounded-full px-1.5 text-[10px] font-bold ${

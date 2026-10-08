@@ -1,18 +1,18 @@
 import { useState, type FormEvent } from 'react';
 import { Loader2, Send } from 'lucide-react';
 import { StarRatingInput } from '@/components/evaluaciones/StarRatingInput';
-import { createServiceEvaluation } from '@/services/evaluationsApi';
-import { formatDate } from '@/utils/date';
-import type { EvaluationRating, ServiceEvaluation } from '@/types/evaluation.types';
+import { crearEvaluacion } from '@/services/evaluationsApi';
+import { formatearFecha } from '@/utils/date';
+import type { PuntuacionEvaluacion, Evaluacion } from '@/types/evaluation.types';
 import type { Ticket } from '@/types/ticket.types';
 
 interface EvaluationFormProps {
   ticket: Ticket;
-  onSubmitted: (created: ServiceEvaluation) => void;
+  onSubmitted: (created: Evaluacion) => void;
 }
 
 export const EvaluationForm = ({ ticket, onSubmitted }: EvaluationFormProps) => {
-  const [rating, setRating] = useState<EvaluationRating | null>(null);
+  const [rating, setRating] = useState<PuntuacionEvaluacion | null>(null);
   const [comment, setComment] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +26,11 @@ export const EvaluationForm = ({ ticket, onSubmitted }: EvaluationFormProps) => 
     setError(null);
 
     try {
-      const created = await createServiceEvaluation({ ticketId: ticket.id, rating, comment });
+      const created = await crearEvaluacion({
+        idTicket: ticket.id,
+        puntuacion: rating,
+        comentario: comment,
+      });
       onSubmitted(created);
     } catch (sendError) {
       setError(
@@ -49,19 +53,19 @@ export const EvaluationForm = ({ ticket, onSubmitted }: EvaluationFormProps) => 
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-slate-400">#{ticket.id}</span>
           <span className="text-sm font-medium text-slate-800">
-            {ticket.description}
+            {ticket.descripcion}
           </span>
         </div>
 
         <div className="flex items-center gap-4 text-sm">
           <span className="rounded bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">
-            {ticket.status}
+            {ticket.estado}
           </span>
           <span className="text-slate-400">
             Técnico:{' '}
-            {ticket.technicianName ?? 'sin asignar'}
+            {ticket.tecnicoNombre ?? 'sin asignar'}
           </span>
-          <span className="text-slate-400">{formatDate(ticket.createdAt)}</span>
+          <span className="text-slate-400">{formatearFecha(ticket.creadoEn)}</span>
         </div>
       </div>
 

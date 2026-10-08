@@ -1,39 +1,60 @@
-import type { TechnicianAvailability, TechnicianStatus } from '../types/availability.types';
-import { AVAILABILITY_SEED, SIN_HORARIO } from '../seeds/availability.seed';
-import { userRepository, type UserRepository } from './user.repository';
+import { query } from '../config/db';
+import type {
+  DisponibilidadTecnico,
+  EstadoTecnico,
+} from '../types/availability.types';
+import { SIN_HORARIO } from '../types/availability.types';
+import type { EstadoUsuario, RolUsuario } from '../types/user.types';
+import { COLOR_AVATAR_POR_ROL, inicialesDeNombre } from '../utils/avatar';
 
-export interface AvailabilityRepository {
-  findAll(): Promise<TechnicianAvailability[]>;
+interface FilaDisponibilidad {
+  id: number;
+  nombre: string;
+  rol: RolUsuario;
+  estado: EstadoUsuario;
+  horario: string | null;
+  tickets_activos: number | null;
+  estado_disponibilidad: EstadoTecnico | null;
 }
 
-export class TechnicianAvailabilityRepository
-  implements AvailabilityRepository {
-  constructor(private readonly users: UserRepository = userRepository) { }
+export interface DisponibilidadRepositorio {
+  listar(): Promise<DisponibilidadTecnico[]>;
+}
 
-  async findAll(): Promise<TechnicianAvailability[]> {
-    const users = await this.users.findAll();
-
-    const byUserId = new Map(
-      AVAILABILITY_SEED.map((record) => [record.userId, record]),
+/**
+ * La disponibilidad solo lista tecnicos activos: si un tecnico no tiene una
+ * fila en `disponibilidad`, se muestra con horario por defecto, sin tickets y
+ * como Libre.
+ */
+export class PostgresDisponibilidadRepositorio
+  implements DisponibilidadRepositorio
+{
+  async listar(): Promise<DisponibilidadTecnico[]> {
+    const filas = await query<FilaDisponibilidad>(
+      `select
+         u.id,
+         u.nombre,
+         u.rol,
+         u.estado,
+         d.horario,
+         d.tickets_activos,
+         d.estado as estado_disponibilidad
+       from usuarios u
+       left join disponibilidad d on d.usuario_id = u.id
+       where u.rol = 'Técnico' and u.estado = 'Activo'
+       order by u.nombre asc, u.id asc`,
     );
 
-    return users
-      .filter((user) => user.role === 'Técnico' && user.status === 'Activo')
-      .map((user) => {
-        const record = byUserId.get(user.id);
-
-        return {
-          id: user.id,
-          name: user.name,
-          avatarInitials: user.avatarInitials,
-          avatarColor: user.avatarColor,
-          schedule: record?.schedule ?? SIN_HORARIO,
-          activeTickets: record?.activeTickets ?? 0,
-          status: (record?.status ?? 'Libre') as TechnicianStatus,
-        };
-      })
-      .sort((a, b) => a.name.localeCompare(b.name, 'es'));
+    return filas.map((fila) => ({
+      id: String(fila.id),
+      nombre: fila.nombre,
+      avatarIniciales: inicialesDeNombre(fila.nombre),
+      colorAvatar: COLOR_AVATAR_POR_ROL[fila.rol],
+      horario: fila.horario ?? SIN_HORARIO,
+      ticketsActivos: fila.tickets_activos ?? 0,
+      estado: fila.estado_disponibilidad ?? 'Libre',
+    }));
   }
 }
 
-export const availabilityRepository = new TechnicianAvailabilityRepository();
+export const disponibilidadRepositorio = new PostgresDisponibilidadRepositorio();

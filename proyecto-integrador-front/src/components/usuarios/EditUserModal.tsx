@@ -1,21 +1,21 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { SquarePen, ChevronDown, Check } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
-import type { UpdateUserInput, User, UserRole, UserStatus } from '@/types/user.types';
+import type { ActualizarUsuarioInput, Usuario, RolUsuario, EstadoUsuario } from '@/types/user.types';
 
 export interface EditUserModalProps {
   isOpen: boolean;
   onClose: () => void;
-  user: User | null;
-  onSubmit?: (input: UpdateUserInput) => Promise<void>;
+  user: Usuario | null;
+  onSubmit?: (input: ActualizarUsuarioInput) => Promise<void>;
 }
 
 interface EditFormData {
   nombre: string;
   apellido: string;
   correo: string;
-  rol: UserRole;
-  estado: UserStatus;
+  rol: RolUsuario;
+  estado: EstadoUsuario;
 }
 
 const EMPTY_FORM_DATA: EditFormData = {
@@ -27,26 +27,26 @@ const EMPTY_FORM_DATA: EditFormData = {
 };
 
 /** Traduce el usuario del dominio a los campos del formulario. */
-const toFormData = (user: User | null): EditFormData => {
+const toFormData = (user: Usuario | null): EditFormData => {
   if (!user) return EMPTY_FORM_DATA;
 
-  const parts = user.name.split(' ');
+  const parts = user.nombre.split(' ');
 
   return {
     nombre: parts[0] ?? '',
     apellido: parts.slice(1).join(' '),
-    correo: user.email,
-    rol: user.role,
-    estado: user.status,
+    correo: user.correo,
+    rol: user.rol,
+    estado: user.estado,
   };
 };
 
 /** El nombre y el correo son los unicos campos que viajan al back. */
-const toPayload = (form: EditFormData): UpdateUserInput => ({
-  name: `${form.nombre} ${form.apellido}`.trim(),
-  email: form.correo.trim(),
-  role: form.rol,
-  status: form.estado,
+const toPayload = (form: EditFormData): ActualizarUsuarioInput => ({
+  nombre: `${form.nombre} ${form.apellido}`.trim(),
+  correo: form.correo.trim(),
+  rol: form.rol,
+  estado: form.estado,
 });
 
 const toMessage = (error: unknown): string =>

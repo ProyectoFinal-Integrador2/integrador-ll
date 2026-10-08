@@ -1,7 +1,7 @@
 import { apiGet } from './apiClient';
-import type { TechnicianAvailability } from '../types/availability.types';
+import type { DisponibilidadTecnico } from '../types/availability.types';
 
-export const fetchTechnicianAvailability = (
+export const obtenerDisponibilidadTecnicos = (
   signal?: AbortSignal,
-): Promise<TechnicianAvailability[]> =>
-  apiGet<TechnicianAvailability[]>('/availability', signal);
+): Promise<DisponibilidadTecnico[]> =>
+  apiGet<DisponibilidadTecnico[]>('/availability', signal);

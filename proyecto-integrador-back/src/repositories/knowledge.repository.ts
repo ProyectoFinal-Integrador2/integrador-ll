@@ -1,36 +1,50 @@
-import type { KnowledgeArticle } from '../types/knowledge.types';
-import { KNOWLEDGE_SEED } from '../seeds/knowledge.seed';
-import { userRepository, type UserRepository } from './user.repository';
+import { query } from '../config/db';
+import type {
+  ArticuloConocimiento,
+  CategoriaConocimiento,
+} from '../types/knowledge.types';
 
-export interface KnowledgeRepository {
-  findAll(): Promise<KnowledgeArticle[]>;
+interface FilaArticulo {
+  id: number;
+  titulo: string;
+  categoria: CategoriaConocimiento;
+  autor_nombre: string;
+  vistas: number;
+  creado_en: Date;
 }
 
-export class InMemoryKnowledgeRepository implements KnowledgeRepository {
-  constructor(private readonly users: UserRepository = userRepository) {}
+const SQL_SELECT = `
+  select
+    a.id,
+    a.titulo,
+    a.categoria,
+    u.nombre as autor_nombre,
+    a.vistas,
+    a.creado_en
+  from articulos_conocimiento a
+  join usuarios u on u.id = a.autor_id
+`;
 
-  async findAll(): Promise<KnowledgeArticle[]> {
-    const users = await this.users.findAll();
-    const byId = new Map(users.map((user) => [user.id, user]));
+const aDominio = (fila: FilaArticulo): ArticuloConocimiento => ({
+  id: String(fila.id),
+  titulo: fila.titulo,
+  categoria: fila.categoria,
+  autorNombre: fila.autor_nombre,
+  vistas: fila.vistas,
+  creadoEn: new Date(fila.creado_en).toISOString(),
+});
 
-    return KNOWLEDGE_SEED.flatMap((record) => {
-      const author = byId.get(record.authorId);
+export interface ConocimientoRepositorio {
+  listar(): Promise<ArticuloConocimiento[]>;
+}
 
-      if (!author) return [];
-
-      return [
-        {
-          id: record.id,
-          title: record.title,
-          category: record.category,
-          authorName: author.name,
-          views: record.views,
-          createdAt: record.createdAt,
-        },
-      ];
-    })
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+export class PostgresConocimientoRepositorio implements ConocimientoRepositorio {
+  async listar(): Promise<ArticuloConocimiento[]> {
+    const filas = await query<FilaArticulo>(
+      `${SQL_SELECT} order by a.creado_en desc, a.id desc`,
+    );
+    return filas.map(aDominio);
   }
 }
 
-export const knowledgeRepository = new InMemoryKnowledgeRepository();
+export const conocimientoRepositorio = new PostgresConocimientoRepositorio();

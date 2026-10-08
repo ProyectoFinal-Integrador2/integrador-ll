@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { SlaController } from '../controllers/sla.controller';
+import { SlaControlador } from '../controllers/sla.controller';
 
 const slaRoutes = Router();
 
-slaRoutes.get('/', SlaController.list);
-slaRoutes.post('/', SlaController.create);
-slaRoutes.put('/:id', SlaController.update);
+slaRoutes.get('/', SlaControlador.listar);
+slaRoutes.post('/', SlaControlador.crear);
+slaRoutes.put('/:id', SlaControlador.actualizar);
 
 export default slaRoutes;

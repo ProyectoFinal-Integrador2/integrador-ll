@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { AvailabilityController } from '../controllers/availability.controller';
+import { DisponibilidadControlador } from '../controllers/availability.controller';
 
 const availabilityRoutes = Router();
 
-availabilityRoutes.get('/', AvailabilityController.list);
+availabilityRoutes.get('/', DisponibilidadControlador.listar);
 
 export default availabilityRoutes;

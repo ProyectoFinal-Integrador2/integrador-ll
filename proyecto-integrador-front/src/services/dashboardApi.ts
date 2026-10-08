@@ -1,17 +1,17 @@
 import { apiGet } from './apiClient';
-import type { DashboardReport } from '../types/dashboard.types';
+import type { ReporteDashboard } from '../types/dashboard.types';
 
-export const fetchDashboard = (
+export const obtenerDashboard = (
   signal?: AbortSignal,
-  technicianId?: string,
-  userId?: string,
-): Promise<DashboardReport> => {
+  tecnicoId?: string,
+  usuarioId?: string,
+): Promise<ReporteDashboard> => {
   const params = new URLSearchParams();
 
-  if (technicianId !== undefined) params.set('technicianId', technicianId);
-  if (userId !== undefined) params.set('userId', userId);
+  if (tecnicoId !== undefined) params.set('tecnicoId', tecnicoId);
+  if (usuarioId !== undefined) params.set('usuarioId', usuarioId);
 
   const query = params.size > 0 ? `?${params.toString()}` : '';
 
-  return apiGet<DashboardReport>(`/dashboard${query}`, signal);
+  return apiGet<ReporteDashboard>(`/dashboard${query}`, signal);
 };

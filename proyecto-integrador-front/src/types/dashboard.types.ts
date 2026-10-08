@@ -1,9 +1,9 @@
-import type { ServiceEvaluation } from './evaluation.types';
-import type { TechnicianAvailability } from './availability.types';
-import type { SlaPriority } from './sla.types';
+import type { Evaluacion } from './evaluation.types';
+import type { DisponibilidadTecnico } from './availability.types';
+import type { SlaPrioridad } from './sla.types';
 import type { Ticket } from './ticket.types';
 
-export const WEEKDAY_LABELS = [
+export const ETIQUETAS_SEMANA = [
   'Lun',
   'Mar',
   'Mié',
@@ -13,57 +13,57 @@ export const WEEKDAY_LABELS = [
   'Dom',
 ] as const;
 
-export interface DashboardWeekDay {
-  label: string;
-  count: number;
+export interface DiaDashboard {
+  etiqueta: string;
+  conteo: number;
 }
 
-export interface DashboardTickets {
-  open: number;
-  inProgress: number;
-  closed: number;
-  cancelled: number;
+export interface TicketsDashboard {
+  abiertos: number;
+  enProgreso: number;
+  cerrados: number;
+  cancelados: number;
   total: number;
-  recent: Ticket[];
-  week: DashboardWeekDay[];
+  recientes: Ticket[];
+  semana: DiaDashboard[];
 }
 
-export interface DashboardSatisfaction {
-  averageRating: number | null;
+export interface SatisfaccionDashboard {
+  promedioPuntuacion: number | null;
   total: number;
 }
 
-export interface JefeDashboardReport {
-  scope: 'jefe';
-  tickets: DashboardTickets;
-  satisfaction: DashboardSatisfaction;
-  technicians: TechnicianAvailability[];
-  sla: SlaPriority[];
+export interface ReporteDashboardJefe {
+  alcance: 'jefe';
+  tickets: TicketsDashboard;
+  satisfaccion: SatisfaccionDashboard;
+  tecnicos: DisponibilidadTecnico[];
+  sla: SlaPrioridad[];
   /** ISO 8601. */
-  generatedAt: string;
+  generadoEn: string;
 }
 
-export interface TecnicoDashboardReport {
-  scope: 'tecnico';
-  technician: TechnicianAvailability;
-  evaluations: ServiceEvaluation[];
-  satisfaction: DashboardSatisfaction;
-  pendingTickets: Ticket[];
-  sla: SlaPriority[];
-  generatedAt: string;
+export interface ReporteDashboardTecnico {
+  alcance: 'tecnico';
+  tecnico: DisponibilidadTecnico;
+  evaluaciones: Evaluacion[];
+  satisfaccion: SatisfaccionDashboard;
+  ticketsPendientes: Ticket[];
+  sla: SlaPrioridad[];
+  generadoEn: string;
 }
 
-export interface UsuarioDashboardReport {
-  scope: 'usuario';
-  tickets: DashboardTickets;
-  pendingEvaluations: Ticket[];
-  evaluations: ServiceEvaluation[];
-  sla: SlaPriority[];
+export interface ReporteDashboardUsuario {
+  alcance: 'usuario';
+  tickets: TicketsDashboard;
+  evaluacionesPendientes: Ticket[];
+  evaluaciones: Evaluacion[];
+  sla: SlaPrioridad[];
   /** ISO 8601. */
-  generatedAt: string;
+  generadoEn: string;
 }
 
-export type DashboardReport =
-  | JefeDashboardReport
-  | TecnicoDashboardReport
-  | UsuarioDashboardReport;
+export type ReporteDashboard =
+  | ReporteDashboardJefe
+  | ReporteDashboardTecnico
+  | ReporteDashboardUsuario;

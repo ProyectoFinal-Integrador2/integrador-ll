@@ -1,9 +1,9 @@
 import { StarRating } from '@/components/evaluaciones/StarRating';
-import { formatDate } from '@/utils/date';
-import type { ServiceEvaluation } from '@/types/evaluation.types';
+import { formatearFecha } from '@/utils/date';
+import type { Evaluacion } from '@/types/evaluation.types';
 
 interface TecnicoEvaluationsPanelProps {
-  evaluations: ServiceEvaluation[];
+  evaluations: Evaluacion[];
 }
 
 export const TecnicoEvaluationsPanel = ({
@@ -25,19 +25,19 @@ export const TecnicoEvaluationsPanel = ({
             <li key={evaluation.id} className="py-3 first:pt-0 last:pb-0">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-sm font-bold text-slate-800">
-                  #{evaluation.ticketId}
+                  #{evaluation.idTicket}
                 </span>
 
-                <StarRating rating={evaluation.rating} />
+                <StarRating rating={evaluation.puntuacion} />
               </div>
 
               <p className="mt-1.5 text-xs text-slate-600">
-                {evaluation.comment}
+                {evaluation.comentario}
               </p>
 
               <p className="mt-1 text-[11px] text-slate-400">
-                {evaluation.reviewerName} &middot;{' '}
-                {formatDate(evaluation.createdAt)}
+                {evaluation.evaluadorNombre} &middot;{' '}
+                {formatearFecha(evaluation.creadoEn)}
               </p>
             </li>
           ))}

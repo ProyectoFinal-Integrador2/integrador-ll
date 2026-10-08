@@ -1,11 +1,11 @@
 import { SquarePen } from 'lucide-react';
-import { EQUIPMENT_TYPE_ICONS } from '@/components/equipos/equipmentStyles';
-import type { Equipment } from '@/types/equipment.types';
+import { ICONOS_TIPO_EQUIPO } from '@/components/equipos/equipmentStyles';
+import type { Equipo } from '@/types/equipment.types';
 import { EquipmentStatusBadge } from '@/components/equipos/EquipmentStatusBadge';
 
 interface EquipmentListProps {
-  equipments: Equipment[];
-  onEditEquipment?: (equipment: Equipment) => void;
+  equipments: Equipo[];
+  onEditEquipment?: (equipment: Equipo) => void;
   isLoading: boolean;
   error: string | null;
 }
@@ -50,7 +50,7 @@ export const EquipmentList = ({
   return (
     <ul className="space-y-3">
       {equipments.map((equipment) => {
-        const TypeIcon = EQUIPMENT_TYPE_ICONS[equipment.type];
+        const TypeIcon = ICONOS_TIPO_EQUIPO[equipment.tipo];
 
         return (
           <li
@@ -59,11 +59,11 @@ export const EquipmentList = ({
           >
             <div className="flex items-center gap-3">
               <TypeIcon className="h-5 w-5 shrink-0 text-slate-400" />
-              <span className="text-xs font-bold text-slate-400">{equipment.code}</span>
+              <span className="text-xs font-bold text-slate-400">{equipment.codigo}</span>
             </div>
 
             <span className="text-sm font-semibold text-slate-800">
-              {equipment.name}
+              {equipment.nombre}
             </span>
 
             <span className="text-xs text-slate-500 sm:text-sm sm:text-slate-600">
@@ -71,14 +71,14 @@ export const EquipmentList = ({
             </span>
 
             <span>
-              <EquipmentStatusBadge status={equipment.status} />
+              <EquipmentStatusBadge status={equipment.estado} />
             </span>
 
             <span className="sm:text-right">
               <button
                 type="button"
                 onClick={() => onEditEquipment?.(equipment)}
-                aria-label={`Editar equipo ${equipment.code}`}
+                aria-label={`Editar equipo ${equipment.codigo}`}
                 className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-900"
               >
                 <SquarePen className="h-3.5 w-3.5" />

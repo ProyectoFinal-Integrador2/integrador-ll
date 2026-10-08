@@ -4,11 +4,11 @@ import { ReportStatCard } from '@/components/reportes/ReportStatCard';
 import { SlaCommitmentPanel } from '@/components/sla/SlaCommitmentPanel';
 import { TechnicianAvailabilityPanel } from '@/components/disponibilidad/TechnicianAvailabilityPanel';
 import { WeeklyTicketsChart } from '@/components/reportes/WeeklyTicketsChart';
-import type { JefeDashboardReport } from '@/types/dashboard.types';
+import type { ReporteDashboardJefe } from '@/types/dashboard.types';
 import type { Ticket } from '@/types/ticket.types';
 
 interface JefeDashboardViewProps {
-  report: JefeDashboardReport;
+  report: ReporteDashboardJefe;
   onSelectTicket: (ticket: Ticket) => void;
 }
 
@@ -19,19 +19,19 @@ export const JefeDashboardView = ({
   report,
   onSelectTicket,
 }: JefeDashboardViewProps) => {
-  const busyCount = report.tickets.open + report.tickets.inProgress;
+  const busyCount = report.tickets.abiertos + report.tickets.enProgreso;
 
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <ReportStatCard
           label="Tickets abiertos"
-          value={String(report.tickets.open)}
+          value={String(report.tickets.abiertos)}
           hint={
             report.tickets.total === 0
               ? 'Sin tickets registrados'
               : `${Math.round(
-                  (report.tickets.open / report.tickets.total) * 100,
+                  (report.tickets.abiertos / report.tickets.total) * 100,
                 )}% del total`
           }
           icon={<TicketIcon className="h-5 w-5" />}
@@ -39,7 +39,7 @@ export const JefeDashboardView = ({
 
         <ReportStatCard
           label="Tickets en progreso"
-          value={String(report.tickets.inProgress)}
+          value={String(report.tickets.enProgreso)}
           hint={pluralize(busyCount, 'ticket activo', 'tickets activos')}
           icon={<Timer className="h-5 w-5" />}
           iconClassName="text-yellow-500"
@@ -47,12 +47,12 @@ export const JefeDashboardView = ({
 
         <ReportStatCard
           label="Tickets cerrados"
-          value={String(report.tickets.closed)}
+          value={String(report.tickets.cerrados)}
           hint={
             report.tickets.total === 0
               ? 'Sin tickets registrados'
               : `${Math.round(
-                  (report.tickets.closed / report.tickets.total) * 100,
+                  (report.tickets.cerrados / report.tickets.total) * 100,
                 )}% del total`
           }
           icon={<CircleCheckBig className="h-5 w-5" />}
@@ -62,12 +62,12 @@ export const JefeDashboardView = ({
         <ReportStatCard
           label="Satisfaccion"
           value={
-            report.satisfaction.averageRating === null
+            report.satisfaccion.promedioPuntuacion === null
               ? 'Sin datos'
-              : `${report.satisfaction.averageRating} / 5`
+              : `${report.satisfaccion.promedioPuntuacion} / 5`
           }
           hint={pluralize(
-            report.satisfaction.total,
+            report.satisfaccion.total,
             'evaluacion registrada',
             'evaluaciones registradas',
           )}
@@ -79,24 +79,24 @@ export const JefeDashboardView = ({
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <RecentTicketsPanel
-            tickets={report.tickets.recent}
+            tickets={report.tickets.recientes}
             onSelectTicket={onSelectTicket}
           />
         </div>
 
         <WeeklyTicketsChart
-          week={report.tickets.week}
+          week={report.tickets.semana}
           statusTotals={{
-            Abierto: report.tickets.open,
-            'En progreso': report.tickets.inProgress,
-            Cerrado: report.tickets.closed,
-            Cancelado: report.tickets.cancelled,
+            Abierto: report.tickets.abiertos,
+            'En progreso': report.tickets.enProgreso,
+            Cerrado: report.tickets.cerrados,
+            Cancelado: report.tickets.cancelados,
           }}
         />
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <TechnicianAvailabilityPanel technicians={report.technicians} />
+        <TechnicianAvailabilityPanel technicians={report.tecnicos} />
 
         <SlaCommitmentPanel sla={report.sla} />
       </div>

@@ -1,10 +1,10 @@
 import { Headset, Users, UserRound, X, LogOut, Ticket, Server, Clock, UserRoundCheck, Star, BarChart3, BookOpen, LayoutDashboard } from "lucide-react";
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { AVATAR_STYLES } from '@/utils/avatarStyles';
-import { ROLE_STYLES } from '@/utils/roleStyles';
+import { ESTILOS_AVATAR } from '@/utils/avatarStyles';
+import { ESTILOS_ROL } from '@/utils/roleStyles';
 import { useSession } from '@/context/session';
-import type { UserRole } from '@/types/roles';
+import type { RolUsuario } from '@/types/roles';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -36,7 +36,7 @@ const PRINCIPAL_SECTION: NavSection = {
   ],
 };
 
-const MENU_BY_ROLE: Record<UserRole, NavSection[]> = {
+const MENU_BY_ROLE: Record<RolUsuario, NavSection[]> = {
   "Jefe TI": [
     PRINCIPAL_SECTION,
     {
@@ -92,7 +92,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
   if (!user) return null;
 
-  const visibleSections = MENU_BY_ROLE[user.role];
+  const visibleSections = MENU_BY_ROLE[user.rol];
 
   return (
     <>
@@ -120,9 +120,9 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 Help Desk TI
               </span>
               <span
-                className={`w-max rounded-md p-0.5 px-1.5 text-sm font-semibold ${ROLE_STYLES[user.role]}`}
+                className={`w-max rounded-md p-0.5 px-1.5 text-sm font-semibold ${ESTILOS_ROL[user.rol]}`}
               >
-                {user.role}
+                {user.rol}
               </span>
             </div>
           </div>
@@ -181,16 +181,16 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         <div className="shrink-0 border-t border-slate-100 p-4">
           <div className="flex items-center gap-3 rounded-lg p-1.5">
             <div
-              className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold ${AVATAR_STYLES[user.avatarColor]}`}
+              className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold ${ESTILOS_AVATAR[user.colorAvatar]}`}
             >
-              {user.avatarInitials}
+              {user.avatarIniciales}
             </div>
             <div className="flex min-w-0 flex-1 flex-col">
               <span className="truncate text-xs font-bold text-slate-800">
-                {user.name}
+                {user.nombre}
               </span>
               <span className="truncate text-[11px] text-slate-400">
-                {user.email}
+                {user.correo}
               </span>
             </div>
           </div>

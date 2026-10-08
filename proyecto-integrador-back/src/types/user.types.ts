@@ -1,43 +1,44 @@
-export const USER_ROLES = ['Jefe TI', 'Técnico', 'Usuario'] as const;
+export const ROLES_USUARIO = ['Jefe TI', 'Técnico', 'Usuario'] as const;
 
-export const USER_STATUSES = ['Activo', 'Inactivo'] as const;
+export const ESTADOS_USUARIO = ['Activo', 'Inactivo'] as const;
 
-export type UserRole = (typeof USER_ROLES)[number];
+export type RolUsuario = (typeof ROLES_USUARIO)[number];
 
-export type UserStatus = (typeof USER_STATUSES)[number];
+export type EstadoUsuario = (typeof ESTADOS_USUARIO)[number];
 
 /**
  * El color del avatar se deriva del rol, no se guarda: asi un cambio de rol
  * repinta el avatar solo y no puede quedar desincronizado.
  */
-export type AvatarColor = 'blue' | 'green' | 'amber';
+export type ColorAvatar = 'blue' | 'green' | 'amber';
 
-export interface User {
+export interface Usuario {
   id: string;
-  name: string;
-  email: string;
-  role: UserRole;
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
   area: string;
-  status: UserStatus;
-  avatarInitials: string;
-  avatarColor: AvatarColor;
+  estado: EstadoUsuario;
+  avatarIniciales: string;
+  colorAvatar: ColorAvatar;
 }
 
 /**
  * El alta la decide el dominio: un usuario nace activo y con el avatar ya
- * calculado, asi que el frontend no manda `status` ni `avatarInitials`.
+ * calculado, asi que el frontend no manda `estado` ni `avatarIniciales`.
  */
-export interface CreateUserInput {
-  name: string;
-  email: string;
-  role: UserRole;
+export interface CrearUsuarioInput {
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
   area: string;
+  contrasena: string;
 }
 
 /** La edicion si permite cambiar el estado, a diferencia del alta. */
-export interface UpdateUserInput {
-  name: string;
-  email: string;
-  role: UserRole;
-  status: UserStatus;
+export interface ActualizarUsuarioInput {
+  nombre: string;
+  correo: string;
+  rol: RolUsuario;
+  estado: EstadoUsuario;
 }

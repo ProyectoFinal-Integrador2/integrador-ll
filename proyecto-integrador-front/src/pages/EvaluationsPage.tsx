@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { EvaluationCard } from '@/components/evaluaciones/EvaluationCard';
 import { EvaluationsToolbar } from '@/components/evaluaciones/EvaluationsToolbar';
 import { MyEvaluationsView } from '@/components/evaluaciones/MyEvaluationsView';
-import { fetchServiceEvaluations } from '@/services/evaluationsApi';
+import { obtenerEvaluaciones } from '@/services/evaluationsApi';
 import { useSession } from '@/context/session';
-import { normalizeForSearch } from '@/utils/text';
-import type { ServiceEvaluation } from '@/types/evaluation.types';
+import { normalizarParaBusqueda } from '@/utils/text';
+import type { Evaluacion } from '@/types/evaluation.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -16,13 +16,13 @@ const toMessage = (error: unknown): string =>
 export const EvaluationsPage = () => {
   const { user } = useSession();
 
-  if (user?.role === 'Usuario') return <MyEvaluationsView />;
+  if (user?.rol === 'Usuario') return <MyEvaluationsView />;
 
   return <AllEvaluationsView />;
 };
 
 const AllEvaluationsView = () => {
-  const [evaluations, setEvaluations] = useState<ServiceEvaluation[]>([]);
+  const [evaluations, setEvaluations] = useState<Evaluacion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +30,7 @@ const AllEvaluationsView = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchServiceEvaluations(controller.signal)
+    obtenerEvaluaciones(controller.signal)
       .then((data) => {
         setEvaluations(data);
         setError(null);
@@ -49,7 +49,7 @@ const AllEvaluationsView = () => {
   const handleRefresh = () => {
     setIsLoading(true);
 
-    fetchServiceEvaluations()
+    obtenerEvaluaciones()
       .then((data) => {
         setEvaluations(data);
         setError(null);
@@ -59,22 +59,22 @@ const AllEvaluationsView = () => {
   };
 
   const visibleEvaluations = useMemo(() => {
-    const query = normalizeForSearch(searchTerm);
+    const query = normalizarParaBusqueda(searchTerm);
     if (query.length === 0) return evaluations;
 
     return evaluations.filter((evaluation) =>
       [
-        evaluation.ticketId,
-        evaluation.technicianName,
-        evaluation.reviewerName,
-        evaluation.comment,
+        evaluation.idTicket,
+        evaluation.tecnicoNombre,
+        evaluation.evaluadorNombre,
+        evaluation.comentario,
       ]
-        .map(normalizeForSearch)
+        .map(normalizarParaBusqueda)
         .some((field) => field.includes(query)),
     );
   }, [evaluations, searchTerm]);
 
-  const hasActiveSearch = normalizeForSearch(searchTerm).length > 0;
+  const hasActiveSearch = normalizarParaBusqueda(searchTerm).length > 0;
 
   return (
     <div className="w-full">

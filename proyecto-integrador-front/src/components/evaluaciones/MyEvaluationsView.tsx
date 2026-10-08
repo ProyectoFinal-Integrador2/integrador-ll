@@ -3,11 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { EvaluationCard } from '@/components/evaluaciones/EvaluationCard';
 import { EvaluationForm } from '@/components/evaluaciones/EvaluationForm';
 import {
-  fetchPendingEvaluations,
-  fetchServiceEvaluations,
+  obtenerEvaluacionesPendientes,
+  obtenerEvaluaciones,
 } from '@/services/evaluationsApi';
 import { useSession } from '@/context/session';
-import type { ServiceEvaluation } from '@/types/evaluation.types';
+import type { Evaluacion } from '@/types/evaluation.types';
 import type { Ticket } from '@/types/ticket.types';
 
 const isAbortError = (error: unknown): boolean =>
@@ -26,7 +26,7 @@ export const MyEvaluationsView = () => {
   const targetTicketId = (location.state as EvaluateLocationState | null)?.ticketId;
 
   const [pending, setPending] = useState<Ticket[]>([]);
-  const [mine, setMine] = useState<ServiceEvaluation[]>([]);
+  const [mine, setMine] = useState<Evaluacion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,13 +36,13 @@ export const MyEvaluationsView = () => {
     const controller = new AbortController();
 
     Promise.all([
-      fetchPendingEvaluations(user.id, controller.signal),
-      fetchServiceEvaluations(controller.signal),
+      obtenerEvaluacionesPendientes(user.id, controller.signal),
+      obtenerEvaluaciones(controller.signal),
     ])
       .then(([pendingTickets, evaluations]) => {
         setPending(pendingTickets);
         setMine(
-          evaluations.filter((evaluation) => evaluation.reviewerId === user.id),
+          evaluations.filter((evaluation) => evaluation.idEvaluador === user.id),
         );
         setError(null);
       })
@@ -57,8 +57,8 @@ export const MyEvaluationsView = () => {
     return () => controller.abort();
   }, [user]);
 
-  const handleSubmitted = (created: ServiceEvaluation) => {
-    setPending((prev) => prev.filter((ticket) => ticket.id !== created.ticketId));
+  const handleSubmitted = (created: Evaluacion) => {
+    setPending((prev) => prev.filter((ticket) => ticket.id !== created.idTicket));
     setMine((prev) => [created, ...prev.filter((item) => item.id !== created.id)]);
   };
 

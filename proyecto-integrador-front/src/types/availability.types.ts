@@ -1,16 +1,16 @@
-import type { AvatarColor } from './user.types';
+import type { ColorAvatar } from './user.types';
 
-export const TECHNICIAN_STATUSES = ['Libre', 'Ocupado', 'Parcial'] as const;
+export const ESTADOS_TECNICO = ['Libre', 'Ocupado', 'Parcial'] as const;
 
-export type TechnicianStatus = (typeof TECHNICIAN_STATUSES)[number];
+export type EstadoTecnico = (typeof ESTADOS_TECNICO)[number];
 
-export interface TechnicianAvailability {
+export interface DisponibilidadTecnico {
   /** El mismo id que tiene el usuario. */
   id: string;
-  name: string;
-  avatarInitials: string;
-  avatarColor: AvatarColor;
-  schedule: string;
-  activeTickets: number;
-  status: TechnicianStatus;
+  nombre: string;
+  avatarIniciales: string;
+  colorAvatar: ColorAvatar;
+  horario: string;
+  ticketsActivos: number;
+  estado: EstadoTecnico;
 }

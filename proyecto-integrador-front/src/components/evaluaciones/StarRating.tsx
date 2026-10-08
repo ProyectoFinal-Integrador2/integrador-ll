@@ -1,8 +1,8 @@
 import { Star } from 'lucide-react';
-import { EVALUATION_RATINGS, type EvaluationRating } from '@/types/evaluation.types';
+import { PUNTUACIONES_EVALUACION, type PuntuacionEvaluacion } from '@/types/evaluation.types';
 
 interface StarRatingProps {
-  rating: EvaluationRating;
+  rating: PuntuacionEvaluacion;
 }
 
 export const StarRating = ({ rating }: StarRatingProps) => {
@@ -12,7 +12,7 @@ export const StarRating = ({ rating }: StarRatingProps) => {
       role="img"
       aria-label={`${rating} de 5 estrellas`}
     >
-      {EVALUATION_RATINGS.map((star) => (
+      {PUNTUACIONES_EVALUACION.map((star) => (
         <Star
           key={star}
           className={`h-5 w-5 fill-current ${

@@ -1,22 +1,22 @@
-export const TICKET_PRIORITIES = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
+export const PRIORIDADES_TICKET = ['Crítico', 'Alto', 'Medio', 'Bajo'] as const;
 
-export const TICKET_STATUSES = [
+export const ESTADOS_TICKET = [
   'Abierto',
   'En progreso',
   'Cerrado',
   'Cancelado',
 ] as const;
 
-export type TicketPriority = (typeof TICKET_PRIORITIES)[number];
+export type PrioridadTicket = (typeof PRIORIDADES_TICKET)[number];
 
-export type TicketStatus = (typeof TICKET_STATUSES)[number];
+export type EstadoTicket = (typeof ESTADOS_TICKET)[number];
 
 /**
  * Estados en los que el ticket sigue pidiendo una accion. Un ticket cancelado
  * esta terminado igual que uno cerrado, asi que no cuenta como pendiente ni
  * como abierto.
  */
-export const ACTIVE_TICKET_STATUSES: TicketStatus[] = ['Abierto', 'En progreso'];
+export const ESTADOS_ACTIVOS: EstadoTicket[] = ['Abierto', 'En progreso'];
 
 /**
  * A donde puede pasar un ticket desde cada estado.
@@ -30,7 +30,7 @@ export const ACTIVE_TICKET_STATUSES: TicketStatus[] = ['Abierto', 'En progreso']
  * Dejar esta tabla junto a los estados evita que cada endpoint invente sus
  * propias reglas y que el modal y la API terminese contradiciendo.
  */
-export const TICKET_STATUS_TRANSITIONS: Record<TicketStatus, TicketStatus[]> = {
+export const TRANSICIONES_ESTADO: Record<EstadoTicket, EstadoTicket[]> = {
   Abierto: ['En progreso', 'Cancelado'],
   'En progreso': ['Cerrado'],
   Cerrado: [],
@@ -39,33 +39,33 @@ export const TICKET_STATUS_TRANSITIONS: Record<TicketStatus, TicketStatus[]> = {
 
 export interface Ticket {
   id: string;
-  description: string;
+  descripcion: string;
   /**
    * Nombre del solicitante tal como se registro. Se conserva porque el Jefe TI
    * puede abrir un ticket a nombre de otra persona escribiendo su nombre; el
-   * `userId` es el que permite saber de quien es el ticket.
+   * `usuarioId` es el que permite saber de quien es el ticket.
    */
-  user: string;
+  solicitante: string;
   /** `null` si se registro a nombre de alguien que no esta en el padron. */
-  userId: string | null;
-  priority: TicketPriority;
-  status: TicketStatus;
+  usuarioId: string | null;
+  prioridad: PrioridadTicket;
+  estado: EstadoTicket;
   /** `null` mientras nadie tomo el ticket: es la cola de trabajo disponible. */
-  technicianId: string | null;
-  /** Resuelto por el repositorio desde `technicianId`, igual que en evaluaciones. */
-  technicianName: string | null;
+  tecnicoId: string | null;
+  /** Resuelto por el repositorio desde `tecnicoId`, igual que en evaluaciones. */
+  tecnicoNombre: string | null;
   /** ISO 8601. El formateo a texto legible ocurre en el frontend. */
-  createdAt: string;
+  creadoEn: string;
 }
 
 /** El estado inicial lo fija el dominio: un ticket nace abierto. */
-export interface CreateTicketInput {
-  description: string;
-  user: string;
-  userId?: string;
-  priority: TicketPriority;
+export interface CrearTicketInput {
+  descripcion: string;
+  solicitante: string;
+  usuarioId?: string;
+  prioridad: PrioridadTicket;
 }
 
-export interface UpdateTicketStatusInput {
-  status: TicketStatus;
+export interface ActualizarEstadoTicketInput {
+  estado: EstadoTicket;
 }
