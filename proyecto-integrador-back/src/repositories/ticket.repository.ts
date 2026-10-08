@@ -11,6 +11,7 @@ interface FilaTicket {
   descripcion: string;
   nombre_solicitante: string;
   usuario_id: number | null;
+  area: string | null;
   prioridad: PrioridadTicket;
   estado: EstadoTicket;
   tecnico_id: number | null;
@@ -24,6 +25,7 @@ const SQL_SELECT = `
     t.descripcion,
     t.nombre_solicitante,
     t.usuario_id,
+    su.area,
     t.prioridad,
     t.estado,
     t.tecnico_id,
@@ -31,6 +33,7 @@ const SQL_SELECT = `
     u.nombre as tecnico_nombre
   from tickets t
   left join usuarios u on u.id = t.tecnico_id
+  left join usuarios su on su.id = t.usuario_id
 `;
 
 const aDominio = (fila: FilaTicket): Ticket => ({
@@ -38,6 +41,7 @@ const aDominio = (fila: FilaTicket): Ticket => ({
   descripcion: fila.descripcion,
   solicitante: fila.nombre_solicitante,
   usuarioId: fila.usuario_id === null ? null : String(fila.usuario_id),
+  area: fila.area,
   prioridad: fila.prioridad,
   estado: fila.estado,
   tecnicoId: fila.tecnico_id === null ? null : String(fila.tecnico_id),
@@ -49,7 +53,11 @@ export interface TicketRepositorio {
   listar(): Promise<Ticket[]>;
   obtenerPorId(id: string): Promise<Ticket | undefined>;
   crear(input: CrearTicketInput): Promise<Ticket>;
-  actualizarEstado(id: string, estado: EstadoTicket): Promise<Ticket | undefined>;
+  actualizarEstado(
+    id: string,
+    estado: EstadoTicket,
+    tecnicoId?: string,
+  ): Promise<Ticket | undefined>;
 }
 
 export class PostgresTicketRepositorio implements TicketRepositorio {
@@ -67,10 +75,10 @@ export class PostgresTicketRepositorio implements TicketRepositorio {
   }
 
   async crear(input: CrearTicketInput): Promise<Ticket> {
-    const fila = await queryOne<FilaTicket>(
+    const fila = await queryOne<{ id: number }>(
       `insert into tickets (descripcion, nombre_solicitante, usuario_id, prioridad, estado)
        values ($1, $2, $3, $4, 'Abierto')
-       returning id, descripcion, nombre_solicitante, usuario_id, prioridad, estado, tecnico_id, creado_en`,
+       returning id`,
       [
         input.descripcion,
         input.solicitante,
@@ -80,17 +88,27 @@ export class PostgresTicketRepositorio implements TicketRepositorio {
     );
 
     if (!fila) throw new Error('No se pudo crear el ticket.');
-    return aDominio({ ...fila, tecnico_nombre: null });
+
+    // Se relee con el JOIN para devolver area y tecnico_nombre completos.
+    const creado = await this.obtenerPorId(String(fila.id));
+
+    if (!creado) throw new Error('No se pudo crear el ticket.');
+    return creado;
   }
 
   async actualizarEstado(
     id: string,
     estado: EstadoTicket,
+    tecnicoId?: string,
   ): Promise<Ticket | undefined> {
-    await query('update tickets set estado = $2 where id = $1', [
-      Number(id),
-      estado,
-    ]);
+    await query(
+      `update tickets
+       set estado = $2${tecnicoId ? ', tecnico_id = $3' : ''}
+       where id = $1`,
+      tecnicoId
+        ? [Number(id), estado, Number(tecnicoId)]
+        : [Number(id), estado],
+    );
 
     return this.obtenerPorId(id);
   }

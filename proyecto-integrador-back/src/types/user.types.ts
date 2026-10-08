@@ -19,20 +19,23 @@ export interface Usuario {
   rol: RolUsuario;
   area: string;
   estado: EstadoUsuario;
+  fono: string | null;
+  debeCambiarContrasena: boolean;
   avatarIniciales: string;
   colorAvatar: ColorAvatar;
 }
 
 /**
- * El alta la decide el dominio: un usuario nace activo y con el avatar ya
- * calculado, asi que el frontend no manda `estado` ni `avatarIniciales`.
+ * El alta la decide el dominio: un usuario nace activo, con el avatar ya
+ * calculado y con una contraseña temporal generada por el backend (el Jefe TI
+ * la ve una sola vez y se la pasa al usuario; este debe cambiarla al ingresar).
  */
 export interface CrearUsuarioInput {
   nombre: string;
   correo: string;
   rol: RolUsuario;
   area: string;
-  contrasena: string;
+  fono: string;
 }
 
 /** La edicion si permite cambiar el estado, a diferencia del alta. */

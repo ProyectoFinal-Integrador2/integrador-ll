@@ -4,7 +4,7 @@ import { usuarioRepositorio, type UsuarioRepositorio } from '../repositories/use
 import { HttpError } from '../utils/httpError';
 import { verificarPassword } from '../utils/password';
 import type { PayloadToken } from '../types/auth.types';
-import type { Usuario } from '../types/user.types';
+import { ROLES_USUARIO, type RolUsuario, type Usuario } from '../types/user.types';
 
 /** Exige parte local y arroba. */
 const PATRON_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,7 +19,7 @@ export interface SesionIniciada {
 export class AuthService {
   constructor(private readonly repositorio: UsuarioRepositorio) {}
 
-  async login(correo: string, contrasena: string): Promise<SesionIniciada> {
+  async login(correo: string, contrasena: string, rol?: RolUsuario): Promise<SesionIniciada> {
     const normalizado = correo.trim().toLowerCase();
 
     if (!PATRON_CORREO.test(normalizado) || contrasena.length === 0) {
@@ -34,6 +34,14 @@ export class AuthService {
 
     if (credencial.usuario.estado !== 'Activo') {
       throw HttpError.forbidden('La cuenta esta inactiva. Contacta al Jefe de TI.');
+    }
+
+    if (rol !== undefined && !ROLES_USUARIO.includes(rol)) {
+      throw HttpError.badRequest('Rol no valido.');
+    }
+
+    if (rol !== undefined && rol !== credencial.usuario.rol) {
+      throw HttpError.unauthorized('El rol seleccionado no corresponde a este usuario.');
     }
 
     const payload: PayloadToken = {

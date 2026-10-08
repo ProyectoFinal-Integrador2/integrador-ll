@@ -21,6 +21,7 @@ export class TicketControlador {
     const ticket = await ticketServicio.cambiarEstado(
       Array.isArray(id) ? id[0] : id,
       req.body as Partial<ActualizarEstadoTicketInput>,
+      req.sesion,
     );
 
     res.json(ticket);

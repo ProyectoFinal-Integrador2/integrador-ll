@@ -14,6 +14,8 @@ export interface Usuario {
   rol: RolUsuario;
   area: string;
   estado: EstadoUsuario;
+  fono: string | null;
+  debeCambiarContrasena: boolean;
   avatarIniciales: string;
   colorAvatar: ColorAvatar;
 }
@@ -23,7 +25,13 @@ export interface CrearUsuarioInput {
   correo: string;
   rol: RolUsuario;
   area: string;
-  contrasena: string;
+  fono: string;
+}
+
+/** Respuesta de POST /users: el backend genera la contraseña temporal. */
+export interface UsuarioCreado {
+  usuario: Usuario;
+  contrasenaGenerada: string;
 }
 
 export interface ActualizarUsuarioInput {

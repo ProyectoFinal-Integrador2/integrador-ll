@@ -15,6 +15,8 @@ interface FilaUsuario {
   rol: RolUsuario;
   area: string;
   estado: EstadoUsuario;
+  fono: string | null;
+  debe_cambiar_contrasena: boolean;
 }
 
 /** Traduce la fila de Postgres a la entidad del dominio. */
@@ -25,11 +27,13 @@ const aDominio = (fila: FilaUsuario): Usuario => ({
   rol: fila.rol,
   area: fila.area,
   estado: fila.estado,
+  fono: fila.fono,
+  debeCambiarContrasena: fila.debe_cambiar_contrasena,
   avatarIniciales: inicialesDeNombre(fila.nombre),
   colorAvatar: COLOR_AVATAR_POR_ROL[fila.rol],
 });
 
-const COLUMNAS = 'id, nombre, correo, rol, area, estado';
+const COLUMNAS = 'id, nombre, correo, rol, area, estado, fono, debe_cambiar_contrasena';
 
 export interface UsuarioRepositorio {
   listar(): Promise<Usuario[]>;
@@ -39,7 +43,7 @@ export interface UsuarioRepositorio {
   ): Promise<{ usuario: Usuario; passwordHash: string } | undefined>;
   obtenerPasswordHash(id: string): Promise<string | undefined>;
   actualizarPasswordHash(id: string, passwordHash: string): Promise<boolean>;
-  crear(input: Omit<CrearUsuarioInput, 'contrasena'>, passwordHash: string): Promise<Usuario>;
+  crear(input: CrearUsuarioInput, passwordHash: string): Promise<Usuario>;
   actualizar(
     id: string,
     input: ActualizarUsuarioInput,
@@ -82,21 +86,19 @@ export class PostgresUsuarioRepositorio implements UsuarioRepositorio {
 
   async actualizarPasswordHash(id: string, passwordHash: string): Promise<boolean> {
     const filas = await query<{ id: number }>(
-      `update usuarios set password_hash = $2 where id = $1 returning id`,
+      `update usuarios set password_hash = $2, debe_cambiar_contrasena = false
+       where id = $1 returning id`,
       [Number(id), passwordHash],
     );
     return filas.length === 1;
   }
 
-  async crear(
-    input: Omit<CrearUsuarioInput, 'contrasena'>,
-    passwordHash: string,
-  ): Promise<Usuario> {
+  async crear(input: CrearUsuarioInput, passwordHash: string): Promise<Usuario> {
     const fila = await queryOne<FilaUsuario>(
-      `insert into usuarios (nombre, correo, rol, area, estado, password_hash)
-       values ($1, $2, $3, $4, 'Activo', $5)
+      `insert into usuarios (nombre, correo, rol, area, estado, fono, password_hash, debe_cambiar_contrasena)
+       values ($1, $2, $3, $4, 'Activo', $5, $6, true)
        returning ${COLUMNAS}`,
-      [input.nombre, input.correo, input.rol, input.area, passwordHash],
+      [input.nombre, input.correo, input.rol, input.area, input.fono, passwordHash],
     );
 
     if (!fila) throw new Error('No se pudo crear el usuario.');

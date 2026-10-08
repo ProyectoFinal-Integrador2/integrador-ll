@@ -2,6 +2,9 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Headset } from 'lucide-react';
 import { useSession } from '@/context/session';
+import type { RolUsuario } from '@/types/roles';
+
+const ROLES_LOGIN: RolUsuario[] = ['Jefe TI', 'Técnico', 'Usuario'];
 
 const EMAIL_RULES: { test: (value: string) => boolean; message: string }[] = [
   { test: (value) => value.trim().length > 0, message: 'El correo electrónico es obligatorio.' },
@@ -18,6 +21,7 @@ export const LoginPage = () => {
 
   const from = (location.state as { from?: string } | null)?.from ?? '/';
 
+  const [selectedRole, setSelectedRole] = useState<RolUsuario>('Jefe TI');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
@@ -41,7 +45,7 @@ export const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      await login(email.trim(), password);
+      await login(email.trim(), password, selectedRole);
       navigate(from, { replace: true });
     } catch (submitError) {
       setErrorServidor(
@@ -78,6 +82,26 @@ export const LoginPage = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">Ingresar como</label>
+            <div className="flex gap-2">
+              {ROLES_LOGIN.map((role) => (
+                <button
+                  key={role}
+                  type="button"
+                  onClick={() => setSelectedRole(role)}
+                  className={`flex-1 rounded-lg border px-2 py-2 text-xs font-semibold transition-colors ${
+                    selectedRole === role
+                      ? 'border-blue-500 bg-blue-50 text-blue-600'
+                      : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'
+                  }`}
+                >
+                  {role}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div>
             <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
               Correo electrónico
@@ -118,6 +142,15 @@ export const LoginPage = () => {
             {isSubmitting ? 'Verificando...' : 'Iniciar sesión'}
           </button>
         </form>
+
+        <div className="mt-6 text-center">
+          <a
+            href="#"
+            className="text-xs font-medium text-blue-500 hover:text-blue-700 hover:underline"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ export interface Ticket {
   descripcion: string;
   solicitante: string;
   usuarioId: string | null;
+  area: string | null;
   prioridad: PrioridadTicket;
   estado: EstadoTicket;
   tecnicoId: string | null;

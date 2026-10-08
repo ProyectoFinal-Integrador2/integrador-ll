@@ -169,7 +169,11 @@ export const TicketDetailModal = ({
 
             <div className="flex flex-col gap-3">
               <InfoRow label="Area">
-                <span className="text-slate-400">{PENDING}</span>
+                {ticket.area ? (
+                  <span>{ticket.area}</span>
+                ) : (
+                  <span className="text-slate-400">{PENDING}</span>
+                )}
               </InfoRow>
 
               <InfoRow label="SLA limite">

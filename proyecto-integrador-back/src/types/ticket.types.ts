@@ -48,6 +48,15 @@ export interface Ticket {
   solicitante: string;
   /** `null` si se registro a nombre de alguien que no esta en el padron. */
   usuarioId: string | null;
+  /**
+   * Area del solicitante, resuelta desde `usuario_id` en el repositorio. Los
+   * tickets no guardan su propia copia: un ticket es de la misma area que su
+   * solicitante. `null` si el solicitante no esta en el padron.
+   */
+  area: string | null;
+  equipoId: string | null;
+  equipoNombre: string | null;
+  equipoCodigo: string | null;
   prioridad: PrioridadTicket;
   estado: EstadoTicket;
   /** `null` mientras nadie tomo el ticket: es la cola de trabajo disponible. */

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ESTILOS_ROL } from '@/utils/roleStyles';
 import { useSession } from '@/context/session';
 import { actualizarPerfil, cambiarContrasena } from '@/services/usersApi';
+import { BaseModal } from '@/components/common/BaseModal';
 
 const IconoOjo = ({ visible }: { visible: boolean }) => (
     visible ? (
@@ -51,6 +52,8 @@ const EditProfilePage = () => {
     const [verPassConfirmar, setVerPassConfirmar] = useState(false);
 
     const [guardandoDatos, setGuardandoDatos] = useState(false);
+    const seccionPasswordRef = useRef<HTMLDivElement>(null);
+    const [avisoVisible, setAvisoVisible] = useState(() => Boolean(user?.debeCambiarContrasena));
     const [guardandoPass, setGuardandoPass] = useState(false);
     const [errorDatos, setErrorDatos] = useState<string | null>(null);
     const [errorPass, setErrorPass] = useState<string | null>(null);
@@ -113,11 +116,13 @@ const EditProfilePage = () => {
         setErrorPass(null);
 
         try {
-            await cambiarContrasena(user.id, {
+            const actualizado = await cambiarContrasena(user.id, {
                 actual: passwords.actual,
                 nueva: passwords.nueva,
             });
+            actualizarSesion(actualizado);
             setPasswords({ actual: '', nueva: '', confirmar: '' });
+            setAvisoVisible(false);
             setToast('Contraseña actualizada correctamente');
         } catch (saveError) {
             setErrorPass(saveError instanceof Error ? saveError.message : 'No se pudo actualizar la contraseña.');
@@ -204,7 +209,7 @@ const EditProfilePage = () => {
                 </form>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+            <div ref={seccionPasswordRef} className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
                 <h3 className="font-bold text-gray-900 text-sm mb-5">Cambiar contraseña</h3>
 
                 <form onSubmit={handleActualizarContrasena}>
@@ -322,6 +327,42 @@ const EditProfilePage = () => {
                 </div>
                 <span className="text-sm font-medium">{toast ?? ''}</span>
             </div>
+
+            <BaseModal isOpen={avisoVisible} onClose={() => setAvisoVisible(false)} maxWidth="max-w-md">
+                <div className="flex items-start gap-4">
+                    <div className="bg-amber-100 text-amber-600 rounded-full p-3 shrink-0">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-base font-bold text-gray-900 mb-1">Primer ingreso</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">
+                            Estás usando una contraseña temporal. Te recomendamos cambiarla para tu seguridad.
+                        </p>
+                    </div>
+                </div>
+                <div className="mt-6 flex justify-end gap-3">
+                    <button
+                        type="button"
+                        onClick={() => setAvisoVisible(false)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition"
+                    >
+                        Ahora no
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setAvisoVisible(false);
+                            seccionPasswordRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            seccionPasswordRef.current?.querySelector('input')?.focus();
+                        }}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition"
+                    >
+                        Cambiar mi contraseña
+                    </button>
+                </div>
+            </BaseModal>
 
         </div>
     );

@@ -13,6 +13,7 @@ import {
   type PrioridadTicket,
   type Ticket,
 } from '../types/ticket.types';
+import type { SesionUsuario } from '../types/auth.types';
 
 const MIN_LONGITUD_DESCRIPCION = 10;
 
@@ -70,10 +71,15 @@ export class TicketServicio {
    * Mueve el ticket a `estado`. El service es quien valida la transicion para
    * que ningun endpoint pueda saltarse el ciclo del soporte.
    *
-   * Ojo: todavia no se valida el rol de quien llama. Sin autenticacion,
-   * cualquiera que conozca la API podria culminar un ticket.
+   * Cuando el tecnico toma un ticket abierto (Abierto -> En progreso) se le
+   * asigna como `tecnico_id`; asi su nombre aparece en la informacion del
+   * ticket sin que el frontend tenga que mandarlo.
    */
-  async cambiarEstado(id: string, input: EntradaEstadoSinValidar): Promise<Ticket> {
+  async cambiarEstado(
+    id: string,
+    input: EntradaEstadoSinValidar,
+    sesion?: SesionUsuario,
+  ): Promise<Ticket> {
     const ticket = await this.repositorio.obtenerPorId(id);
 
     if (!ticket) {
@@ -98,7 +104,25 @@ export class TicketServicio {
       );
     }
 
-    const actualizado = await this.repositorio.actualizarEstado(id, estado as EstadoTicket);
+    let tecnicoId: string | undefined;
+
+    if (estado === 'En progreso') {
+      if (sesion?.rol !== 'Técnico') {
+        throw HttpError.forbidden('Solo un tecnico puede iniciar el soporte.');
+      }
+
+      if (ticket.tecnicoId && ticket.tecnicoId !== sesion.id) {
+        throw HttpError.conflict('Este ticket ya fue tomado por otro tecnico.');
+      }
+
+      tecnicoId = sesion.id;
+    }
+
+    const actualizado = await this.repositorio.actualizarEstado(
+      id,
+      estado as EstadoTicket,
+      tecnicoId,
+    );
 
     if (!actualizado) {
       // Solo posible si el ticket desaparece entre obtenerPorId y actualizarEstado.

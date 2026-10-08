@@ -10,10 +10,10 @@ export class UsuarioControlador {
   }
 
   static async crear(req: Request, res: Response): Promise<void> {
-    const usuario = await usuarioServicio.crear(
+    const resultado = await usuarioServicio.crear(
       req.body as Partial<CrearUsuarioInput>,
     );
-    res.status(201).json(usuario);
+    res.status(201).json(resultado);
   }
 
   static async actualizar(req: Request, res: Response): Promise<void> {
@@ -60,7 +60,6 @@ export class UsuarioControlador {
       throw HttpError.badRequest('Debes indicar la contrasena actual y la nueva.');
     }
 
-    await usuarioServicio.cambiarContrasena(id, actual, nueva);
-    res.json({ message: 'Contrasena actualizada correctamente.' });
+    res.json(await usuarioServicio.cambiarContrasena(id, actual, nueva));
   }
 }

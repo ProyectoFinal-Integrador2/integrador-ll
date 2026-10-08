@@ -83,8 +83,11 @@ export const UsersPage = () => {
   };
 
   const handleCreate = async (input: CrearUsuarioInput) => {
-    const created = await crearUsuario(input);
-    setUsers((prev) => [...prev, created].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')));
+    const creado = await crearUsuario(input);
+    setUsers((prev) =>
+      [...prev, creado.usuario].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')),
+    );
+    return creado;
   };
 
   const handleSave = async (input: ActualizarUsuarioInput) => {

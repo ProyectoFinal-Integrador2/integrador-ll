@@ -1,11 +1,11 @@
 import { apiGet, apiSend } from './apiClient';
-import type { CrearUsuarioInput, ActualizarUsuarioInput, Usuario } from '../types/user.types';
+import type { CrearUsuarioInput, ActualizarUsuarioInput, Usuario, UsuarioCreado } from '../types/user.types';
 
 export const obtenerUsuarios = (signal?: AbortSignal): Promise<Usuario[]> =>
   apiGet<Usuario[]>('/users', signal);
 
-export const crearUsuario = (input: CrearUsuarioInput): Promise<Usuario> =>
-  apiSend<Usuario>('/users', 'POST', input);
+export const crearUsuario = (input: CrearUsuarioInput): Promise<UsuarioCreado> =>
+  apiSend<UsuarioCreado>('/users', 'POST', input);
 
 export const actualizarUsuario = (
   id: string,
@@ -20,5 +20,5 @@ export const actualizarPerfil = (
 export const cambiarContrasena = (
   id: string,
   input: { actual: string; nueva: string },
-): Promise<{ message: string }> =>
-  apiSend<{ message: string }>(`/users/${id}/password`, 'PATCH', input);
+): Promise<Usuario> =>
+  apiSend<Usuario>(`/users/${id}/password`, 'PATCH', input);

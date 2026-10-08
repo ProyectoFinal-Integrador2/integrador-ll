@@ -1,6 +1,6 @@
 import { usuarioRepositorio, type UsuarioRepositorio } from '../repositories/user.repository';
 import { HttpError } from '../utils/httpError';
-import { hashPassword, verificarPassword } from '../utils/password';
+import { generarContrasenaAleatoria, hashPassword, verificarPassword } from '../utils/password';
 import {
   ROLES_USUARIO,
   type ActualizarUsuarioInput,
@@ -26,23 +26,32 @@ export class UsuarioServicio {
     return [...usuarios].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
   }
 
-  async crear(input: EntradaUsuarioSinValidar): Promise<Usuario> {
+  async crear(
+    input: EntradaUsuarioSinValidar,
+  ): Promise<{ usuario: Usuario; contrasenaGenerada: string }> {
     const nombre = this.exigirNombre(input.nombre);
     const correo = this.exigirCorreo(input.correo);
     const rol = this.exigirRol(input.rol);
-    const contrasena = this.exigirContrasena(input.contrasena);
+    const fono = this.exigirFono(input.fono);
 
     await this.asegurarCorreoLibre(correo);
 
-    return this.repositorio.crear(
+    // El Jefe TI no elige la contraseña: el backend genera una temporal que se
+    // muestra una sola vez; el usuario debera cambiarla en su primer ingreso.
+    const contrasenaGenerada = generarContrasenaAleatoria();
+
+    const usuario = await this.repositorio.crear(
       {
         nombre,
         correo,
         rol,
         area: this.exigirArea(input.area),
+        fono,
       },
-      hashPassword(contrasena),
+      hashPassword(contrasenaGenerada),
     );
+
+    return { usuario, contrasenaGenerada };
   }
 
   async actualizarPerfil(
@@ -61,7 +70,7 @@ export class UsuarioServicio {
     return actualizado;
   }
 
-  async cambiarContrasena(id: string, actual: string, nueva: string): Promise<void> {
+  async cambiarContrasena(id: string, actual: string, nueva: string): Promise<Usuario> {
     const hash = await this.repositorio.obtenerPasswordHash(id);
 
     if (!hash) {
@@ -79,6 +88,14 @@ export class UsuarioServicio {
     }
 
     await this.repositorio.actualizarPasswordHash(id, hashPassword(nuevaValida));
+
+    const usuario = await this.repositorio.obtenerPorId(id);
+
+    if (!usuario) {
+      throw HttpError.notFound(`No existe un usuario con id ${id}.`);
+    }
+
+    return usuario;
   }
 
   async actualizar(id: string, input: EntradaUsuarioSinValidar): Promise<Usuario> {
@@ -127,6 +144,16 @@ export class UsuarioServicio {
     }
 
     return area;
+  }
+
+  private exigirFono(value: string | undefined): string {
+    const fono = value?.trim() ?? '';
+
+    if (!/^\d{9}$/.test(fono)) {
+      throw HttpError.badRequest('El telefono debe tener exactamente 9 digitos.');
+    }
+
+    return fono;
   }
 
   private exigirCorreo(value: string | undefined): string {

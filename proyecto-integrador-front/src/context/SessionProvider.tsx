@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import { borrarToken, guardarToken, leerToken } from '@/services/sessionStore';
 import { iniciarSesion, obtenerSesion } from '@/services/authApi';
 import type { Usuario } from '@/types/user.types';
+import type { RolUsuario } from '@/types/roles';
 import { SessionContext } from './session';
 
 export const SessionProvider = ({ children }: { children: ReactNode }) => {
@@ -30,8 +31,8 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const login = useCallback(async (correo: string, contrasena: string) => {
-    const sesion = await iniciarSesion(correo, contrasena);
+  const login = useCallback(async (correo: string, contrasena: string, rol: RolUsuario) => {
+    const sesion = await iniciarSesion(correo, contrasena, rol);
     guardarToken(sesion.token);
     setUser(sesion.usuario);
   }, []);
