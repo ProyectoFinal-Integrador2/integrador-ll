@@ -11,6 +11,7 @@ export class TicketControlador {
   static async crear(req: Request, res: Response): Promise<void> {
     const ticket = await ticketServicio.crear(
       req.body as Partial<CrearTicketInput>,
+      req.sesion,
     );
     res.status(201).json(ticket);
   }

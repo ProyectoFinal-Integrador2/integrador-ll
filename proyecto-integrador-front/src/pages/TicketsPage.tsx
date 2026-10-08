@@ -148,7 +148,9 @@ export const TicketsPage = () => {
         onClose={() => setIsNewTicketOpen(false)}
         onCreate={handleCreate}
         solicitante={
-          user?.rol === 'Usuario' ? { nombre: user.nombre, userId: user.id } : null
+          user?.rol === 'Usuario'
+            ? { nombre: user.nombre, userId: user.id, area: user.area }
+            : null
         }
       />
 

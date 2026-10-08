@@ -1,25 +1,29 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Check, ChevronDown, Ticket, X } from 'lucide-react';
 import { BaseModal } from '@/components/common/BaseModal';
 import { PRIORIDADES_TICKET, type CrearTicketInput, type PrioridadTicket } from '@/types/ticket.types';
+import type { Equipo } from '@/types/equipment.types';
+import { obtenerEquipos } from '@/services/equipmentsApi';
 
 export interface CreateTicketModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCreate: (input: CrearTicketInput) => Promise<void>;
-  solicitante?: { nombre: string; userId: string } | null;
+  solicitante?: { nombre: string; userId: string; area?: string } | null;
 }
 
 interface FormState {
   descripcion: string;
   solicitante: string;
   prioridad: PrioridadTicket;
+  equipoId: string;
 }
 
 const INITIAL_FORM: FormState = {
   descripcion: '',
   solicitante: '',
   prioridad: 'Medio',
+  equipoId: '',
 };
 
 export const CreateTicketModal = ({
@@ -31,7 +35,33 @@ export const CreateTicketModal = ({
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [equipos, setEquipos] = useState<Equipo[]>([]);
   const userName = solicitante?.nombre ?? form.solicitante;
+  const area = solicitante?.area ?? null;
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const controller = new AbortController();
+
+    obtenerEquipos(controller.signal)
+      .then(setEquipos)
+      .catch(() => setEquipos([]));
+
+    return () => controller.abort();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setForm(INITIAL_FORM);
+      setError(null);
+    }
+  }, [isOpen]);
+
+  const equiposFiltrados = useMemo(() => {
+    if (!area) return equipos;
+    return equipos.filter((eq) => eq.area === area);
+  }, [equipos, area]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -48,9 +78,11 @@ export const CreateTicketModal = ({
 
     try {
       await onCreate({
-        ...form,
+        descripcion: form.descripcion,
         solicitante: userName,
         usuarioId: solicitante?.userId,
+        equipoId: form.equipoId || undefined,
+        prioridad: form.prioridad,
       });
       setForm(INITIAL_FORM);
       onClose();
@@ -147,6 +179,34 @@ export const CreateTicketModal = ({
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
+        </div>
+
+        <div>
+          <label htmlFor="equipoId" className="mb-1.5 block text-xs font-semibold text-slate-600">
+            Equipo asignado
+          </label>
+          <div className="relative max-h-40 overflow-y-auto rounded-lg border border-slate-200 bg-white">
+            <select
+              id="equipoId"
+              name="equipoId"
+              value={form.equipoId}
+              onChange={handleChange}
+              className="w-full cursor-pointer appearance-none rounded-lg border-none bg-transparent px-3.5 py-2 text-xs text-slate-700 transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            >
+              <option value="">Sin asignar</option>
+              {equiposFiltrados.map((equipo) => (
+                <option key={equipo.id} value={equipo.id}>
+                  {equipo.codigo} - {equipo.nombre}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          </div>
+          {area && equiposFiltrados.length === 0 && (
+            <p className="mt-1 text-[11px] text-slate-400">
+              No hay equipos registrados para el área {area}.
+            </p>
+          )}
         </div>
 
         {error && (

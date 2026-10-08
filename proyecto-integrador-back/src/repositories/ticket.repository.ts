@@ -15,8 +15,11 @@ interface FilaTicket {
   prioridad: PrioridadTicket;
   estado: EstadoTicket;
   tecnico_id: number | null;
-  creado_en: Date;
   tecnico_nombre: string | null;
+  equipo_id: number | null;
+  equipo_codigo: string | null;
+  equipo_nombre: string | null;
+  creado_en: string;
 }
 
 const SQL_SELECT = `
@@ -29,11 +32,15 @@ const SQL_SELECT = `
     t.prioridad,
     t.estado,
     t.tecnico_id,
+    t.equipo_id,
     t.creado_en,
-    u.nombre as tecnico_nombre
+    u.nombre as tecnico_nombre,
+    e.codigo as equipo_codigo,
+    e.nombre as equipo_nombre
   from tickets t
   left join usuarios u on u.id = t.tecnico_id
   left join usuarios su on su.id = t.usuario_id
+  left join equipos e on e.id = t.equipo_id
 `;
 
 const aDominio = (fila: FilaTicket): Ticket => ({
@@ -42,11 +49,14 @@ const aDominio = (fila: FilaTicket): Ticket => ({
   solicitante: fila.nombre_solicitante,
   usuarioId: fila.usuario_id === null ? null : String(fila.usuario_id),
   area: fila.area,
+  equipoId: fila.equipo_id === null ? null : String(fila.equipo_id),
+  equipoCodigo: fila.equipo_codigo,
+  equipoNombre: fila.equipo_nombre,
   prioridad: fila.prioridad,
   estado: fila.estado,
   tecnicoId: fila.tecnico_id === null ? null : String(fila.tecnico_id),
   tecnicoNombre: fila.tecnico_nombre,
-  creadoEn: new Date(fila.creado_en).toISOString(),
+  creadoEn: fila.creado_en,
 });
 
 export interface TicketRepositorio {
@@ -76,13 +86,14 @@ export class PostgresTicketRepositorio implements TicketRepositorio {
 
   async crear(input: CrearTicketInput): Promise<Ticket> {
     const fila = await queryOne<{ id: number }>(
-      `insert into tickets (descripcion, nombre_solicitante, usuario_id, prioridad, estado)
-       values ($1, $2, $3, $4, 'Abierto')
+      `insert into tickets (descripcion, nombre_solicitante, usuario_id, equipo_id, prioridad, estado)
+       values ($1, $2, $3, $4, $5, 'Abierto')
        returning id`,
       [
         input.descripcion,
         input.solicitante,
-        input.usuarioId ? Number(input.usuarioId) : null,
+        input.usuarioId === null ? null : Number(input.usuarioId),
+        input.equipoId === null ? null : Number(input.equipoId),
         input.prioridad,
       ],
     );

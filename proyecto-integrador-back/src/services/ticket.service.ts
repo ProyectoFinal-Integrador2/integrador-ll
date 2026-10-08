@@ -30,7 +30,7 @@ export class TicketServicio {
     return [...tickets].sort((a, b) => b.creadoEn.localeCompare(a.creadoEn));
   }
 
-  async crear(input: EntradaTicketSinValidar): Promise<Ticket> {
+  async crear(input: EntradaTicketSinValidar, sesion?: SesionUsuario): Promise<Ticket> {
     const descripcion = input.descripcion?.trim() ?? '';
 
     if (descripcion.length < MIN_LONGITUD_DESCRIPCION) {
@@ -58,11 +58,27 @@ export class TicketServicio {
      * garantiza la llave foranea de la base de datos.
      */
     const usuarioId = input.usuarioId?.trim();
+    const equipoId = input.equipoId?.trim();
+
+    let usuarioIdFinal: string | null = null;
+
+    if (usuarioId && usuarioId.length > 0) {
+      usuarioIdFinal = usuarioId;
+    } else if (sesion?.id) {
+      usuarioIdFinal = sesion.id;
+    }
+
+    let equipoIdFinal: string | undefined;
+
+    if (equipoId && equipoId.length > 0) {
+      equipoIdFinal = equipoId;
+    }
 
     return this.repositorio.crear({
       descripcion,
       solicitante,
-      usuarioId: usuarioId && usuarioId.length > 0 ? usuarioId : undefined,
+      usuarioId: usuarioIdFinal,
+      equipoId: equipoIdFinal,
       prioridad: prioridad as PrioridadTicket,
     });
   }

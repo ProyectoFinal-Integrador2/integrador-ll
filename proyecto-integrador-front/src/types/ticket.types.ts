@@ -25,6 +25,9 @@ export interface Ticket {
   solicitante: string;
   usuarioId: string | null;
   area: string | null;
+  equipoId: string | null;
+  equipoNombre: string | null;
+  equipoCodigo: string | null;
   prioridad: PrioridadTicket;
   estado: EstadoTicket;
   tecnicoId: string | null;
@@ -36,5 +39,6 @@ export interface CrearTicketInput {
   descripcion: string;
   solicitante: string;
   usuarioId?: string;
+  equipoId?: string;
   prioridad: PrioridadTicket;
 }

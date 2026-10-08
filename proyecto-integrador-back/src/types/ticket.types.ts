@@ -71,7 +71,8 @@ export interface Ticket {
 export interface CrearTicketInput {
   descripcion: string;
   solicitante: string;
-  usuarioId?: string;
+  usuarioId?: string | null;
+  equipoId?: string | null;
   prioridad: PrioridadTicket;
 }
 

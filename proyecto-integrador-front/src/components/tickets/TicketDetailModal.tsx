@@ -163,7 +163,14 @@ export const TicketDetailModal = ({
               <InfoRow label="Usuario">{ticket.solicitante}</InfoRow>
               <InfoRow label="Apertura">{formatearFecha(ticket.creadoEn)}</InfoRow>
               <InfoRow label="Equipo">
-                <span className="text-slate-400">{PENDING}</span>
+                {ticket.equipoId ? (
+                  <span>
+                    {ticket.equipoCodigo ? `${ticket.equipoCodigo} - ` : ''}
+                    {ticket.equipoNombre ?? ticket.equipoId}
+                  </span>
+                ) : (
+                  <span className="text-slate-400">Sin asignar</span>
+                )}
               </InfoRow>
             </div>
 
@@ -180,6 +187,20 @@ export const TicketDetailModal = ({
                 {slaLimit ? (
                   <span className="font-bold text-orange-600">
                     {formatearMinutos(slaLimit.minutosResolucion)}
+                  </span>
+                ) : (
+                  <span className="text-slate-400">Sin SLA configurado</span>
+                )}
+              </InfoRow>
+
+              <InfoRow label="SLA asignado">
+                {slaLimit ? (
+                  <span>
+                    {slaLimit.nivel} - Resp:{' '}
+                    {formatearMinutos(slaLimit.minutosRespuesta)} - Resol:{' '}
+                    {formatearMinutos(slaLimit.minutosResolucion)} - Escal:{' '}
+                    {formatearMinutos(slaLimit.minutosEscalamiento)}
+                    {slaLimit.descripcion ? ` - ${slaLimit.descripcion}` : ''}
                   </span>
                 ) : (
                   <span className="text-slate-400">Sin SLA configurado</span>
