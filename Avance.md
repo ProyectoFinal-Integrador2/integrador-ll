@@ -10,7 +10,8 @@
 [https://www.figma.com/design/qG39XU4qS3c1EwTQDdRQg7/prueba?node-id=0-1&t=xeYXYD1YWbwDcEII-0]
 
 # Diagrama de flujo
-[Diagrama de flujo general — HU01–HU24](<Diagrama de flujo.md>)
+[Diagrama de flujo general — HU01–HU24 (Mermaid)](<Diagrama de flujo.md>)
+[Diagrama de flujo general — HU01–HU24 (imagen)](<Diagrama de flujo (imagen).md>)
 
 # Problema
 
