@@ -18,6 +18,7 @@ interface FilaDisponibilidad {
 
 export interface DisponibilidadRepositorio {
   listar(): Promise<DisponibilidadTecnico[]>;
+  crearActualizar(usuarioId: string, horario: string): Promise<boolean>;
 }
 
 const estadoSegunCarga = (ticketsActivos: number): EstadoTecnico =>
@@ -53,6 +54,17 @@ export class PostgresDisponibilidadRepositorio
       ticketsActivos: fila.tickets_activos,
       estado: estadoSegunCarga(fila.tickets_activos),
     }));
+  }
+
+  async crearActualizar(usuarioId: string, horario: string): Promise<boolean> {
+    const filas = await query<{ usuario_id: number }>(
+      `insert into disponibilidad (usuario_id, horario)
+       values ($1, $2)
+       on conflict (usuario_id) do update set horario = excluded.horario
+       returning usuario_id`,
+      [Number(usuarioId), horario],
+    );
+    return filas.length === 1;
   }
 }
 

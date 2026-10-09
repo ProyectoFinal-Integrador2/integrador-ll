@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { KnowledgeCard } from '@/components/conocimiento/KnowledgeCard';
 import { KnowledgeFilters } from '@/components/conocimiento/KnowledgeFilters';
 import { KnowledgeToolbar } from '@/components/conocimiento/KnowledgeToolbar';
-import { obtenerArticulos } from '@/services/knowledgeApi';
+import { RegisterArticleModal } from '@/components/conocimiento/RegisterArticleModal';
+import { crearArticulo, obtenerArticulos } from '@/services/knowledgeApi';
 import { normalizarParaBusqueda } from '@/utils/text';
-import { TODAS_CATEGORIAS, FILTROS_CONOCIMIENTO, type ArticuloConocimiento, type FiltroConocimiento } from '@/types/knowledge.types';
+import { TODAS_CATEGORIAS, FILTROS_CONOCIMIENTO, type ArticuloConocimiento, type EntradaArticuloConocimiento, type FiltroConocimiento } from '@/types/knowledge.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -18,6 +19,7 @@ export const KnowledgeBasePage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isNewArticleModalOpen, setIsNewArticleModalOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FiltroConocimiento>(
     TODAS_CATEGORIAS,
   );
@@ -51,6 +53,12 @@ export const KnowledgeBasePage = () => {
       })
       .catch((refreshError: unknown) => setError(toMessage(refreshError)))
       .finally(() => setIsLoading(false));
+  };
+
+  const handleCreate = async (input: EntradaArticuloConocimiento) => {
+    const creado = await crearArticulo(input);
+    setArticles((prev) => [creado, ...prev]);
+    setError(null);
   };
 
   const searched = useMemo(() => {
@@ -93,6 +101,7 @@ export const KnowledgeBasePage = () => {
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         onRefresh={handleRefresh}
+        onOpenNewArticle={() => setIsNewArticleModalOpen(true)}
         isLoading={isLoading}
       />
 
@@ -138,6 +147,13 @@ export const KnowledgeBasePage = () => {
           ))}
         </div>
       )}
+
+      <RegisterArticleModal
+        key={`nuevo-${isNewArticleModalOpen}`}
+        isOpen={isNewArticleModalOpen}
+        onClose={() => setIsNewArticleModalOpen(false)}
+        onSubmit={handleCreate}
+      />
     </div>
   );
 };

@@ -21,7 +21,14 @@ export interface ArticuloConocimiento {
   id: string;
   titulo: string;
   categoria: CategoriaConocimiento;
+  contenido: string | null;
   autorNombre: string;
   vistas: number;
   creadoEn: string;
+}
+
+export interface EntradaArticuloConocimiento {
+  titulo: string;
+  categoria: CategoriaConocimiento;
+  contenido?: string | null;
 }

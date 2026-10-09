@@ -42,7 +42,7 @@ export interface UsuarioRepositorio {
     correo: string,
   ): Promise<{ usuario: Usuario; passwordHash: string } | undefined>;
   obtenerPasswordHash(id: string): Promise<string | undefined>;
-  actualizarPasswordHash(id: string, passwordHash: string): Promise<boolean>;
+  actualizarPasswordHash(id: string, passwordHash: string, debeCambiar?: boolean): Promise<boolean>;
   crear(input: CrearUsuarioInput, passwordHash: string): Promise<Usuario>;
   actualizar(
     id: string,
@@ -84,11 +84,15 @@ export class PostgresUsuarioRepositorio implements UsuarioRepositorio {
     return fila?.password_hash;
   }
 
-  async actualizarPasswordHash(id: string, passwordHash: string): Promise<boolean> {
+  async actualizarPasswordHash(
+    id: string,
+    passwordHash: string,
+    debeCambiar = false,
+  ): Promise<boolean> {
     const filas = await query<{ id: number }>(
-      `update usuarios set password_hash = $2, debe_cambiar_contrasena = false
+      `update usuarios set password_hash = $2, debe_cambiar_contrasena = $3
        where id = $1 returning id`,
-      [Number(id), passwordHash],
+      [Number(id), passwordHash, debeCambiar],
     );
     return filas.length === 1;
   }

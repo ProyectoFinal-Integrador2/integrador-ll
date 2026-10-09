@@ -14,3 +14,8 @@ export interface DisponibilidadTecnico {
   ticketsActivos: number;
   estado: EstadoTecnico;
 }
+
+export interface EntradaDisponibilidad {
+  tecnicoId: string;
+  horario: string;
+}

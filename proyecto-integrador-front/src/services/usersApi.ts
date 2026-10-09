@@ -22,3 +22,6 @@ export const cambiarContrasena = (
   input: { actual: string; nueva: string },
 ): Promise<Usuario> =>
   apiSend<Usuario>(`/users/${id}/password`, 'PATCH', input);
+
+export const restablecerContrasena = (id: string): Promise<{ contrasenaGenerada: string }> =>
+  apiSend<{ contrasenaGenerada: string }>(`/users/${id}/restablecer-contrasena`, 'POST', {});

@@ -72,6 +72,7 @@ Distribución de roles Scrum e historias de usuario según la planificación del
 
 | ID | Historia de Usuario | Sprint |
 
+| HU05 | Recuperar mi contraseña para volver a acceder | Sprint 2|
 | HU06 | Registrar un ticket de incidencia | Sprint 2 |
 | HU07 | Consultar tickets de incidencia | Sprint 2 |
 | HU08 | Actualizar el estado de un ticket | Sprint 2 |

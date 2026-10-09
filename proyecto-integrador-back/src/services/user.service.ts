@@ -10,16 +10,14 @@ import {
   type Usuario,
 } from '../types/user.types';
 
-/** Exige parte local y arroba. */
-const PATRON_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const PATRON_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const LONGITUD_MINIMA_CONTRASENA = 8;
 
-/** El body viene de `req.body`, o sea `any`: aqui se acota al dominio. */
 type EntradaUsuarioSinValidar = Partial<CrearUsuarioInput & ActualizarUsuarioInput>;
 
 export class UsuarioServicio {
-  constructor(private readonly repositorio: UsuarioRepositorio) {}
+  constructor(private readonly repositorio: UsuarioRepositorio) { }
 
   async listar(): Promise<Usuario[]> {
     const usuarios = await this.repositorio.listar();
@@ -36,8 +34,6 @@ export class UsuarioServicio {
 
     await this.asegurarCorreoLibre(correo);
 
-    // El Jefe TI no elige la contraseña: el backend genera una temporal que se
-    // muestra una sola vez; el usuario debera cambiarla en su primer ingreso.
     const contrasenaGenerada = generarContrasenaAleatoria();
 
     const usuario = await this.repositorio.crear(
@@ -52,6 +48,22 @@ export class UsuarioServicio {
     );
 
     return { usuario, contrasenaGenerada };
+  }
+
+  async restablecerContrasena(id: string): Promise<{ contrasenaGenerada: string }> {
+    const contrasenaGenerada = generarContrasenaAleatoria();
+
+    const actualizado = await this.repositorio.actualizarPasswordHash(
+      id,
+      hashPassword(contrasenaGenerada),
+      true,
+    );
+
+    if (!actualizado) {
+      throw HttpError.notFound('Usuario no encontrado.');
+    }
+
+    return { contrasenaGenerada };
   }
 
   async actualizarPerfil(

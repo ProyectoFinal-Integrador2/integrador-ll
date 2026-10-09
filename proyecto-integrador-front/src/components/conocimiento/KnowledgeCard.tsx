@@ -8,7 +8,7 @@ interface KnowledgeCardProps {
 }
 
 export const KnowledgeCard = ({ article }: KnowledgeCardProps) => {
-  const { titulo, categoria, autorNombre, vistas, creadoEn } = article;
+  const { titulo, contenido, categoria, autorNombre, vistas, creadoEn } = article;
 
   return (
     <article className="rounded-xl border border-slate-100 bg-white p-6 shadow-xs">
@@ -19,6 +19,12 @@ export const KnowledgeCard = ({ article }: KnowledgeCardProps) => {
       </span>
 
       <h3 className="text-[15px] font-semibold text-slate-800">{titulo}</h3>
+
+      {contenido && (
+        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-500">
+          {contenido}
+        </p>
+      )}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-slate-400">
         <span className="flex items-center gap-1.5">

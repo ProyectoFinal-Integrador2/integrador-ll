@@ -21,8 +21,16 @@ export interface ArticuloConocimiento {
   id: string;
   titulo: string;
   categoria: CategoriaConocimiento;
+  /** Cuerpo del articulo; `null` en articulos antiguos sin contenido cargado. */
+  contenido: string | null;
   autorNombre: string;
   vistas: number;
   /** ISO 8601. El formateo a texto legible ocurre en el frontend. */
   creadoEn: string;
+}
+
+export interface CrearArticuloInput {
+  titulo: string;
+  categoria: CategoriaConocimiento;
+  contenido?: string | null;
 }

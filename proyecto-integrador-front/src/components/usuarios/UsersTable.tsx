@@ -5,12 +5,13 @@ import { UserRoleBadge } from '@/components/usuarios/UserRoleBadge';
 import { UserStatusBadge } from '@/components/usuarios/UserStatusBadge';
 
 interface UsersTableProps {
+  onResetPassword?: (user: Usuario) => void;
   users: Usuario[];
   onEditUser?: (user: Usuario) => void;
   isLoading?: boolean;
 }
 
-export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) => {
+export const UsersTable = ({ users, onEditUser, isLoading, onResetPassword }: UsersTableProps) => {
   if (isLoading) {
     return (
       <div className="w-full rounded-2xl border border-slate-100 bg-white px-6 py-16 text-center shadow-xs">
@@ -101,6 +102,14 @@ export const UsersTable = ({ users, onEditUser, isLoading }: UsersTableProps) =>
                     aria-label={`Editar usuario ${user.nombre}`}
                   >
                     <SquarePen className="h-4 w-4" />
+                  </button>
+                                    <button
+                    type="button"
+                    onClick={() => onResetPassword?.(user)}
+                    className="rounded-md px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50"
+                    aria-label={`Restablecer contraseña de ${user.nombre}`}
+                  >
+                    Restablecer
                   </button>
                 </td>
               </tr>

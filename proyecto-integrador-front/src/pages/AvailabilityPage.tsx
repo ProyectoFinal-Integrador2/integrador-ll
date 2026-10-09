@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AvailabilityToolbar } from '@/components/disponibilidad/AvailabilityToolbar';
 import { TechnicianCard } from '@/components/disponibilidad/TechnicianCard';
-import { obtenerDisponibilidadTecnicos } from '@/services/availabilityApi';
+import { AsignarTurnoModal } from '@/components/disponibilidad/AsignarTurnoModal';
+import { obtenerDisponibilidadTecnicos, registrarDisponibilidad } from '@/services/availabilityApi';
+import { useSession } from '@/context/session';
 import { normalizarParaBusqueda } from '@/utils/text';
-import type { DisponibilidadTecnico } from '@/types/availability.types';
+import type { DisponibilidadTecnico, EntradaDisponibilidad } from '@/types/availability.types';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -12,10 +14,14 @@ const toMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'Error desconocido';
 
 export const AvailabilityPage = () => {
+  const { user } = useSession();
   const [technicians, setTechnicians] = useState<DisponibilidadTecnico[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTechnician, setSelectedTechnician] =
+    useState<DisponibilidadTecnico | null>(null);
+  const [isTurnoModalOpen, setIsTurnoModalOpen] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -61,6 +67,20 @@ export const AvailabilityPage = () => {
 
   const hasActiveSearch = normalizarParaBusqueda(searchTerm).length > 0;
 
+  const puedeAsignarTurno = (technician: DisponibilidadTecnico): boolean =>
+    user?.rol === 'Jefe TI' ||
+    (user?.rol === 'Técnico' && user.id === technician.id);
+
+  const handleAsignarTurno = (technician: DisponibilidadTecnico) => {
+    setSelectedTechnician(technician);
+    setIsTurnoModalOpen(true);
+  };
+
+  const handleSaveTurno = async (input: EntradaDisponibilidad) => {
+    await registrarDisponibilidad(input);
+    await handleRefresh();
+  };
+
   return (
     <div className="w-full">
       <AvailabilityToolbar
@@ -98,10 +118,24 @@ export const AvailabilityPage = () => {
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {visibleTechnicians.map((technician) => (
-            <TechnicianCard key={technician.id} technician={technician} />
+            <TechnicianCard
+              key={technician.id}
+              technician={technician}
+              onAsignarTurno={
+                puedeAsignarTurno(technician) ? handleAsignarTurno : undefined
+              }
+            />
           ))}
         </div>
       )}
+
+      <AsignarTurnoModal
+        key={`${selectedTechnician?.id ?? 'sin-seleccion'}-${isTurnoModalOpen}`}
+        isOpen={isTurnoModalOpen}
+        tecnico={selectedTechnician}
+        onClose={() => setIsTurnoModalOpen(false)}
+        onSubmit={handleSaveTurno}
+      />
     </div>
   );
 };

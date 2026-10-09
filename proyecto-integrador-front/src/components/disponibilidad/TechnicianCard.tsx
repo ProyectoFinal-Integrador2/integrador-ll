@@ -5,9 +5,13 @@ import type { DisponibilidadTecnico } from '@/types/availability.types';
 
 interface TechnicianCardProps {
   technician: DisponibilidadTecnico;
+  onAsignarTurno?: (technician: DisponibilidadTecnico) => void;
 }
 
-export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
+export const TechnicianCard = ({
+  technician,
+  onAsignarTurno,
+}: TechnicianCardProps) => {
   const { nombre, horario, ticketsActivos, estado, avatarIniciales, colorAvatar } =
     technician;
 
@@ -46,9 +50,18 @@ export const TechnicianCard = ({ technician }: TechnicianCardProps) => {
 
       <button
         type="button"
-        disabled
-        title="La asignacion de turnos todavia no esta disponible"
-        className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-slate-300 py-2 text-sm font-semibold text-slate-400"
+        onClick={() => onAsignarTurno?.(technician)}
+        disabled={!onAsignarTurno}
+        title={
+          onAsignarTurno
+            ? 'Asignar turno'
+            : 'No tienes permiso para asignar el turno de este tecnico'
+        }
+        className={`flex w-full items-center justify-center gap-2 rounded-lg border py-2 text-sm font-semibold transition-all duration-150 ${
+          onAsignarTurno
+            ? 'cursor-pointer border-blue-300 bg-white text-blue-700 hover:bg-blue-50 active:scale-[0.98]'
+            : 'cursor-not-allowed border-slate-300 text-slate-400'
+        }`}
       >
         <CalendarCheck className="h-4 w-4" />
         Asignar turno

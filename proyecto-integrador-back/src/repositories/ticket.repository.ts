@@ -56,7 +56,7 @@ const aDominio = (fila: FilaTicket): Ticket => ({
   estado: fila.estado,
   tecnicoId: fila.tecnico_id === null ? null : String(fila.tecnico_id),
   tecnicoNombre: fila.tecnico_nombre,
-  creadoEn: fila.creado_en,
+  creadoEn: new Date(fila.creado_en).toISOString(),
 });
 
 export interface TicketRepositorio {

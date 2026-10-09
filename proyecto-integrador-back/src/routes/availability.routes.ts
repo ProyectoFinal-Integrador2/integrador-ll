@@ -4,5 +4,6 @@ import { DisponibilidadControlador } from '../controllers/availability.controlle
 const availabilityRoutes = Router();
 
 availabilityRoutes.get('/', DisponibilidadControlador.listar);
+availabilityRoutes.post('/', DisponibilidadControlador.crearActualizar);
 
 export default availabilityRoutes;

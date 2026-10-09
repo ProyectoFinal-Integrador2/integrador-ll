@@ -27,6 +27,7 @@ export const LoginPage = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [errorServidor, setErrorServidor] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -143,13 +144,21 @@ export const LoginPage = () => {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <a
-            href="#"
+                <div className="mt-6 text-center">
+          <button
+            type="button"
+            onClick={() => setShowForgot((value) => !value)}
             className="text-xs font-medium text-blue-500 hover:text-blue-700 hover:underline"
           >
             ¿Olvidaste tu contraseña?
-          </a>
+          </button>
+
+          {showForgot && (
+            <p className="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-xs leading-relaxed text-slate-600">
+              Comunícate con el Jefe de TI para que restablezca tu contraseña. Te entregará una
+              contraseña temporal y el sistema te pedirá cambiarla al ingresar.
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -16,6 +16,14 @@ export class UsuarioControlador {
     res.status(201).json(resultado);
   }
 
+  static async restablecerContrasena(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    if (typeof id !== 'string') {
+      throw HttpError.badRequest('El id del usuario no es valido.');
+    }
+
+    res.json(await usuarioServicio.restablecerContrasena(id));
+  }
   static async actualizar(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     if (typeof id !== 'string') {

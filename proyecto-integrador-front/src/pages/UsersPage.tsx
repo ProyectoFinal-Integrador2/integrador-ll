@@ -4,9 +4,10 @@ import { UsersTable } from '@/components/usuarios/UsersTable';
 import { UsersToolbar } from '@/components/usuarios/UsersToolbar';
 import { EditUserModal } from '@/components/usuarios/EditUserModal';
 import { RegisterUserModal } from '@/components/usuarios/RegisterUserModal';
-import { crearUsuario, obtenerUsuarios, actualizarUsuario } from '@/services/usersApi';
+import { crearUsuario, obtenerUsuarios, actualizarUsuario, restablecerContrasena } from '@/services/usersApi';
 import { normalizarParaBusqueda } from '@/utils/text';
 import type { CrearUsuarioInput, ActualizarUsuarioInput, Usuario, FiltroUsuario } from '@/types/user.types';
+import { ResetPasswordModal } from '@/components/usuarios/ResetPasswordModal';
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof DOMException && error.name === 'AbortError';
@@ -24,6 +25,7 @@ export const UsersPage = () => {
   const [selectedUser, setSelectedUser] = useState<Usuario | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
+  const [resetResult, setResetResult] = useState<{ nombre: string; contrasena: string } | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -99,6 +101,17 @@ export const UsersPage = () => {
     );
   };
 
+  const handleResetPassword = async (user: Usuario) => {
+    if (!window.confirm(`¿Restablecer la contraseña de ${user.nombre}?`)) return;
+
+    try {
+      const { contrasenaGenerada } = await restablecerContrasena(user.id);
+      setResetResult({ nombre: user.nombre, contrasena: contrasenaGenerada });
+    } catch (resetError) {
+      setError(resetError instanceof Error ? resetError.message : 'No se pudo restablecer.');
+    }
+  };
+
   return (
     <div className="w-full">
       <UsersToolbar
@@ -120,7 +133,7 @@ export const UsersPage = () => {
         </div>
       )}
 
-      <UsersTable
+      <UsersTable onResetPassword={handleResetPassword}
         users={visibleUsers}
         onEditUser={handleEditUser}
         isLoading={isLoading}
@@ -138,6 +151,12 @@ export const UsersPage = () => {
         onClose={() => setIsEditModalOpen(false)}
         user={selectedUser}
         onSubmit={handleSave}
+      />
+
+      <ResetPasswordModal
+        nombre={resetResult?.nombre ?? null}
+        contrasena={resetResult?.contrasena ?? null}
+        onClose={() => setResetResult(null)}
       />
     </div>
   );

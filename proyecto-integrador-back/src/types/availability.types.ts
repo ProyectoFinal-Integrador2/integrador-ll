@@ -26,3 +26,9 @@ export interface DisponibilidadTecnico {
   ticketsActivos: number;
   estado: EstadoTecnico;
 }
+
+export interface CrearDisponibilidadInput {
+  /** Id del usuario tecnico al que se le asigna el horario. */
+  tecnicoId: string;
+  horario: string;
+}

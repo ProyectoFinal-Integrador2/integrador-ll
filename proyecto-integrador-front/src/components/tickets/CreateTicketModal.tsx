@@ -51,12 +51,16 @@ export const CreateTicketModal = ({
     return () => controller.abort();
   }, [isOpen]);
 
-  useEffect(() => {
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+
+  if (prevIsOpen !== isOpen) {
+    setPrevIsOpen(isOpen);
+
     if (!isOpen) {
       setForm(INITIAL_FORM);
       setError(null);
     }
-  }, [isOpen]);
+  }
 
   const equiposFiltrados = useMemo(() => {
     if (!area) return equipos;
