@@ -9,6 +9,9 @@
 # Figma
 [https://www.figma.com/design/qG39XU4qS3c1EwTQDdRQg7/prueba?node-id=0-1&t=xeYXYD1YWbwDcEII-0]
 
+# Diagrama de flujo
+[Diagrama de flujo general — HU01–HU24](<Diagrama de flujo.md>)
+
 # Problema
 
 La empresa Quimesa abarca la industria de insumos quimicos y de la fabricacion de productos, sin embargo sus procesos de gestion de incidencias son manuales y no existe un programa de automatizacion de ello. Esta necesidad nos lleva a crear un sistema de gestion de incidencias para facilitar y agilizar los procesos en la empresa.
@@ -88,6 +91,7 @@ Distribución de roles Scrum e historias de usuario según la planificación del
 | HU18 | Auditar y actualizar el estado final de un ticket de incidencia | Sprint 5 |
 | HU19 | Consultar las evaluaciones de servicio | Sprint 5 |
 | HU20 | Generar reporte de cumplimiento de SLA | Sprint 5 |
+| HU21 | COMO Jefe de TI QUIERO generar un reporte de carga de trabajo de técnicos PARA balancear la asignación de tickets. | Sprint 6 |
 | HU22 | Generar reporte del historial de fallas por equipo informático | Sprint 6 |
 | HU23 | Generar reporte de las evaluaciones de satisfacción | Sprint 6 |
 | HU24 | Generar reporte sobre los artículos de conocimiento más consultados | Sprint 6 |
