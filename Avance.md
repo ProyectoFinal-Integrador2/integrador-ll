@@ -18,6 +18,7 @@ La empresa Quimesa abarca la industria de insumos quimicos y de la fabricacion d
 Distribución de roles Scrum e historias de usuario según la planificación del Sprint 1 (una HU por integrante):
 
 | Integrante | Rol Scrum | Historia asignada (Sprint 1) | Duración | Rol funcional en el sistema |
+| :--- | :--- | :--- | :---: | :--- |
 | **Maycol Quicaño** | **Product Owner** | **HU01** — Acceder al sistema | 5 días | Autenticación (Supabase Auth + JWT) |
 | **Jorge Vilca** | **Scrum Master** | **HU02** — Registrar un nuevo usuario | 5 días | Gestión de usuarios y roles |
 | **Jeremy Poma** | **Developer** | **HU03** — Consultar los usuarios | 5 días | Monitoreo de cuentas, roles y permisos |
@@ -35,14 +36,22 @@ Distribución de roles Scrum e historias de usuario según la planificación del
 
 ### 2.1 Ficha del Sprint 1
 
-| Duración | 4 semanas |
+### ⏱️ Duración
+| Parámetro | Tiempo |
+| :--- | :--- |
+| **Duración** | 4 semanas |
 
-| **Sprint Backlog** | 
-| COMO usuario QUIERO iniciar sesión PARA acceder al sistema. |
-| COMO Jefe de TI QUIERO registrar un nuevo usuario PARA otorgarle acceso a la plataforma con su rol correspondiente. |
-| COMO Jefe de TI QUIERO consultar los usuarios PARA monitorear las cuentas, roles y permisos activos en el sistema. |
-| COMO Usuario QUIERO actualizar mi perfil PARA modificar mis datos vigentes. |
+### 📋 Sprint Backlog
+| ID | Historia de Usuario |
+| :---: | :--- |
+| **HU01** | COMO usuario QUIERO iniciar sesión PARA acceder al sistema. |
+| **HU02** | COMO Jefe de TI QUIERO registrar un nuevo usuario PARA otorgarle acceso a la plataforma con su rol correspondiente. |
+| **HU03** | COMO Jefe de TI QUIERO consultar los usuarios PARA monitorear las cuentas, roles y permisos activos en el sistema. |
+| **HU04** | COMO Usuario QUIERO actualizar mi perfil PARA modificar mis datos vigentes. |
 
+### 👥 Equipo y Roles Scrum
+| Rol | Integrante |
+| :--- | :--- |
 | **Product Owner** | Maycol Quicaño |
 | **Scrum Master** | Jorge Vilca |
 | **Developer 1** | Jeremy Poma |
@@ -52,44 +61,44 @@ Distribución de roles Scrum e historias de usuario según la planificación del
 
 ### 2.2 Historias de Usuario del Sprint 1
 
-| ID | Historia de Usuario Sprint 1 | Sprint |
-
-| HU01 | COMO usuario QUIERO iniciar sesión PARA acceder al sistema. | 2 Semanas |
-| HU02 | COMO Jefe de TI QUIERO registrar un nuevo usuario PARA otorgarle acceso a la plataforma con su rol correspondiente. | 2 Semanas |
-| HU03 | COMO Jefe de TI QUIERO consultar los usuarios PARA monitorear las cuentas, roles y permisos activos en el sistema. | 2 Semanas |
-| HU04 | COMO Usuario QUIERO actualizar mi perfil PARA modificar mis datos vigentes. | 2 Semanas |
+| ID | Historia de Usuario (Sprint 1) | Sprint / Duración |
+| :---: | :--- | :---: |
+| **HU01** | COMO usuario QUIERO iniciar sesión PARA acceder al sistema. | 2 Semanas |
+| **HU02** | COMO Jefe de TI QUIERO registrar un nuevo usuario PARA otorgarle acceso a la plataforma con su rol correspondiente. | 2 Semanas |
+| **HU03** | COMO Jefe de TI QUIERO consultar los usuarios PARA monitorear las cuentas, roles y permisos activos en el sistema. | 2 Semanas |
+| **HU04** | COMO Usuario QUIERO actualizar mi perfil PARA modificar mis datos vigentes. | 2 Semanas |
 
 ### 2.3 Historias de Usuario por días — Sprint 1
 
 | ID | Historia de Usuario por días - Sprint 1 | Días | Asignado a |
-
-| HU01 | COMO usuario QUIERO iniciar sesión PARA acceder al sistema. | 5 | Maycol Quicaño (PO) |
-| HU02 | COMO Jefe de TI QUIERO registrar un nuevo usuario PARA otorgarle acceso a la plataforma con su rol correspondiente. | 5 | Jorge Vilca (SM) |
-| HU03 | COMO Jefe de TI QUIERO consultar los usuarios PARA monitorear las cuentas, roles y permisos activos en el sistema. | 5 | Jeremy Poma (Dev) |
-| HU04 | COMO Usuario QUIERO actualizar mi perfil PARA modificar mis datos vigentes. | 5 | Daniel Turin (Dev) |
+| :---: | :--- | :---: | :--- |
+| **HU01** | COMO usuario QUIERO iniciar sesión PARA acceder al sistema. | 5 | Maycol Quicaño (PO) |
+| **HU02** | COMO Jefe de TI QUIERO registrar un nuevo usuario PARA otorgarle acceso a la plataforma con su rol correspondiente. | 5 | Jorge Vilca (SM) |
+| **HU03** | COMO Jefe de TI QUIERO consultar los usuarios PARA monitorear las cuentas, roles y permisos activos en el sistema. | 5 | Jeremy Poma (Dev) |
+| **HU04** | COMO Usuario QUIERO actualizar mi perfil PARA modificar mis datos vigentes. | 5 | Daniel Turin (Dev) |
 
 ## Product Backlog Maestro - Requerimientos Funcionales
 
 | ID | Historia de Usuario | Sprint |
-
-| HU06 | Registrar un ticket de incidencia | Sprint 2 |
-| HU07 | Consultar tickets de incidencia | Sprint 2 |
-| HU08 | Actualizar el estado de un ticket | Sprint 2 |
-| HU09 | Registrar una prioridad de servicio (SLA) | Sprint 3 |
-| HU10 | Registrar un artículo de conocimiento | Sprint 3 |
-| HU11 | Consultar la base de conocimientos | Sprint 3 |
-| HU12 | Registrar un equipo informático | Sprint 3 |
-| HU13 | Consultar equipos informáticos | Sprint 4 |
-| HU14 | Actualizar la ficha de un equipo informático | Sprint 4 |
-| HU15 | Registrar disponibilidad de técnicos | Sprint 4 |
-| HU16 | Consultar la disponibilidad de los técnicos | Sprint 4 |
-| HU17 | Registrar una evaluación de servicio | Sprint 5 |
-| HU18 | Auditar y actualizar el estado final de un ticket de incidencia | Sprint 5 |
-| HU19 | Consultar las evaluaciones de servicio | Sprint 5 |
-| HU20 | Generar reporte de cumplimiento de SLA | Sprint 5 |
-| HU22 | Generar reporte del historial de fallas por equipo informático | Sprint 6 |
-| HU23 | Generar reporte de las evaluaciones de satisfacción | Sprint 6 |
-| HU24 | Generar reporte sobre los artículos de conocimiento más consultados | Sprint 6 |
+| :---: | :--- | :---: |
+| **HU06** | Registrar un ticket de incidencia | Sprint 2 |
+| **HU07** | Consultar tickets de incidencia | Sprint 2 |
+| **HU08** | Actualizar el estado de un ticket | Sprint 2 |
+| **HU09** | Registrar una prioridad de servicio (SLA) | Sprint 3 |
+| **HU10** | Registrar un artículo de conocimiento | Sprint 3 |
+| **HU11** | Consultar la base de conocimientos | Sprint 3 |
+| **HU12** | Registrar un equipo informático | Sprint 3 |
+| **HU13** | Consultar equipos informáticos | Sprint 4 |
+| **HU14** | Actualizar la ficha de un equipo informático | Sprint 4 |
+| **HU15** | Registrar disponibilidad de técnicos | Sprint 4 |
+| **HU16** | Consultar la disponibilidad de los técnicos | Sprint 4 |
+| **HU17** | Registrar una evaluación de servicio | Sprint 5 |
+| **HU18** | Auditar y actualizar el estado final de un ticket de incidencia | Sprint 5 |
+| **HU19** | Consultar las evaluaciones de servicio | Sprint 5 |
+| **HU20** | Generar reporte de cumplimiento de SLA | Sprint 5 |
+| **HU22** | Generar reporte del historial de fallas por equipo informático | Sprint 6 |
+| **HU23** | Generar reporte de las evaluaciones de satisfacción | Sprint 6 |
+| **HU24** | Generar reporte sobre los artículos de conocimiento más consultados | Sprint 6 |
 
 ## Especificación de la Historia prioritaria del Sprint 1: HU01 — Acceder al sistema
 
