@@ -2,16 +2,20 @@ import { Pool, type QueryResultRow } from 'pg';
 import { env } from './env';
 
 /**
- * Pool de conexiones a Supabase (Postgres).
+ * Pool de conexiones a Postgres.
  *
- * `ssl` se deja en `request` porque Supabase exige SSL y la URL ya puede
- * traer `?sslmode=require`: asi funciona con el connection string del panel
- * (suele venir con `sslmode=require`) y tambien si viene sin parametros.
+ * - Con Supabase: la URL incluye `sslmode=require`, se activa SSL.
+ * - Con Docker / Postgres local: la URL no incluye `sslmode`, SSL se desactiva
+ *   porque el contenedor no tiene certificados configurados.
  */
+const sslConfig = env.databaseUrl.includes('sslmode=require')
+  ? { rejectUnauthorized: false }
+  : false;
+
 export const pool = new Pool({
   connectionString: env.databaseUrl,
   max: 10,
-  ssl: env.databaseUrl.includes('sslmode=require') ? undefined : { rejectUnauthorized: false },
+  ssl: sslConfig,
 });
 
 /** Ejecuta una consulta y devuelve solo las filas, tipadas por el llamador. */
