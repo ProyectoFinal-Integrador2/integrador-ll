@@ -1,0 +1,1 @@
+export type RolUsuario = 'Jefe TI' | 'Técnico' | 'Usuario';
