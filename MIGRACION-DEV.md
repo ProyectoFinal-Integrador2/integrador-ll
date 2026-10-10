@@ -24,6 +24,69 @@ git push -u origin feat/HU-009-sla
 > `dev`, omití la rama y hacé `git add -A; git commit; git push` en `dev`.
 
 ---
+## HU05 — Registrar ticket de incidencia (dueño módulo Tickets) · 7 archivos
+
+### Backend
+```
+proyecto-integrador-back/src/controllers/ticket.controller.ts
+proyecto-integrador-back/src/services/ticket.service.ts
+proyecto-integrador-back/src/repositories/ticket.repository.ts
+proyecto-integrador-back/src/routes/ticket.routes.ts
+proyecto-integrador-back/src/types/ticket.types.ts
+```
+
+### Frontend
+```
+proyecto-integrador-front/src/pages/TicketsPage.tsx
+proyecto-integrador-front/src/services/ticketsApi.ts
+proyecto-integrador-front/src/types/ticket.types.ts
+proyecto-integrador-front/src/utils/ticketStyles.ts
+proyecto-integrador-front/src/components/tickets/CreateTicketModal.tsx
+```
+
+```powershell
+git switch dev; git pull; git switch -c feat/HU-005-registrar-ticket
+git checkout dev-nueva -- proyecto-integrador-back/src/controllers/ticket.controller.ts proyecto-integrador-back/src/services/ticket.service.ts proyecto-integrador-back/src/repositories/ticket.repository.ts proyecto-integrador-back/src/routes/ticket.routes.ts proyecto-integrador-back/src/types/ticket.types.ts
+git checkout dev-nueva -- proyecto-integrador-front/src/pages/TicketsPage.tsx proyecto-integrador-front/src/services/ticketsApi.ts proyecto-integrador-front/src/types/ticket.types.ts proyecto-integrador-front/src/utils/ticketStyles.ts proyecto-integrador-front/src/components/tickets/CreateTicketModal.tsx
+git add -A; git commit -m "feat(HU05): registrar ticket de incidencia (closes #<nro>)"; git push -u origin feat/HU-005-registrar-ticket
+```
+
+> `TicketsPage.tsx` importa los componentes que llegan en HU07/HU08; no compila solo.
+
+---
+
+## HU06 — Consultar tickets de incidencia · 3 archivos
+
+```
+proyecto-integrador-front/src/components/tickets/TicketList.tsx
+proyecto-integrador-front/src/components/tickets/TicketFilters.tsx
+proyecto-integrador-front/src/components/tickets/TicketsToolbar.tsx
+```
+
+```powershell
+git switch dev; git pull; git switch -c feat/HU-006-consultar-tickets
+git checkout dev-nueva -- proyecto-integrador-front/src/components/tickets/TicketList.tsx proyecto-integrador-front/src/components/tickets/TicketFilters.tsx proyecto-integrador-front/src/components/tickets/TicketsToolbar.tsx
+git add -A; git commit -m "feat(HU06): consultar tickets de incidencia (closes #<nro>)"; git push -u origin feat/HU-006-consultar-tickets
+```
+
+---
+
+## HU07 — Actualizar el estado de un ticket · 1 archivo
+
+```
+proyecto-integrador-front/src/components/tickets/TicketDetailModal.tsx
+```
+
+```powershell
+git switch dev; git pull; git switch -c feat/HU-007-actualizar-ticket
+git checkout dev-nueva -- proyecto-integrador-front/src/components/tickets/TicketDetailModal.tsx
+git add -A; git commit -m "feat(HU07): actualizar el estado de un ticket (closes #<nro>)"; git push -u origin feat/HU-007-actualizar-ticket
+```
+
+> HU18 (auditoría) usa este mismo modal; no tiene archivos propios.
+
+---
+## HU08 YA ESTA SUBIDO, ES LA BASE DE TODO XD
 
 ## HU09 — Registrar prioridad de servicio (SLA) · 14 archivos
 
@@ -107,6 +170,10 @@ git add -A; git commit -m "feat(HU11): consultar base de conocimientos (closes #
 ---
 
 ## HU12 — Equipos: alta · 10 archivos
+
+> ⚠ **Nota de numeración:** en esta HU hubo un error de tipeo entre `012` y `12`.
+> Verificá que la rama/commit queden con el mismo formato (el resto del doc usa
+> `HU-012`), así el historial queda ordenado.
 
 ### Backend
 ```
