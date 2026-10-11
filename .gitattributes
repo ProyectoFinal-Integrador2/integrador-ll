@@ -1,0 +1,12 @@
+# Normaliza los finales de línea en el repositorio.
+# Sin esto, cada clone mezcla CRLF/LF según el sistema operativo.
+* text=auto eol=lf
+
+# Los archivos binarios no se deben tocar.
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.svg text eol=lf
+*.ico binary
+*.woff binary
+*.woff2 binary
