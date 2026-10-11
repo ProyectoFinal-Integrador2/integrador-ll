@@ -1,0 +1,58 @@
+services:
+
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:17-alpine
+    container_name: integrador_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin1234}
+      POSTGRES_DB: ${POSTGRES_DB:-integrador_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Este script se ejecuta automáticamente la PRIMERA vez que se crea el contenedor
+      - ./database/integrador_BDD.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    ports:
+      - "5432:5432"           # expuesto sólo en local; quitar en producción
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-integrador_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend (Node / Express / TypeScript) ───────────────────────────────────
+  backend:
+    build:
+      context: ./proyecto-integrador-back
+      dockerfile: Dockerfile
+    container_name: integrador_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD:-admin1234}@postgres:5432/${POSTGRES_DB:-integrador_db}
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-en-produccion}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"           # opcional; el frontend accede por red interna
+
+  # ── Frontend (React / Vite → Nginx) ─────────────────────────────────────────
+  frontend:
+    build:
+      context: ./proyecto-integrador-front
+      dockerfile: Dockerfile
+      args:
+        # En producción el navegador accede al backend a través de Nginx (/api)
+        VITE_API_URL: ""
+    container_name: integrador_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
