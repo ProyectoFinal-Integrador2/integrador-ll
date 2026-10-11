@@ -9,6 +9,10 @@
 # Figma
 [https://www.figma.com/design/qG39XU4qS3c1EwTQDdRQg7/prueba?node-id=0-1&t=xeYXYD1YWbwDcEII-0]
 
+# Diagrama de flujo
+[Diagrama de flujo general — HU01–HU24 (Mermaid)](<Diagrama de flujo.md>)
+[Diagrama de flujo general — HU01–HU24 (imagen)](<Diagrama de flujo (imagen).md>)
+
 # Problema
 
 La empresa Quimesa abarca la industria de insumos quimicos y de la fabricacion de productos, sin embargo sus procesos de gestion de incidencias son manuales y no existe un programa de automatizacion de ello. Esta necesidad nos lleva a crear un sistema de gestion de incidencias para facilitar y agilizar los procesos en la empresa.
@@ -80,26 +84,27 @@ Distribución de roles Scrum e historias de usuario según la planificación del
 ## Product Backlog Maestro - Requerimientos Funcionales
 
 | ID | Historia de Usuario | Sprint |
-| :---: | :--- | :---: |
-| **HU05** | Recuperación de contraseña | Sprint 2 |
-| **HU06** | Registrar un ticket de incidencia | Sprint 2 |
-| **HU07** | Consultar tickets de incidencia | Sprint 2 |
-| **HU08** | Actualizar el estado de un ticket | Sprint 2 |
-| **HU09** | Registrar una prioridad de servicio (SLA) | Sprint 3 |
-| **HU10** | Registrar un artículo de conocimiento | Sprint 3 |
-| **HU11** | Consultar la base de conocimientos | Sprint 3 |
-| **HU12** | Registrar un equipo informático | Sprint 3 |
-| **HU13** | Consultar equipos informáticos | Sprint 4 |
-| **HU14** | Actualizar la ficha de un equipo informático | Sprint 4 |
-| **HU15** | Registrar disponibilidad de técnicos | Sprint 4 |
-| **HU16** | Consultar la disponibilidad de los técnicos | Sprint 4 |
-| **HU17** | Registrar una evaluación de servicio | Sprint 5 |
-| **HU18** | Auditar y actualizar el estado final de un ticket de incidencia | Sprint 5 |
-| **HU19** | Consultar las evaluaciones de servicio | Sprint 5 |
-| **HU20** | Generar reporte de cumplimiento de SLA | Sprint 5 |
-| **HU22** | Generar reporte del historial de fallas por equipo informático | Sprint 6 |
-| **HU23** | Generar reporte de las evaluaciones de satisfacción | Sprint 6 |
-| **HU24** | Generar reporte sobre los artículos de conocimiento más consultados | Sprint 6 |
+| HU05 | Recuperar mi contraseña para volver a acceder | Sprint 2|
+| HU06 | Registrar un ticket de incidencia | Sprint 2 |
+| HU07 | Consultar tickets de incidencia | Sprint 2 |
+| HU08 | Actualizar el estado de un ticket | Sprint 2 |
+| HU09 | Registrar una prioridad de servicio (SLA) | Sprint 3 |
+| HU10 | Registrar un artículo de conocimiento | Sprint 3 |
+| HU11 | Consultar la base de conocimientos | Sprint 3 |
+| HU12 | Registrar un equipo informático | Sprint 3 |
+| HU13 | Consultar equipos informáticos | Sprint 4 |
+| HU14 | Actualizar la ficha de un equipo informático | Sprint 4 |
+| HU15 | Registrar disponibilidad de técnicos | Sprint 4 |
+| HU16 | Consultar la disponibilidad de los técnicos | Sprint 4 |
+| HU17 | Registrar una evaluación de servicio | Sprint 5 |
+| HU18 | Auditar y actualizar el estado final de un ticket de incidencia | Sprint 5 |
+| HU19 | Consultar las evaluaciones de servicio | Sprint 5 |
+| HU20 | Generar reporte de cumplimiento de SLA | Sprint 5 |
+| HU21 | COMO Jefe de TI QUIERO generar un reporte de carga de trabajo de técnicos PARA balancear la asignación de tickets. | Sprint 6 |
+| HU22 | Generar reporte del historial de fallas por equipo informático | Sprint 6 |
+| HU23 | Generar reporte de las evaluaciones de satisfacción | Sprint 6 |
+| HU24 | Generar reporte sobre los artículos de conocimiento más consultados | Sprint 6 |
+
 
 ## Especificación de la Historia prioritaria del Sprint 1: HU01 — Acceder al sistema
 

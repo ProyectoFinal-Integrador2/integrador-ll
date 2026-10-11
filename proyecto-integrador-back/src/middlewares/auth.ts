@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { env } from '../../../../proyecto-integrador-back/src/config/env';
+import { env } from '../config/env';
 import { HttpError } from '../utils/httpError';
 import type { PayloadToken, SesionUsuario } from '../types/auth.types';
 import type { RolUsuario } from '../types/user.types';
