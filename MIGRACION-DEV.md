@@ -1,3 +1,4 @@
+
 # Migración `dev-nueva` → `dev` · HU09 a HU19
 
 Reparto **sin repetición** de los archivos que faltan por subir a `dev`.
@@ -25,6 +26,7 @@ git push -u origin feat/HU-009-sla
 
 ---
 ## HU05 — Registrar ticket de incidencia (dueño módulo Tickets) · 7 archivos
+
 
 ### Backend
 ```
@@ -56,6 +58,7 @@ git add -A; git commit -m "feat(HU05): registrar ticket de incidencia (closes #<
 ---
 
 ## HU06 — Consultar tickets de incidencia · 3 archivos
+
 
 ```
 proyecto-integrador-front/src/components/tickets/TicketList.tsx
@@ -91,16 +94,17 @@ git add -A; git commit -m "feat(HU07): actualizar el estado de un ticket (closes
 ## HU09 — Registrar prioridad de servicio (SLA) · 14 archivos
 
 ### Backend
+
 ```
 proyecto-integrador-back/src/controllers/sla.controller.ts
 proyecto-integrador-back/src/services/sla.service.ts
 proyecto-integrador-back/src/repositories/sla.repository.ts
 proyecto-integrador-back/src/routes/sla.routes.ts
 proyecto-integrador-back/src/types/sla.types.ts
-```
 
-### Frontend
 ```
+### Frontend
+
 proyecto-integrador-front/src/pages/SlaPage.tsx
 proyecto-integrador-front/src/components/sla/SlaCommitmentPanel.tsx
 proyecto-integrador-front/src/components/sla/SlaLevelBadge.tsx
@@ -124,6 +128,7 @@ git add -A; git commit -m "feat(HU09): registrar prioridad de servicio (closes #
 ## HU10 — Base de conocimiento: alta · 9 archivos
 
 ### Backend
+
 ```
 proyecto-integrador-back/src/controllers/knowledge.controller.ts
 proyecto-integrador-back/src/services/knowledge.service.ts
@@ -151,6 +156,7 @@ git add -A; git commit -m "feat(HU10): registrar articulo de conocimiento (close
 
 ## HU11 — Conocimiento: consulta + reportes · 6 archivos
 
+
 ```
 proyecto-integrador-front/src/components/conocimiento/KnowledgeCard.tsx
 proyecto-integrador-front/src/components/conocimiento/KnowledgeFilters.tsx
@@ -176,6 +182,7 @@ git add -A; git commit -m "feat(HU11): consultar base de conocimientos (closes #
 > `HU-012`), así el historial queda ordenado.
 
 ### Backend
+
 ```
 proyecto-integrador-back/src/controllers/equipment.controller.ts
 proyecto-integrador-back/src/services/equipment.service.ts
@@ -277,7 +284,6 @@ git add -A; git commit -m "feat(HU15): registrar disponibilidad de tecnicos (clo
 ---
 
 ## HU16 — Disponibilidad: consulta + reportes · 7 archivos
-
 ```
 proyecto-integrador-front/src/components/disponibilidad/AvailabilityToolbar.tsx
 proyecto-integrador-front/src/components/disponibilidad/TechnicianCard.tsx
@@ -385,6 +391,7 @@ npm run build
 ```
 
 Todo debe pasar. Si aparece un `import` sin resolver, falta subir algún archivo de ese módulo.
+
 
 ---
 

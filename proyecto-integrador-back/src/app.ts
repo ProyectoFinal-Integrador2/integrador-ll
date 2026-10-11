@@ -4,6 +4,7 @@ import { errorHandler } from './middlewares/errorHandler';
 import { notFound } from './middlewares/notFound';
 import apiRouter from './routes';
 
+
 const app: Application = express();
 
 app.use(cors());
