@@ -13,3 +13,6 @@ export const crearArticulo = (
   input: EntradaArticuloConocimiento,
 ): Promise<ArticuloConocimiento> =>
   apiSend<ArticuloConocimiento>('/knowledge-base', 'POST', input);
+
+export const registrarVista = (id: string): Promise<ArticuloConocimiento> =>
+  apiSend<ArticuloConocimiento>(`/knowledge-base/${id}/vista`, 'POST', {});

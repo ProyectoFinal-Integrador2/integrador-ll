@@ -33,6 +33,8 @@ export interface Ticket {
   tecnicoId: string | null;
   tecnicoNombre: string | null;
   creadoEn: string;
+  iniciadoEn: string | null;
+  cerradoEn: string | null;
 }
 
 export interface CrearTicketInput {

@@ -142,7 +142,7 @@ Cadena típica: `route → controller → service → repository → pg pool`.
   - Sprint 3 — prioridades SLA, base de conocimiento, equipos (HU09–HU12)
   - Sprint 4 — equipos, disponibilidad de técnicos (HU13–HU16)
   - Sprint 5 — evaluaciones, auditoría y reporte de cumplimiento SLA (HU17–HU20)
-  - Sprint 6 — reportes (HU22–HU24)
+  - Sprint 6 — reportes (HU21–HU24)
 - **Control de versiones (evidencia en git):**
   - Flujo de ramas: `feat/HU-xxx` (o `HU-x-...`) → integración en `dev` → `main`.
   - Commits convencionales en su mayoría: `feat:`, `feat(HU-003):`, `chore:`, con referencia a issues (`closes #14`).

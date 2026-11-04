@@ -15,4 +15,14 @@ export class ConocimientoControlador {
     );
     res.status(201).json(articulo);
   }
+
+  static async registrarVista(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    const articulo = await conocimientoServicio.registrarVista(
+      Array.isArray(id) ? id[0] : id,
+    );
+
+    res.json(articulo);
+  }
 }

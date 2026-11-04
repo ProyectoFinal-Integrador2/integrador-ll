@@ -65,6 +65,13 @@ export interface Ticket {
   tecnicoNombre: string | null;
   /** ISO 8601. El formateo a texto legible ocurre en el frontend. */
   creadoEn: string;
+  /**
+   * Momento en que el tecnico tomo el ticket. `null` mientras siga en la cola.
+   * Es la base del tiempo de respuesta de HU20.
+   */
+  iniciadoEn: string | null;
+  /** Momento en que se cerro el ticket. `null` si sigue abierto o se cancelo. */
+  cerradoEn: string | null;
 }
 
 /** El estado inicial lo fija el dominio: un ticket nace abierto. */

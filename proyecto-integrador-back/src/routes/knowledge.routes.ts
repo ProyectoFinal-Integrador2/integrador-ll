@@ -10,5 +10,6 @@ knowledgeRoutes.post(
   requerirRol('Jefe TI', 'Técnico'),
   ConocimientoControlador.crear,
 );
+knowledgeRoutes.post('/:id/vista', ConocimientoControlador.registrarVista);
 
 export default knowledgeRoutes;

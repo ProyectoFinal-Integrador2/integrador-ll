@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@page {
+  margin: 12mm;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    break-inside: avoid;
+  }
+}

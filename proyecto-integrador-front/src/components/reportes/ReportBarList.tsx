@@ -23,10 +23,12 @@ export const ReportBarList = ({
         <p className="mt-4 text-xs text-slate-400">{emptyMessage}</p>
       ) : (
         <ul className="mt-5 space-y-4">
-          {slices.map((slice) => (
-            <li key={slice.etiqueta}>
+          {slices.map((slice, index) => (
+            <li key={`${slice.etiqueta}-${index}`}>
               <div className="mb-1.5 flex items-baseline justify-between gap-3">
-                <span className="text-sm text-slate-600">{slice.etiqueta}</span>
+                <span className="min-w-0 truncate text-sm text-slate-600">
+                  {slice.etiqueta}
+                </span>
                 <span className="text-xs font-semibold text-slate-500">
                   {slice.conteo}
                   <span className="ml-2 font-normal text-slate-400">
