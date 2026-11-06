@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { ApiError } from '@/services/apiClient';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Headset } from 'lucide-react';
 import { useSession } from '@/context/session';
@@ -28,10 +29,23 @@ export const LoginPage = () => {
   const [errorServidor, setErrorServidor] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
+  const [avisos, setAvisos] = useState<Record<string, { mensaje: string; hasta?: number }>>({});
+  const [ahora, setAhora] = useState(Date.now);
+  const correoNormalizado = email.trim().toLowerCase();
+  const aviso = avisos[correoNormalizado];
+  const segundos = aviso?.hasta ? Math.max(0, Math.ceil((aviso.hasta - ahora) / 1000)) : 0;
+  const bloqueado = segundos > 0;
+
+  useEffect(() => {
+    if (!aviso?.hasta) return;
+    const timer = window.setInterval(() => setAhora(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [aviso?.hasta]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isSubmitting) return;
+    if (isSubmitting || bloqueado) return;
+    const correoEnviado = correoNormalizado;
 
     const nextErrors = collectErrors(EMAIL_RULES, email);
 
@@ -49,6 +63,15 @@ export const LoginPage = () => {
       await login(email.trim(), password, selectedRole);
       navigate(from, { replace: true });
     } catch (submitError) {
+      if (submitError instanceof ApiError && submitError.intentosRestantes !== undefined) {
+        const restantes = submitError.intentosRestantes;
+        setAhora(Date.now());
+        setAvisos((prev) => ({ ...prev, [correoEnviado]: {
+          mensaje: `${submitError.message}${restantes > 0 ? ` Te quedan ${restantes} ${restantes === 1 ? 'intento' : 'intentos'}.` : ''}`,
+          hasta: submitError.segundosRestantes ? Date.now() + submitError.segundosRestantes * 1000 : undefined,
+        } }));
+        return;
+      }
       setErrorServidor(
         submitError instanceof Error ? submitError.message : 'No se pudo iniciar sesión.',
       );
@@ -82,6 +105,13 @@ export const LoginPage = () => {
           </div>
         )}
 
+        {aviso && (!aviso.hasta || bloqueado) && (
+          <div role="alert" className="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700">
+            <p>{aviso.mensaje}</p>
+            {bloqueado && <p>Espera {Math.floor(segundos / 60).toString().padStart(2, '0')}:{(segundos % 60).toString().padStart(2, '0')} para volver a intentar con este correo.</p>}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700">Ingresar como</label>
@@ -111,7 +141,7 @@ export const LoginPage = () => {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setErrorServidor(null); setErrors([]); setAhora(Date.now()); }}
               placeholder="correo@empresa.pe"
               autoComplete="email"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
@@ -137,10 +167,10 @@ export const LoginPage = () => {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || bloqueado}
             className="mt-2 w-full rounded-lg bg-blue-600 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
           >
-            {isSubmitting ? 'Verificando...' : 'Iniciar sesión'}
+            {isSubmitting ? 'Verificando...' : bloqueado ? 'Correo bloqueado temporalmente' : 'Iniciar sesión'}
           </button>
         </form>
 

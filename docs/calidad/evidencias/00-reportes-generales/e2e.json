@@ -1,0 +1,828 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\alvar\\integrador-ll\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\alvar\\integrador-ll\\playwright.config.ts",
+    "rootDir": "C:/Users/alvar/integrador-ll/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/alvar/integrador-ll/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/alvar/integrador-ll/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "C:/Users/alvar/integrador-ll/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/alvar/integrador-ll/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "C:/Users/alvar/integrador-ll/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/alvar/integrador-ll/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\alvar\\integrador-ll\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e",
+        "snapshotDir": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5174",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "browserName": "chromium",
+          "channel": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\alvar\\integrador-ll\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "firefox",
+        "testDir": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e",
+        "snapshotDir": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5174",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "browserName": "firefox"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "firefox"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\alvar\\integrador-ll\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "webkit",
+        "testDir": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e",
+        "snapshotDir": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5174",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "browserName": "webkit"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "webkit"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/calidad/evidencias/e2e.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "calidad.spec.ts",
+      "file": "calidad.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "P3 funcional: datos incompletos y registro válido de ticket",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 8790,
+                  "error": {
+                    "message": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                    "stack": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:38:88",
+                    "location": {
+                      "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                      "column": 88,
+                      "line": 38
+                    },
+                    "snippet": " \u001b[90m 36 |\u001b[39m     esperado\u001b[33m:\u001b[39m \u001b[35m201\u001b[39m\u001b[33m,\u001b[39m obtenido\u001b[33m:\u001b[39m estadoSinEquipo\u001b[33m,\u001b[39m respuesta\u001b[33m:\u001b[39m \u001b[36mawait\u001b[39m sinEquipo\u001b[33m.\u001b[39mjson()\u001b[33m,\u001b[39m\n \u001b[90m 37 |\u001b[39m   }\u001b[33m,\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m \u001b[35m2\u001b[39m))\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(estadoSinEquipo\u001b[33m,\u001b[39m \u001b[32m'Equipo opcional: registrar sin equipo debe funcionar'\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m   \u001b[36mif\u001b[39m (estadoSinEquipo \u001b[33m!==\u001b[39m \u001b[35m201\u001b[39m) {\n \u001b[90m 40 |\u001b[39m     \u001b[36mawait\u001b[39m foto(page\u001b[33m,\u001b[39m \u001b[32m`P3-error-sin-equipo-${info.project.name}`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m     \u001b[36mawait\u001b[39m modal\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'Equipo asignado'\u001b[39m)\u001b[33m.\u001b[39mselectOption(\u001b[32m'1'\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 88,
+                        "line": 38
+                      },
+                      "message": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n  36 |     esperado: 201, obtenido: estadoSinEquipo, respuesta: await sinEquipo.json(),\n  37 |   }, null, 2));\n> 38 |   expect.soft(estadoSinEquipo, 'Equipo opcional: registrar sin equipo debe funcionar').toBe(201);\n     |                                                                                        ^\n  39 |   if (estadoSinEquipo !== 201) {\n  40 |     await foto(page, `P3-error-sin-equipo-${info.project.name}`);\n  41 |     await modal.getByLabel('Equipo asignado').selectOption('1');\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:38:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:37:35.411Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-chromium\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "column": 88,
+                    "line": 38
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 8875,
+                  "error": {
+                    "message": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                    "stack": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:38:88",
+                    "location": {
+                      "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                      "column": 88,
+                      "line": 38
+                    },
+                    "snippet": " \u001b[90m 36 |\u001b[39m     esperado\u001b[33m:\u001b[39m \u001b[35m201\u001b[39m\u001b[33m,\u001b[39m obtenido\u001b[33m:\u001b[39m estadoSinEquipo\u001b[33m,\u001b[39m respuesta\u001b[33m:\u001b[39m \u001b[36mawait\u001b[39m sinEquipo\u001b[33m.\u001b[39mjson()\u001b[33m,\u001b[39m\n \u001b[90m 37 |\u001b[39m   }\u001b[33m,\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m \u001b[35m2\u001b[39m))\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(estadoSinEquipo\u001b[33m,\u001b[39m \u001b[32m'Equipo opcional: registrar sin equipo debe funcionar'\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m   \u001b[36mif\u001b[39m (estadoSinEquipo \u001b[33m!==\u001b[39m \u001b[35m201\u001b[39m) {\n \u001b[90m 40 |\u001b[39m     \u001b[36mawait\u001b[39m foto(page\u001b[33m,\u001b[39m \u001b[32m`P3-error-sin-equipo-${info.project.name}`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m     \u001b[36mawait\u001b[39m modal\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'Equipo asignado'\u001b[39m)\u001b[33m.\u001b[39mselectOption(\u001b[32m'1'\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 88,
+                        "line": 38
+                      },
+                      "message": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n  36 |     esperado: 201, obtenido: estadoSinEquipo, respuesta: await sinEquipo.json(),\n  37 |   }, null, 2));\n> 38 |   expect.soft(estadoSinEquipo, 'Equipo opcional: registrar sin equipo debe funcionar').toBe(201);\n     |                                                                                        ^\n  39 |   if (estadoSinEquipo !== 201) {\n  40 |     await foto(page, `P3-error-sin-equipo-${info.project.name}`);\n  41 |     await modal.getByLabel('Equipo asignado').selectOption('1');\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:38:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:14.106Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-firefox\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-firefox\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-firefox\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "column": 88,
+                    "line": 38
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6671,
+                  "error": {
+                    "message": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                    "stack": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:38:88",
+                    "location": {
+                      "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                      "column": 88,
+                      "line": 38
+                    },
+                    "snippet": " \u001b[90m 36 |\u001b[39m     esperado\u001b[33m:\u001b[39m \u001b[35m201\u001b[39m\u001b[33m,\u001b[39m obtenido\u001b[33m:\u001b[39m estadoSinEquipo\u001b[33m,\u001b[39m respuesta\u001b[33m:\u001b[39m \u001b[36mawait\u001b[39m sinEquipo\u001b[33m.\u001b[39mjson()\u001b[33m,\u001b[39m\n \u001b[90m 37 |\u001b[39m   }\u001b[33m,\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m \u001b[35m2\u001b[39m))\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(estadoSinEquipo\u001b[33m,\u001b[39m \u001b[32m'Equipo opcional: registrar sin equipo debe funcionar'\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[35m201\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m   \u001b[36mif\u001b[39m (estadoSinEquipo \u001b[33m!==\u001b[39m \u001b[35m201\u001b[39m) {\n \u001b[90m 40 |\u001b[39m     \u001b[36mawait\u001b[39m foto(page\u001b[33m,\u001b[39m \u001b[32m`P3-error-sin-equipo-${info.project.name}`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m     \u001b[36mawait\u001b[39m modal\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'Equipo asignado'\u001b[39m)\u001b[33m.\u001b[39mselectOption(\u001b[32m'1'\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 88,
+                        "line": 38
+                      },
+                      "message": "Error: Equipo opcional: registrar sin equipo debe funcionar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n  36 |     esperado: 201, obtenido: estadoSinEquipo, respuesta: await sinEquipo.json(),\n  37 |   }, null, 2));\n> 38 |   expect.soft(estadoSinEquipo, 'Equipo opcional: registrar sin equipo debe funcionar').toBe(201);\n     |                                                                                        ^\n  39 |   if (estadoSinEquipo !== 201) {\n  40 |     await foto(page, `P3-error-sin-equipo-${info.project.name}`);\n  41 |     await modal.getByLabel('Equipo asignado').selectOption('1');\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:38:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:39.172Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-webkit\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-webkit\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P3-funcional-datos-837bb-y-registro-válido-de-ticket-webkit\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "column": 88,
+                    "line": 38
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7aa7d9a71f171d730a62-70050bc927754999638b",
+          "file": "calidad.spec.ts",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "P4 compatibilidad: pantalla API PostgreSQL y recarga",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6057,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:37:46.354Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Motor",
+                      "contentType": "text/plain",
+                      "body": "Y2hyb21pdW06IDE1OC4wLjgxMjcuMTg="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9144,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:26.309Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Motor",
+                      "contentType": "text/plain",
+                      "body": "ZmlyZWZveDogMTU5LjA="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6416,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:47.301Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Motor",
+                      "contentType": "text/plain",
+                      "body": "d2Via2l0OiAyNy4y"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7aa7d9a71f171d730a62-57227e8f76f198b229e6",
+          "file": "calidad.spec.ts",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "P5 interacción: axe y recorrido de teclado",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 7529,
+                  "error": {
+                    "message": "Error: Sin violaciones serias o críticas\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m2\u001b[39m\nReceived array:  \u001b[31m[{\"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\", \"help\": \"Elements must meet minimum color contrast ratio thresholds\", \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\", \"id\": \"color-contrast\", \"impact\": \"serious\", \"nodes\": [{\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.76 (foreground color: #2b7fff, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<button type=\\\"button\\\" class=\\\"text-xs font-medium text-blue-500 hover:text-blue-700 hover:underline\\\">¿Olvidaste tu contraseña?</button>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".text-blue-500\"]}], \"tags\": [\"cat.color\", \"wcag2aa\", \"wcag143\", \"TTv5\", \"TT13.c\", \"EN-301-549\", \"EN-9.1.4.3\", \"ACT\", \"RGAAv4\", \"RGAA-3.2.1\"]}, {\"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\", \"help\": \"Elements must meet minimum color contrast ratio thresholds\", \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\", \"id\": \"color-contrast\", \"impact\": \"serious\", \"nodes\": [{\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.81 (foreground color: #1976d2, background color: #d9edf7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span class=\\\"w-max rounded-md p-0.5 px-1.5 text-sm font-semibold bg-[#d9edf7] text-[#1976d2]\\\">Jefe TI</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".w-max\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Principal</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(1) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Gestion</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(2) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Calidad</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(3) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Cuenta</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(4) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.81 (foreground color: #1976d2, background color: #d9edf7, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1\", \"html\": \"<div class=\\\"flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold bg-[#d9edf7] text-[#1976d2]\\\">QI</div>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".bg-\\\\[\\\\#d9edf7\\\\].text-\\\\[\\\\#1976d2\\\\].h-9\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span class=\\\"truncate text-[11px] text-slate-400\\\">qa.iso@example.test</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".truncate.text-\\\\[11px\\\\].text-slate-400\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>ID</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(1)\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>Descripcion</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(2)\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>Usuario</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(3)\"]}, …], \"tags\": [\"cat.color\", \"wcag2aa\", \"wcag143\", \"TTv5\", \"TT13.c\", \"EN-301-549\", \"EN-9.1.4.3\", \"ACT\", \"RGAAv4\", \"RGAA-3.2.1\"]}]\u001b[39m",
+                    "stack": "Error: Sin violaciones serias o críticas\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m2\u001b[39m\nReceived array:  \u001b[31m[{\"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\", \"help\": \"Elements must meet minimum color contrast ratio thresholds\", \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\", \"id\": \"color-contrast\", \"impact\": \"serious\", \"nodes\": [{\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.76 (foreground color: #2b7fff, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<button type=\\\"button\\\" class=\\\"text-xs font-medium text-blue-500 hover:text-blue-700 hover:underline\\\">¿Olvidaste tu contraseña?</button>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".text-blue-500\"]}], \"tags\": [\"cat.color\", \"wcag2aa\", \"wcag143\", \"TTv5\", \"TT13.c\", \"EN-301-549\", \"EN-9.1.4.3\", \"ACT\", \"RGAAv4\", \"RGAA-3.2.1\"]}, {\"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\", \"help\": \"Elements must meet minimum color contrast ratio thresholds\", \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\", \"id\": \"color-contrast\", \"impact\": \"serious\", \"nodes\": [{\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.81 (foreground color: #1976d2, background color: #d9edf7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span class=\\\"w-max rounded-md p-0.5 px-1.5 text-sm font-semibold bg-[#d9edf7] text-[#1976d2]\\\">Jefe TI</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".w-max\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Principal</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(1) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Gestion</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(2) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Calidad</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(3) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Cuenta</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(4) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.81 (foreground color: #1976d2, background color: #d9edf7, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1\", \"html\": \"<div class=\\\"flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold bg-[#d9edf7] text-[#1976d2]\\\">QI</div>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".bg-\\\\[\\\\#d9edf7\\\\].text-\\\\[\\\\#1976d2\\\\].h-9\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span class=\\\"truncate text-[11px] text-slate-400\\\">qa.iso@example.test</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".truncate.text-\\\\[11px\\\\].text-slate-400\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>ID</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(1)\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>Descripcion</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(2)\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>Usuario</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(3)\"]}, …], \"tags\": [\"cat.color\", \"wcag2aa\", \"wcag143\", \"TTv5\", \"TT13.c\", \"EN-301-549\", \"EN-9.1.4.3\", \"ACT\", \"RGAAv4\", \"RGAA-3.2.1\"]}]\u001b[39m\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:106:60",
+                    "location": {
+                      "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                      "column": 60,
+                      "line": 106
+                    },
+                    "snippet": " \u001b[90m 104 |\u001b[39m   \u001b[36mawait\u001b[39m info\u001b[33m.\u001b[39mattach(\u001b[32m'Accesibilidad'\u001b[39m\u001b[33m,\u001b[39m { body\u001b[33m:\u001b[39m \u001b[33mJSON\u001b[39m\u001b[33m.\u001b[39mstringify(resumen\u001b[33m,\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m,\u001b[39m \u001b[35m2\u001b[39m)\u001b[33m,\u001b[39m contentType\u001b[33m:\u001b[39m \u001b[32m'application/json'\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 105 |\u001b[39m   \u001b[36mconst\u001b[39m graves \u001b[33m=\u001b[39m [\u001b[33m...\u001b[39mlogin\u001b[33m.\u001b[39mviolations\u001b[33m,\u001b[39m \u001b[33m...\u001b[39mformulario\u001b[33m.\u001b[39mviolations]\u001b[33m.\u001b[39mfilter(v \u001b[33m=>\u001b[39m [\u001b[32m'serious'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'critical'\u001b[39m]\u001b[33m.\u001b[39mincludes(v\u001b[33m.\u001b[39mimpact \u001b[33m??\u001b[39m \u001b[32m''\u001b[39m))\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 106 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(graves\u001b[33m,\u001b[39m \u001b[32m'Sin violaciones serias o críticas'\u001b[39m)\u001b[33m.\u001b[39mtoHaveLength(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 107 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(focoInicialDentro\u001b[33m,\u001b[39m \u001b[32m'Foco inicial dentro del modal'\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 108 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(focoConfinado\u001b[33m,\u001b[39m \u001b[32m'Tab no sale del modal'\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 109 |\u001b[39m   expect\u001b[33m.\u001b[39msoft(focoRestaurado\u001b[33m,\u001b[39m \u001b[32m'Foco regresa a Nuevo ticket'\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 60,
+                        "line": 106
+                      },
+                      "message": "Error: Sin violaciones serias o críticas\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m2\u001b[39m\nReceived array:  \u001b[31m[{\"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\", \"help\": \"Elements must meet minimum color contrast ratio thresholds\", \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\", \"id\": \"color-contrast\", \"impact\": \"serious\", \"nodes\": [{\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.76 (foreground color: #2b7fff, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<button type=\\\"button\\\" class=\\\"text-xs font-medium text-blue-500 hover:text-blue-700 hover:underline\\\">¿Olvidaste tu contraseña?</button>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".text-blue-500\"]}], \"tags\": [\"cat.color\", \"wcag2aa\", \"wcag143\", \"TTv5\", \"TT13.c\", \"EN-301-549\", \"EN-9.1.4.3\", \"ACT\", \"RGAAv4\", \"RGAA-3.2.1\"]}, {\"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\", \"help\": \"Elements must meet minimum color contrast ratio thresholds\", \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\", \"id\": \"color-contrast\", \"impact\": \"serious\", \"nodes\": [{\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.81 (foreground color: #1976d2, background color: #d9edf7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span class=\\\"w-max rounded-md p-0.5 px-1.5 text-sm font-semibold bg-[#d9edf7] text-[#1976d2]\\\">Jefe TI</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".w-max\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Principal</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(1) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Gestion</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(2) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Calidad</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(3) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<p class=\\\"px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400\\\">Cuenta</p>\", \"impact\": \"serious\", \"none\": [], \"target\": [\"div:nth-child(4) > p\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 3.81 (foreground color: #1976d2, background color: #d9edf7, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1\", \"html\": \"<div class=\\\"flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold bg-[#d9edf7] text-[#1976d2]\\\">QI</div>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".bg-\\\\[\\\\#d9edf7\\\\].text-\\\\[\\\\#1976d2\\\\].h-9\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span class=\\\"truncate text-[11px] text-slate-400\\\">qa.iso@example.test</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".truncate.text-\\\\[11px\\\\].text-slate-400\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>ID</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(1)\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>Descripcion</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(2)\"]}, {\"all\": [], \"any\": [[Object]], \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m  Element has insufficient color contrast of 2.63 (foreground color: #90a1b9, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\", \"html\": \"<span>Usuario</span>\", \"impact\": \"serious\", \"none\": [], \"target\": [\".hidden > span:nth-child(3)\"]}, …], \"tags\": [\"cat.color\", \"wcag2aa\", \"wcag143\", \"TTv5\", \"TT13.c\", \"EN-301-549\", \"EN-9.1.4.3\", \"ACT\", \"RGAAv4\", \"RGAA-3.2.1\"]}]\u001b[39m\n\n  104 |   await info.attach('Accesibilidad', { body: JSON.stringify(resumen, null, 2), contentType: 'application/json' });\n  105 |   const graves = [...login.violations, ...formulario.violations].filter(v => ['serious', 'critical'].includes(v.impact ?? ''));\n> 106 |   expect.soft(graves, 'Sin violaciones serias o críticas').toHaveLength(0);\n      |                                                            ^\n  107 |   expect.soft(focoInicialDentro, 'Foco inicial dentro del modal').toBe(true);\n  108 |   expect.soft(focoConfinado, 'Tab no sale del modal').toBe(true);\n  109 |   expect.soft(focoRestaurado, 'Foco regresa a Nuevo ticket').toBe(true);\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:106:60"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 67,
+                        "line": 107
+                      },
+                      "message": "Error: Foco inicial dentro del modal\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  105 |   const graves = [...login.violations, ...formulario.violations].filter(v => ['serious', 'critical'].includes(v.impact ?? ''));\n  106 |   expect.soft(graves, 'Sin violaciones serias o críticas').toHaveLength(0);\n> 107 |   expect.soft(focoInicialDentro, 'Foco inicial dentro del modal').toBe(true);\n      |                                                                   ^\n  108 |   expect.soft(focoConfinado, 'Tab no sale del modal').toBe(true);\n  109 |   expect.soft(focoRestaurado, 'Foco regresa a Nuevo ticket').toBe(true);\n  110 |   expect.soft(nombreModal, 'El diálogo debe tener nombre accesible').toBeTruthy();\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:107:67"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 55,
+                        "line": 108
+                      },
+                      "message": "Error: Tab no sale del modal\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  106 |   expect.soft(graves, 'Sin violaciones serias o críticas').toHaveLength(0);\n  107 |   expect.soft(focoInicialDentro, 'Foco inicial dentro del modal').toBe(true);\n> 108 |   expect.soft(focoConfinado, 'Tab no sale del modal').toBe(true);\n      |                                                       ^\n  109 |   expect.soft(focoRestaurado, 'Foco regresa a Nuevo ticket').toBe(true);\n  110 |   expect.soft(nombreModal, 'El diálogo debe tener nombre accesible').toBeTruthy();\n  111 | });\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:108:55"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 62,
+                        "line": 109
+                      },
+                      "message": "Error: Foco regresa a Nuevo ticket\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  107 |   expect.soft(focoInicialDentro, 'Foco inicial dentro del modal').toBe(true);\n  108 |   expect.soft(focoConfinado, 'Tab no sale del modal').toBe(true);\n> 109 |   expect.soft(focoRestaurado, 'Foco regresa a Nuevo ticket').toBe(true);\n      |                                                              ^\n  110 |   expect.soft(nombreModal, 'El diálogo debe tener nombre accesible').toBeTruthy();\n  111 | });\n  112 |\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:109:62"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "column": 70,
+                        "line": 110
+                      },
+                      "message": "Error: El diálogo debe tener nombre accesible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mnull\u001b[39m\n\n  108 |   expect.soft(focoConfinado, 'Tab no sale del modal').toBe(true);\n  109 |   expect.soft(focoRestaurado, 'Foco regresa a Nuevo ticket').toBe(true);\n> 110 |   expect.soft(nombreModal, 'El diálogo debe tener nombre accesible').toBeTruthy();\n      |                                                                      ^\n  111 | });\n  112 |\n  113 | test('P6 exploración guiada: cambiar correo, recargar, cancelar y pantalla pequeña', async ({ page }, info) => {\n    at C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts:110:70"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:37:52.942Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Accesibilidad",
+                      "contentType": "application/json",
+                      "body": "ewogICJsb2dpbiI6IFsKICAgIHsKICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgInRhZ3MiOiBbCiAgICAgICAgImNhdC5jb2xvciIsCiAgICAgICAgIndjYWcyYWEiLAogICAgICAgICJ3Y2FnMTQzIiwKICAgICAgICAiVFR2NSIsCiAgICAgICAgIlRUMTMuYyIsCiAgICAgICAgIkVOLTMwMS01NDkiLAogICAgICAgICJFTi05LjEuNC4zIiwKICAgICAgICAiQUNUIiwKICAgICAgICAiUkdBQXY0IiwKICAgICAgICAiUkdBQS0zLjIuMSIKICAgICAgXSwKICAgICAgImRlc2NyaXB0aW9uIjogIkVuc3VyZSB0aGUgY29udHJhc3QgYmV0d2VlbiBmb3JlZ3JvdW5kIGFuZCBiYWNrZ3JvdW5kIGNvbG9ycyBtZWV0cyBXQ0FHIDIgQUEgbWluaW11bSBjb250cmFzdCByYXRpbyB0aHJlc2hvbGRzIiwKICAgICAgImhlbHAiOiAiRWxlbWVudHMgbXVzdCBtZWV0IG1pbmltdW0gY29sb3IgY29udHJhc3QgcmF0aW8gdGhyZXNob2xkcyIsCiAgICAgICJoZWxwVXJsIjogImh0dHBzOi8vZGVxdWV1bml2ZXJzaXR5LmNvbS9ydWxlcy9heGUvNC4xNC9jb2xvci1jb250cmFzdD9hcHBsaWNhdGlvbj1wbGF5d3JpZ2h0IiwKICAgICAgIm5vZGVzIjogWwogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzJiN2ZmZiIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZmZmZmZmIiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMy43NiwKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICI5LjBwdCAoMTJweCkiLAogICAgICAgICAgICAgICAgImZvbnRXZWlnaHQiOiAibm9ybWFsIiwKICAgICAgICAgICAgICAgICJtZXNzYWdlS2V5IjogbnVsbCwKICAgICAgICAgICAgICAgICJleHBlY3RlZENvbnRyYXN0UmF0aW8iOiAiNC41OjEiCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAicmVsYXRlZE5vZGVzIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAiaHRtbCI6ICI8ZGl2IGNsYXNzPVwidy1mdWxsIG1heC13LW1kIHJvdW5kZWQtMnhsIGJnLXdoaXRlIHAtOCBzaGFkb3ctc21cIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIubWF4LXctbWQiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDMuNzYgKGZvcmVncm91bmQgY29sb3I6ICMyYjdmZmYsIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0sCiAgICAgICAgICAiYWxsIjogW10sCiAgICAgICAgICAibm9uZSI6IFtdLAogICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICJodG1sIjogIjxidXR0b24gdHlwZT1cImJ1dHRvblwiIGNsYXNzPVwidGV4dC14cyBmb250LW1lZGl1bSB0ZXh0LWJsdWUtNTAwIGhvdmVyOnRleHQtYmx1ZS03MDAgaG92ZXI6dW5kZXJsaW5lXCI+wr9PbHZpZGFzdGUgdHUgY29udHJhc2XDsWE/PC9idXR0b24+IiwKICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICIudGV4dC1ibHVlLTUwMCIKICAgICAgICAgIF0sCiAgICAgICAgICAiZmFpbHVyZVN1bW1hcnkiOiAiRml4IGFueSBvZiB0aGUgZm9sbG93aW5nOlxuICBFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMy43NiAoZm9yZWdyb3VuZCBjb2xvcjogIzJiN2ZmZiwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICB9CiAgICAgIF0KICAgIH0KICBdLAogICJtb2RhbCI6IFsKICAgIHsKICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgInRhZ3MiOiBbCiAgICAgICAgImNhdC5jb2xvciIsCiAgICAgICAgIndjYWcyYWEiLAogICAgICAgICJ3Y2FnMTQzIiwKICAgICAgICAiVFR2NSIsCiAgICAgICAgIlRUMTMuYyIsCiAgICAgICAgIkVOLTMwMS01NDkiLAogICAgICAgICJFTi05LjEuNC4zIiwKICAgICAgICAiQUNUIiwKICAgICAgICAiUkdBQXY0IiwKICAgICAgICAiUkdBQS0zLjIuMSIKICAgICAgXSwKICAgICAgImRlc2NyaXB0aW9uIjogIkVuc3VyZSB0aGUgY29udHJhc3QgYmV0d2VlbiBmb3JlZ3JvdW5kIGFuZCBiYWNrZ3JvdW5kIGNvbG9ycyBtZWV0cyBXQ0FHIDIgQUEgbWluaW11bSBjb250cmFzdCByYXRpbyB0aHJlc2hvbGRzIiwKICAgICAgImhlbHAiOiAiRWxlbWVudHMgbXVzdCBtZWV0IG1pbmltdW0gY29sb3IgY29udHJhc3QgcmF0aW8gdGhyZXNob2xkcyIsCiAgICAgICJoZWxwVXJsIjogImh0dHBzOi8vZGVxdWV1bml2ZXJzaXR5LmNvbS9ydWxlcy9heGUvNC4xNC9jb2xvci1jb250cmFzdD9hcHBsaWNhdGlvbj1wbGF5d3JpZ2h0IiwKICAgICAgIm5vZGVzIjogWwogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzE5NzZkMiIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZDllZGY3IiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMy44MSwKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICIxMC41cHQgKDE0cHgpIiwKICAgICAgICAgICAgICAgICJmb250V2VpZ2h0IjogIm5vcm1hbCIsCiAgICAgICAgICAgICAgICAibWVzc2FnZUtleSI6IG51bGwsCiAgICAgICAgICAgICAgICAiZXhwZWN0ZWRDb250cmFzdFJhdGlvIjogIjQuNToxIgogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgInJlbGF0ZWROb2RlcyI6IFsKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgImh0bWwiOiAiPHNwYW4gY2xhc3M9XCJ3LW1heCByb3VuZGVkLW1kIHAtMC41IHB4LTEuNSB0ZXh0LXNtIGZvbnQtc2VtaWJvbGQgYmctWyNkOWVkZjddIHRleHQtWyMxOTc2ZDJdXCI+SmVmZSBUSTwvc3Bhbj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIudy1tYXgiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDMuODEgKGZvcmVncm91bmQgY29sb3I6ICMxOTc2ZDIsIGJhY2tncm91bmQgY29sb3I6ICNkOWVkZjcsIGZvbnQgc2l6ZTogMTAuNXB0ICgxNHB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8c3BhbiBjbGFzcz1cInctbWF4IHJvdW5kZWQtbWQgcC0wLjUgcHgtMS41IHRleHQtc20gZm9udC1zZW1pYm9sZCBiZy1bI2Q5ZWRmN10gdGV4dC1bIzE5NzZkMl1cIj5KZWZlIFRJPC9zcGFuPiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAiLnctbWF4IgogICAgICAgICAgXSwKICAgICAgICAgICJmYWlsdXJlU3VtbWFyeSI6ICJGaXggYW55IG9mIHRoZSBmb2xsb3dpbmc6XG4gIEVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAzLjgxIChmb3JlZ3JvdW5kIGNvbG9yOiAjMTk3NmQyLCBiYWNrZ3JvdW5kIGNvbG9yOiAjZDllZGY3LCBmb250IHNpemU6IDEwLjVwdCAoMTRweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzkwYTFiOSIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZmZmZmZmIiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMi42MywKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICI4LjNwdCAoMTFweCkiLAogICAgICAgICAgICAgICAgImZvbnRXZWlnaHQiOiAibm9ybWFsIiwKICAgICAgICAgICAgICAgICJtZXNzYWdlS2V5IjogbnVsbCwKICAgICAgICAgICAgICAgICJleHBlY3RlZENvbnRyYXN0UmF0aW8iOiAiNC41OjEiCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAicmVsYXRlZE5vZGVzIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAiaHRtbCI6ICI8YXNpZGUgY2xhc3M9XCJmaXhlZCB0b3AtMCBib3R0b20tMCBsZWZ0LTAgei01MCBmbGV4IGgtc2NyZWVuIHctNjQgZmxleC1jb2wgYm9yZGVyLXIgYm9yZGVyLXNsYXRlLTIwMCBiZy13aGl0ZSBzaGFkb3ctc20gdHJhbnNpdGlvbi10cmFuc2Zvcm0gZHVyYXRpb24tMzAwIGVhc2UtaW4tb3V0IGxnOnN0YXRpYyBsZzpoLWF1dG8gbGc6c2hyaW5rLTAgbGc6dHJhbnNsYXRlLXgtMCBwcmludDpoaWRkZW4gLXRyYW5zbGF0ZS14LWZ1bGxcIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICJhc2lkZSIKICAgICAgICAgICAgICAgICAgXQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgIF0sCiAgICAgICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICAgICAibWVzc2FnZSI6ICJFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA4LjNwdCAoMTFweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICAgICAgfQogICAgICAgICAgXSwKICAgICAgICAgICJhbGwiOiBbXSwKICAgICAgICAgICJub25lIjogW10sCiAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgImh0bWwiOiAiPHAgY2xhc3M9XCJweC0zIHBiLTIgdGV4dC1bMTFweF0gZm9udC1zZW1pYm9sZCB1cHBlcmNhc2UgdHJhY2tpbmctd2lkZXIgdGV4dC1zbGF0ZS00MDBcIj5QcmluY2lwYWw8L3A+IiwKICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICJkaXY6bnRoLWNoaWxkKDEpID4gcCIKICAgICAgICAgIF0sCiAgICAgICAgICAiZmFpbHVyZVN1bW1hcnkiOiAiRml4IGFueSBvZiB0aGUgZm9sbG93aW5nOlxuICBFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA4LjNwdCAoMTFweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzkwYTFiOSIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZmZmZmZmIiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMi42MywKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICI4LjNwdCAoMTFweCkiLAogICAgICAgICAgICAgICAgImZvbnRXZWlnaHQiOiAibm9ybWFsIiwKICAgICAgICAgICAgICAgICJtZXNzYWdlS2V5IjogbnVsbCwKICAgICAgICAgICAgICAgICJleHBlY3RlZENvbnRyYXN0UmF0aW8iOiAiNC41OjEiCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAicmVsYXRlZE5vZGVzIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAiaHRtbCI6ICI8YXNpZGUgY2xhc3M9XCJmaXhlZCB0b3AtMCBib3R0b20tMCBsZWZ0LTAgei01MCBmbGV4IGgtc2NyZWVuIHctNjQgZmxleC1jb2wgYm9yZGVyLXIgYm9yZGVyLXNsYXRlLTIwMCBiZy13aGl0ZSBzaGFkb3ctc20gdHJhbnNpdGlvbi10cmFuc2Zvcm0gZHVyYXRpb24tMzAwIGVhc2UtaW4tb3V0IGxnOnN0YXRpYyBsZzpoLWF1dG8gbGc6c2hyaW5rLTAgbGc6dHJhbnNsYXRlLXgtMCBwcmludDpoaWRkZW4gLXRyYW5zbGF0ZS14LWZ1bGxcIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICJhc2lkZSIKICAgICAgICAgICAgICAgICAgXQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgIF0sCiAgICAgICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICAgICAibWVzc2FnZSI6ICJFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA4LjNwdCAoMTFweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICAgICAgfQogICAgICAgICAgXSwKICAgICAgICAgICJhbGwiOiBbXSwKICAgICAgICAgICJub25lIjogW10sCiAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgImh0bWwiOiAiPHAgY2xhc3M9XCJweC0zIHBiLTIgdGV4dC1bMTFweF0gZm9udC1zZW1pYm9sZCB1cHBlcmNhc2UgdHJhY2tpbmctd2lkZXIgdGV4dC1zbGF0ZS00MDBcIj5HZXN0aW9uPC9wPiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAiZGl2Om50aC1jaGlsZCgyKSA+IHAiCiAgICAgICAgICBdLAogICAgICAgICAgImZhaWx1cmVTdW1tYXJ5IjogIkZpeCBhbnkgb2YgdGhlIGZvbGxvd2luZzpcbiAgRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOC4zcHQgKDExcHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAiYW55IjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgICAgICAgICAiZGF0YSI6IHsKICAgICAgICAgICAgICAgICJmZ0NvbG9yIjogIiM5MGExYjkiLAogICAgICAgICAgICAgICAgImJnQ29sb3IiOiAiI2ZmZmZmZiIsCiAgICAgICAgICAgICAgICAiY29udHJhc3RSYXRpbyI6IDIuNjMsCiAgICAgICAgICAgICAgICAiZm9udFNpemUiOiAiOC4zcHQgKDExcHgpIiwKICAgICAgICAgICAgICAgICJmb250V2VpZ2h0IjogIm5vcm1hbCIsCiAgICAgICAgICAgICAgICAibWVzc2FnZUtleSI6IG51bGwsCiAgICAgICAgICAgICAgICAiZXhwZWN0ZWRDb250cmFzdFJhdGlvIjogIjQuNToxIgogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgInJlbGF0ZWROb2RlcyI6IFsKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgImh0bWwiOiAiPGFzaWRlIGNsYXNzPVwiZml4ZWQgdG9wLTAgYm90dG9tLTAgbGVmdC0wIHotNTAgZmxleCBoLXNjcmVlbiB3LTY0IGZsZXgtY29sIGJvcmRlci1yIGJvcmRlci1zbGF0ZS0yMDAgYmctd2hpdGUgc2hhZG93LXNtIHRyYW5zaXRpb24tdHJhbnNmb3JtIGR1cmF0aW9uLTMwMCBlYXNlLWluLW91dCBsZzpzdGF0aWMgbGc6aC1hdXRvIGxnOnNocmluay0wIGxnOnRyYW5zbGF0ZS14LTAgcHJpbnQ6aGlkZGVuIC10cmFuc2xhdGUteC1mdWxsXCI+IiwKICAgICAgICAgICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgICAgICAgICAiYXNpZGUiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOC4zcHQgKDExcHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0sCiAgICAgICAgICAiYWxsIjogW10sCiAgICAgICAgICAibm9uZSI6IFtdLAogICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICJodG1sIjogIjxwIGNsYXNzPVwicHgtMyBwYi0yIHRleHQtWzExcHhdIGZvbnQtc2VtaWJvbGQgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIHRleHQtc2xhdGUtNDAwXCI+Q2FsaWRhZDwvcD4iLAogICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgImRpdjpudGgtY2hpbGQoMykgPiBwIgogICAgICAgICAgXSwKICAgICAgICAgICJmYWlsdXJlU3VtbWFyeSI6ICJGaXggYW55IG9mIHRoZSBmb2xsb3dpbmc6XG4gIEVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDguM3B0ICgxMXB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImFueSI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJpZCI6ICJjb2xvci1jb250cmFzdCIsCiAgICAgICAgICAgICAgImRhdGEiOiB7CiAgICAgICAgICAgICAgICAiZmdDb2xvciI6ICIjOTBhMWI5IiwKICAgICAgICAgICAgICAgICJiZ0NvbG9yIjogIiNmZmZmZmYiLAogICAgICAgICAgICAgICAgImNvbnRyYXN0UmF0aW8iOiAyLjYzLAogICAgICAgICAgICAgICAgImZvbnRTaXplIjogIjguM3B0ICgxMXB4KSIsCiAgICAgICAgICAgICAgICAiZm9udFdlaWdodCI6ICJub3JtYWwiLAogICAgICAgICAgICAgICAgIm1lc3NhZ2VLZXkiOiBudWxsLAogICAgICAgICAgICAgICAgImV4cGVjdGVkQ29udHJhc3RSYXRpbyI6ICI0LjU6MSIKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJyZWxhdGVkTm9kZXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJodG1sIjogIjxhc2lkZSBjbGFzcz1cImZpeGVkIHRvcC0wIGJvdHRvbS0wIGxlZnQtMCB6LTUwIGZsZXggaC1zY3JlZW4gdy02NCBmbGV4LWNvbCBib3JkZXItciBib3JkZXItc2xhdGUtMjAwIGJnLXdoaXRlIHNoYWRvdy1zbSB0cmFuc2l0aW9uLXRyYW5zZm9ybSBkdXJhdGlvbi0zMDAgZWFzZS1pbi1vdXQgbGc6c3RhdGljIGxnOmgtYXV0byBsZzpzaHJpbmstMCBsZzp0cmFuc2xhdGUteC0wIHByaW50OmhpZGRlbiAtdHJhbnNsYXRlLXgtZnVsbFwiPiIsCiAgICAgICAgICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICAgICAgICAgImFzaWRlIgogICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXSwKICAgICAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgICAgICJtZXNzYWdlIjogIkVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDguM3B0ICgxMXB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8cCBjbGFzcz1cInB4LTMgcGItMiB0ZXh0LVsxMXB4XSBmb250LXNlbWlib2xkIHVwcGVyY2FzZSB0cmFja2luZy13aWRlciB0ZXh0LXNsYXRlLTQwMFwiPkN1ZW50YTwvcD4iLAogICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgImRpdjpudGgtY2hpbGQoNCkgPiBwIgogICAgICAgICAgXSwKICAgICAgICAgICJmYWlsdXJlU3VtbWFyeSI6ICJGaXggYW55IG9mIHRoZSBmb2xsb3dpbmc6XG4gIEVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDguM3B0ICgxMXB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImFueSI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJpZCI6ICJjb2xvci1jb250cmFzdCIsCiAgICAgICAgICAgICAgImRhdGEiOiB7CiAgICAgICAgICAgICAgICAiZmdDb2xvciI6ICIjMTk3NmQyIiwKICAgICAgICAgICAgICAgICJiZ0NvbG9yIjogIiNkOWVkZjciLAogICAgICAgICAgICAgICAgImNvbnRyYXN0UmF0aW8iOiAzLjgxLAogICAgICAgICAgICAgICAgImZvbnRTaXplIjogIjkuMHB0ICgxMnB4KSIsCiAgICAgICAgICAgICAgICAiZm9udFdlaWdodCI6ICJib2xkIiwKICAgICAgICAgICAgICAgICJtZXNzYWdlS2V5IjogbnVsbCwKICAgICAgICAgICAgICAgICJleHBlY3RlZENvbnRyYXN0UmF0aW8iOiAiNC41OjEiCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAicmVsYXRlZE5vZGVzIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAiaHRtbCI6ICI8ZGl2IGNsYXNzPVwiZmxleCBoLTkgdy05IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciByb3VuZGVkLWZ1bGwgdGV4dC14cyBmb250LWJvbGQgYmctWyNkOWVkZjddIHRleHQtWyMxOTc2ZDJdXCI+UUk8L2Rpdj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIuYmctXFxbXFwjZDllZGY3XFxdLnRleHQtXFxbXFwjMTk3NmQyXFxdLmgtOSIKICAgICAgICAgICAgICAgICAgXQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgIF0sCiAgICAgICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICAgICAibWVzc2FnZSI6ICJFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMy44MSAoZm9yZWdyb3VuZCBjb2xvcjogIzE5NzZkMiwgYmFja2dyb3VuZCBjb2xvcjogI2Q5ZWRmNywgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBib2xkKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0sCiAgICAgICAgICAiYWxsIjogW10sCiAgICAgICAgICAibm9uZSI6IFtdLAogICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICJodG1sIjogIjxkaXYgY2xhc3M9XCJmbGV4IGgtOSB3LTkgaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHJvdW5kZWQtZnVsbCB0ZXh0LXhzIGZvbnQtYm9sZCBiZy1bI2Q5ZWRmN10gdGV4dC1bIzE5NzZkMl1cIj5RSTwvZGl2PiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAiLmJnLVxcW1xcI2Q5ZWRmN1xcXS50ZXh0LVxcW1xcIzE5NzZkMlxcXS5oLTkiCiAgICAgICAgICBdLAogICAgICAgICAgImZhaWx1cmVTdW1tYXJ5IjogIkZpeCBhbnkgb2YgdGhlIGZvbGxvd2luZzpcbiAgRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDMuODEgKGZvcmVncm91bmQgY29sb3I6ICMxOTc2ZDIsIGJhY2tncm91bmQgY29sb3I6ICNkOWVkZjcsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogYm9sZCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImFueSI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJpZCI6ICJjb2xvci1jb250cmFzdCIsCiAgICAgICAgICAgICAgImRhdGEiOiB7CiAgICAgICAgICAgICAgICAiZmdDb2xvciI6ICIjOTBhMWI5IiwKICAgICAgICAgICAgICAgICJiZ0NvbG9yIjogIiNmZmZmZmYiLAogICAgICAgICAgICAgICAgImNvbnRyYXN0UmF0aW8iOiAyLjYzLAogICAgICAgICAgICAgICAgImZvbnRTaXplIjogIjguM3B0ICgxMXB4KSIsCiAgICAgICAgICAgICAgICAiZm9udFdlaWdodCI6ICJub3JtYWwiLAogICAgICAgICAgICAgICAgIm1lc3NhZ2VLZXkiOiBudWxsLAogICAgICAgICAgICAgICAgImV4cGVjdGVkQ29udHJhc3RSYXRpbyI6ICI0LjU6MSIKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJyZWxhdGVkTm9kZXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJodG1sIjogIjxhc2lkZSBjbGFzcz1cImZpeGVkIHRvcC0wIGJvdHRvbS0wIGxlZnQtMCB6LTUwIGZsZXggaC1zY3JlZW4gdy02NCBmbGV4LWNvbCBib3JkZXItciBib3JkZXItc2xhdGUtMjAwIGJnLXdoaXRlIHNoYWRvdy1zbSB0cmFuc2l0aW9uLXRyYW5zZm9ybSBkdXJhdGlvbi0zMDAgZWFzZS1pbi1vdXQgbGc6c3RhdGljIGxnOmgtYXV0byBsZzpzaHJpbmstMCBsZzp0cmFuc2xhdGUteC0wIHByaW50OmhpZGRlbiAtdHJhbnNsYXRlLXgtZnVsbFwiPiIsCiAgICAgICAgICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICAgICAgICAgImFzaWRlIgogICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXSwKICAgICAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgICAgICJtZXNzYWdlIjogIkVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDguM3B0ICgxMXB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8c3BhbiBjbGFzcz1cInRydW5jYXRlIHRleHQtWzExcHhdIHRleHQtc2xhdGUtNDAwXCI+cWEuaXNvQGV4YW1wbGUudGVzdDwvc3Bhbj4iLAogICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgIi50cnVuY2F0ZS50ZXh0LVxcWzExcHhcXF0udGV4dC1zbGF0ZS00MDAiCiAgICAgICAgICBdLAogICAgICAgICAgImZhaWx1cmVTdW1tYXJ5IjogIkZpeCBhbnkgb2YgdGhlIGZvbGxvd2luZzpcbiAgRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOC4zcHQgKDExcHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAiYW55IjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgICAgICAgICAiZGF0YSI6IHsKICAgICAgICAgICAgICAgICJmZ0NvbG9yIjogIiM5MGExYjkiLAogICAgICAgICAgICAgICAgImJnQ29sb3IiOiAiI2ZmZmZmZiIsCiAgICAgICAgICAgICAgICAiY29udHJhc3RSYXRpbyI6IDIuNjMsCiAgICAgICAgICAgICAgICAiZm9udFNpemUiOiAiOS4wcHQgKDEycHgpIiwKICAgICAgICAgICAgICAgICJmb250V2VpZ2h0IjogIm5vcm1hbCIsCiAgICAgICAgICAgICAgICAibWVzc2FnZUtleSI6IG51bGwsCiAgICAgICAgICAgICAgICAiZXhwZWN0ZWRDb250cmFzdFJhdGlvIjogIjQuNToxIgogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgInJlbGF0ZWROb2RlcyI6IFsKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgImh0bWwiOiAiPGRpdiBjbGFzcz1cIm92ZXJmbG93LWhpZGRlbiByb3VuZGVkLTJ4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTEwMCBiZy13aGl0ZSBzaGFkb3cteHNcIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIucm91bmRlZC0yeGwub3ZlcmZsb3ctaGlkZGVuLmJvcmRlci1zbGF0ZS0xMDAiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0sCiAgICAgICAgICAiYWxsIjogW10sCiAgICAgICAgICAibm9uZSI6IFtdLAogICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICJodG1sIjogIjxzcGFuPklEPC9zcGFuPiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAiLmhpZGRlbiA+IHNwYW46bnRoLWNoaWxkKDEpIgogICAgICAgICAgXSwKICAgICAgICAgICJmYWlsdXJlU3VtbWFyeSI6ICJGaXggYW55IG9mIHRoZSBmb2xsb3dpbmc6XG4gIEVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImFueSI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJpZCI6ICJjb2xvci1jb250cmFzdCIsCiAgICAgICAgICAgICAgImRhdGEiOiB7CiAgICAgICAgICAgICAgICAiZmdDb2xvciI6ICIjOTBhMWI5IiwKICAgICAgICAgICAgICAgICJiZ0NvbG9yIjogIiNmZmZmZmYiLAogICAgICAgICAgICAgICAgImNvbnRyYXN0UmF0aW8iOiAyLjYzLAogICAgICAgICAgICAgICAgImZvbnRTaXplIjogIjkuMHB0ICgxMnB4KSIsCiAgICAgICAgICAgICAgICAiZm9udFdlaWdodCI6ICJub3JtYWwiLAogICAgICAgICAgICAgICAgIm1lc3NhZ2VLZXkiOiBudWxsLAogICAgICAgICAgICAgICAgImV4cGVjdGVkQ29udHJhc3RSYXRpbyI6ICI0LjU6MSIKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJyZWxhdGVkTm9kZXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJodG1sIjogIjxkaXYgY2xhc3M9XCJvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS0xMDAgYmctd2hpdGUgc2hhZG93LXhzXCI+IiwKICAgICAgICAgICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgICAgICAgICAiLnJvdW5kZWQtMnhsLm92ZXJmbG93LWhpZGRlbi5ib3JkZXItc2xhdGUtMTAwIgogICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXSwKICAgICAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgICAgICJtZXNzYWdlIjogIkVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8c3Bhbj5EZXNjcmlwY2lvbjwvc3Bhbj4iLAogICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgIi5oaWRkZW4gPiBzcGFuOm50aC1jaGlsZCgyKSIKICAgICAgICAgIF0sCiAgICAgICAgICAiZmFpbHVyZVN1bW1hcnkiOiAiRml4IGFueSBvZiB0aGUgZm9sbG93aW5nOlxuICBFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzkwYTFiOSIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZmZmZmZmIiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMi42MywKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICI5LjBwdCAoMTJweCkiLAogICAgICAgICAgICAgICAgImZvbnRXZWlnaHQiOiAibm9ybWFsIiwKICAgICAgICAgICAgICAgICJtZXNzYWdlS2V5IjogbnVsbCwKICAgICAgICAgICAgICAgICJleHBlY3RlZENvbnRyYXN0UmF0aW8iOiAiNC41OjEiCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAicmVsYXRlZE5vZGVzIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAiaHRtbCI6ICI8ZGl2IGNsYXNzPVwib3ZlcmZsb3ctaGlkZGVuIHJvdW5kZWQtMnhsIGJvcmRlciBib3JkZXItc2xhdGUtMTAwIGJnLXdoaXRlIHNoYWRvdy14c1wiPiIsCiAgICAgICAgICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICAgICAgICAgIi5yb3VuZGVkLTJ4bC5vdmVyZmxvdy1oaWRkZW4uYm9yZGVyLXNsYXRlLTEwMCIKICAgICAgICAgICAgICAgICAgXQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgIF0sCiAgICAgICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICAgICAibWVzc2FnZSI6ICJFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICAgICAgfQogICAgICAgICAgXSwKICAgICAgICAgICJhbGwiOiBbXSwKICAgICAgICAgICJub25lIjogW10sCiAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgImh0bWwiOiAiPHNwYW4+VXN1YXJpbzwvc3Bhbj4iLAogICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgIi5oaWRkZW4gPiBzcGFuOm50aC1jaGlsZCgzKSIKICAgICAgICAgIF0sCiAgICAgICAgICAiZmFpbHVyZVN1bW1hcnkiOiAiRml4IGFueSBvZiB0aGUgZm9sbG93aW5nOlxuICBFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzkwYTFiOSIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZmZmZmZmIiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMi42MywKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICI5LjBwdCAoMTJweCkiLAogICAgICAgICAgICAgICAgImZvbnRXZWlnaHQiOiAibm9ybWFsIiwKICAgICAgICAgICAgICAgICJtZXNzYWdlS2V5IjogbnVsbCwKICAgICAgICAgICAgICAgICJleHBlY3RlZENvbnRyYXN0UmF0aW8iOiAiNC41OjEiCiAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgICAicmVsYXRlZE5vZGVzIjogWwogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAiaHRtbCI6ICI8ZGl2IGNsYXNzPVwib3ZlcmZsb3ctaGlkZGVuIHJvdW5kZWQtMnhsIGJvcmRlciBib3JkZXItc2xhdGUtMTAwIGJnLXdoaXRlIHNoYWRvdy14c1wiPiIsCiAgICAgICAgICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICAgICAgICAgIi5yb3VuZGVkLTJ4bC5vdmVyZmxvdy1oaWRkZW4uYm9yZGVyLXNsYXRlLTEwMCIKICAgICAgICAgICAgICAgICAgXQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgIF0sCiAgICAgICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICAgICAibWVzc2FnZSI6ICJFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICAgICAgfQogICAgICAgICAgXSwKICAgICAgICAgICJhbGwiOiBbXSwKICAgICAgICAgICJub25lIjogW10sCiAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgImh0bWwiOiAiPHNwYW4+UHJpb3JpZGFkPC9zcGFuPiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAiLmhpZGRlbiA+IHNwYW46bnRoLWNoaWxkKDQpIgogICAgICAgICAgXSwKICAgICAgICAgICJmYWlsdXJlU3VtbWFyeSI6ICJGaXggYW55IG9mIHRoZSBmb2xsb3dpbmc6XG4gIEVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImFueSI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJpZCI6ICJjb2xvci1jb250cmFzdCIsCiAgICAgICAgICAgICAgImRhdGEiOiB7CiAgICAgICAgICAgICAgICAiZmdDb2xvciI6ICIjOTBhMWI5IiwKICAgICAgICAgICAgICAgICJiZ0NvbG9yIjogIiNmZmZmZmYiLAogICAgICAgICAgICAgICAgImNvbnRyYXN0UmF0aW8iOiAyLjYzLAogICAgICAgICAgICAgICAgImZvbnRTaXplIjogIjkuMHB0ICgxMnB4KSIsCiAgICAgICAgICAgICAgICAiZm9udFdlaWdodCI6ICJub3JtYWwiLAogICAgICAgICAgICAgICAgIm1lc3NhZ2VLZXkiOiBudWxsLAogICAgICAgICAgICAgICAgImV4cGVjdGVkQ29udHJhc3RSYXRpbyI6ICI0LjU6MSIKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJyZWxhdGVkTm9kZXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJodG1sIjogIjxkaXYgY2xhc3M9XCJvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS0xMDAgYmctd2hpdGUgc2hhZG93LXhzXCI+IiwKICAgICAgICAgICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgICAgICAgICAiLnJvdW5kZWQtMnhsLm92ZXJmbG93LWhpZGRlbi5ib3JkZXItc2xhdGUtMTAwIgogICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXSwKICAgICAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgICAgICJtZXNzYWdlIjogIkVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8c3Bhbj5Fc3RhZG88L3NwYW4+IiwKICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICIuaGlkZGVuID4gc3BhbjpudGgtY2hpbGQoNSkiCiAgICAgICAgICBdLAogICAgICAgICAgImZhaWx1cmVTdW1tYXJ5IjogIkZpeCBhbnkgb2YgdGhlIGZvbGxvd2luZzpcbiAgRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAiYW55IjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgICAgICAgICAiZGF0YSI6IHsKICAgICAgICAgICAgICAgICJmZ0NvbG9yIjogIiM5MGExYjkiLAogICAgICAgICAgICAgICAgImJnQ29sb3IiOiAiI2ZmZmZmZiIsCiAgICAgICAgICAgICAgICAiY29udHJhc3RSYXRpbyI6IDIuNjMsCiAgICAgICAgICAgICAgICAiZm9udFNpemUiOiAiOS4wcHQgKDEycHgpIiwKICAgICAgICAgICAgICAgICJmb250V2VpZ2h0IjogIm5vcm1hbCIsCiAgICAgICAgICAgICAgICAibWVzc2FnZUtleSI6IG51bGwsCiAgICAgICAgICAgICAgICAiZXhwZWN0ZWRDb250cmFzdFJhdGlvIjogIjQuNToxIgogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgInJlbGF0ZWROb2RlcyI6IFsKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgImh0bWwiOiAiPGRpdiBjbGFzcz1cIm92ZXJmbG93LWhpZGRlbiByb3VuZGVkLTJ4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTEwMCBiZy13aGl0ZSBzaGFkb3cteHNcIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIucm91bmRlZC0yeGwub3ZlcmZsb3ctaGlkZGVuLmJvcmRlci1zbGF0ZS0xMDAiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0sCiAgICAgICAgICAiYWxsIjogW10sCiAgICAgICAgICAibm9uZSI6IFtdLAogICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICJodG1sIjogIjxzcGFuIGNsYXNzPVwidGV4dC1yaWdodFwiPkZlY2hhPC9zcGFuPiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAiLnRleHQtcmlnaHQiCiAgICAgICAgICBdLAogICAgICAgICAgImZhaWx1cmVTdW1tYXJ5IjogIkZpeCBhbnkgb2YgdGhlIGZvbGxvd2luZzpcbiAgRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAiYW55IjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgICAgICAgICAiZGF0YSI6IHsKICAgICAgICAgICAgICAgICJmZ0NvbG9yIjogIiM5MGExYjkiLAogICAgICAgICAgICAgICAgImJnQ29sb3IiOiAiI2ZmZmZmZiIsCiAgICAgICAgICAgICAgICAiY29udHJhc3RSYXRpbyI6IDIuNjMsCiAgICAgICAgICAgICAgICAiZm9udFNpemUiOiAiOS4wcHQgKDEycHgpIiwKICAgICAgICAgICAgICAgICJmb250V2VpZ2h0IjogImJvbGQiLAogICAgICAgICAgICAgICAgIm1lc3NhZ2VLZXkiOiBudWxsLAogICAgICAgICAgICAgICAgImV4cGVjdGVkQ29udHJhc3RSYXRpbyI6ICI0LjU6MSIKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJyZWxhdGVkTm9kZXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJodG1sIjogIjxkaXYgY2xhc3M9XCJvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS0xMDAgYmctd2hpdGUgc2hhZG93LXhzXCI+IiwKICAgICAgICAgICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgICAgICAgICAiLnJvdW5kZWQtMnhsLm92ZXJmbG93LWhpZGRlbi5ib3JkZXItc2xhdGUtMTAwIgogICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXSwKICAgICAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgICAgICJtZXNzYWdlIjogIkVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IGJvbGQpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICAgICAgfQogICAgICAgICAgXSwKICAgICAgICAgICJhbGwiOiBbXSwKICAgICAgICAgICJub25lIjogW10sCiAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgImh0bWwiOiAiPHNwYW4gY2xhc3M9XCJ0ZXh0LXhzIGZvbnQtYm9sZCB0ZXh0LXNsYXRlLTQwMFwiPiMyPC9zcGFuPiIsCiAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAibGk6bnRoLWNoaWxkKDEpID4gLnRleHQtbGVmdC5lbmFibGVkXFw6aG92ZXJcXDpiZy1zbGF0ZS01MFxcLzcwLmRpc2FibGVkXFw6Y3Vyc29yLWRlZmF1bHQgPiAuZm9udC1ib2xkLnRleHQtc2xhdGUtNDAwLnRleHQteHMiCiAgICAgICAgICBdLAogICAgICAgICAgImZhaWx1cmVTdW1tYXJ5IjogIkZpeCBhbnkgb2YgdGhlIGZvbGxvd2luZzpcbiAgRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogYm9sZCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgImFueSI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICJpZCI6ICJjb2xvci1jb250cmFzdCIsCiAgICAgICAgICAgICAgImRhdGEiOiB7CiAgICAgICAgICAgICAgICAiZmdDb2xvciI6ICIjOTBhMWI5IiwKICAgICAgICAgICAgICAgICJiZ0NvbG9yIjogIiNmZmZmZmYiLAogICAgICAgICAgICAgICAgImNvbnRyYXN0UmF0aW8iOiAyLjYzLAogICAgICAgICAgICAgICAgImZvbnRTaXplIjogIjkuMHB0ICgxMnB4KSIsCiAgICAgICAgICAgICAgICAiZm9udFdlaWdodCI6ICJub3JtYWwiLAogICAgICAgICAgICAgICAgIm1lc3NhZ2VLZXkiOiBudWxsLAogICAgICAgICAgICAgICAgImV4cGVjdGVkQ29udHJhc3RSYXRpbyI6ICI0LjU6MSIKICAgICAgICAgICAgICB9LAogICAgICAgICAgICAgICJyZWxhdGVkTm9kZXMiOiBbCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICJodG1sIjogIjxkaXYgY2xhc3M9XCJvdmVyZmxvdy1oaWRkZW4gcm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS0xMDAgYmctd2hpdGUgc2hhZG93LXhzXCI+IiwKICAgICAgICAgICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgICAgICAgICAiLnJvdW5kZWQtMnhsLm92ZXJmbG93LWhpZGRlbi5ib3JkZXItc2xhdGUtMTAwIgogICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgXSwKICAgICAgICAgICAgICAiaW1wYWN0IjogInNlcmlvdXMiLAogICAgICAgICAgICAgICJtZXNzYWdlIjogIkVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8c3BhbiBjbGFzcz1cInRleHQteHMgdGV4dC1zbGF0ZS00MDAgbGc6dGV4dC1yaWdodFwiPjA1LzExLzIwMjY8L3NwYW4+IiwKICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICJsaTpudGgtY2hpbGQoMSkgPiAudGV4dC1sZWZ0LmVuYWJsZWRcXDpob3ZlclxcOmJnLXNsYXRlLTUwXFwvNzAuZGlzYWJsZWRcXDpjdXJzb3ItZGVmYXVsdCA+IC5sZ1xcOnRleHQtcmlnaHQudGV4dC1zbGF0ZS00MDAudGV4dC14cyIKICAgICAgICAgIF0sCiAgICAgICAgICAiZmFpbHVyZVN1bW1hcnkiOiAiRml4IGFueSBvZiB0aGUgZm9sbG93aW5nOlxuICBFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBub3JtYWwpLiBFeHBlY3RlZCBjb250cmFzdCByYXRpbyBvZiA0LjU6MSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICJhbnkiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiaWQiOiAiY29sb3ItY29udHJhc3QiLAogICAgICAgICAgICAgICJkYXRhIjogewogICAgICAgICAgICAgICAgImZnQ29sb3IiOiAiIzkwYTFiOSIsCiAgICAgICAgICAgICAgICAiYmdDb2xvciI6ICIjZmZmZmZmIiwKICAgICAgICAgICAgICAgICJjb250cmFzdFJhdGlvIjogMi42MywKICAgICAgICAgICAgICAgICJmb250U2l6ZSI6ICI5LjBwdCAoMTJweCkiLAogICAgICAgICAgICAgICAgImZvbnRXZWlnaHQiOiAiYm9sZCIsCiAgICAgICAgICAgICAgICAibWVzc2FnZUtleSI6IG51bGwsCiAgICAgICAgICAgICAgICAiZXhwZWN0ZWRDb250cmFzdFJhdGlvIjogIjQuNToxIgogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgInJlbGF0ZWROb2RlcyI6IFsKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgImh0bWwiOiAiPGRpdiBjbGFzcz1cIm92ZXJmbG93LWhpZGRlbiByb3VuZGVkLTJ4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTEwMCBiZy13aGl0ZSBzaGFkb3cteHNcIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIucm91bmRlZC0yeGwub3ZlcmZsb3ctaGlkZGVuLmJvcmRlci1zbGF0ZS0xMDAiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogYm9sZCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgICAgICB9CiAgICAgICAgICBdLAogICAgICAgICAgImFsbCI6IFtdLAogICAgICAgICAgIm5vbmUiOiBbXSwKICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAiaHRtbCI6ICI8c3BhbiBjbGFzcz1cInRleHQteHMgZm9udC1ib2xkIHRleHQtc2xhdGUtNDAwXCI+IzE8L3NwYW4+IiwKICAgICAgICAgICJ0YXJnZXQiOiBbCiAgICAgICAgICAgICJsaTpudGgtY2hpbGQoMikgPiAudGV4dC1sZWZ0LmVuYWJsZWRcXDpob3ZlclxcOmJnLXNsYXRlLTUwXFwvNzAuZGlzYWJsZWRcXDpjdXJzb3ItZGVmYXVsdCA+IC5mb250LWJvbGQudGV4dC1zbGF0ZS00MDAudGV4dC14cyIKICAgICAgICAgIF0sCiAgICAgICAgICAiZmFpbHVyZVN1bW1hcnkiOiAiRml4IGFueSBvZiB0aGUgZm9sbG93aW5nOlxuICBFbGVtZW50IGhhcyBpbnN1ZmZpY2llbnQgY29sb3IgY29udHJhc3Qgb2YgMi42MyAoZm9yZWdyb3VuZCBjb2xvcjogIzkwYTFiOSwgYmFja2dyb3VuZCBjb2xvcjogI2ZmZmZmZiwgZm9udCBzaXplOiA5LjBwdCAoMTJweCksIGZvbnQgd2VpZ2h0OiBib2xkKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAiYW55IjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImlkIjogImNvbG9yLWNvbnRyYXN0IiwKICAgICAgICAgICAgICAiZGF0YSI6IHsKICAgICAgICAgICAgICAgICJmZ0NvbG9yIjogIiM5MGExYjkiLAogICAgICAgICAgICAgICAgImJnQ29sb3IiOiAiI2ZmZmZmZiIsCiAgICAgICAgICAgICAgICAiY29udHJhc3RSYXRpbyI6IDIuNjMsCiAgICAgICAgICAgICAgICAiZm9udFNpemUiOiAiOS4wcHQgKDEycHgpIiwKICAgICAgICAgICAgICAgICJmb250V2VpZ2h0IjogIm5vcm1hbCIsCiAgICAgICAgICAgICAgICAibWVzc2FnZUtleSI6IG51bGwsCiAgICAgICAgICAgICAgICAiZXhwZWN0ZWRDb250cmFzdFJhdGlvIjogIjQuNToxIgogICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgInJlbGF0ZWROb2RlcyI6IFsKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgImh0bWwiOiAiPGRpdiBjbGFzcz1cIm92ZXJmbG93LWhpZGRlbiByb3VuZGVkLTJ4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTEwMCBiZy13aGl0ZSBzaGFkb3cteHNcIj4iLAogICAgICAgICAgICAgICAgICAidGFyZ2V0IjogWwogICAgICAgICAgICAgICAgICAgICIucm91bmRlZC0yeGwub3ZlcmZsb3ctaGlkZGVuLmJvcmRlci1zbGF0ZS0xMDAiCiAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICJpbXBhY3QiOiAic2VyaW91cyIsCiAgICAgICAgICAgICAgIm1lc3NhZ2UiOiAiRWxlbWVudCBoYXMgaW5zdWZmaWNpZW50IGNvbG9yIGNvbnRyYXN0IG9mIDIuNjMgKGZvcmVncm91bmQgY29sb3I6ICM5MGExYjksIGJhY2tncm91bmQgY29sb3I6ICNmZmZmZmYsIGZvbnQgc2l6ZTogOS4wcHQgKDEycHgpLCBmb250IHdlaWdodDogbm9ybWFsKS4gRXhwZWN0ZWQgY29udHJhc3QgcmF0aW8gb2YgNC41OjEiCiAgICAgICAgICAgIH0KICAgICAgICAgIF0sCiAgICAgICAgICAiYWxsIjogW10sCiAgICAgICAgICAibm9uZSI6IFtdLAogICAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAgICJodG1sIjogIjxzcGFuIGNsYXNzPVwidGV4dC14cyB0ZXh0LXNsYXRlLTQwMCBsZzp0ZXh0LXJpZ2h0XCI+MDUvMTEvMjAyNjwvc3Bhbj4iLAogICAgICAgICAgInRhcmdldCI6IFsKICAgICAgICAgICAgImxpOm50aC1jaGlsZCgyKSA+IC50ZXh0LWxlZnQuZW5hYmxlZFxcOmhvdmVyXFw6Ymctc2xhdGUtNTBcXC83MC5kaXNhYmxlZFxcOmN1cnNvci1kZWZhdWx0ID4gLmxnXFw6dGV4dC1yaWdodC50ZXh0LXNsYXRlLTQwMC50ZXh0LXhzIgogICAgICAgICAgXSwKICAgICAgICAgICJmYWlsdXJlU3VtbWFyeSI6ICJGaXggYW55IG9mIHRoZSBmb2xsb3dpbmc6XG4gIEVsZW1lbnQgaGFzIGluc3VmZmljaWVudCBjb2xvciBjb250cmFzdCBvZiAyLjYzIChmb3JlZ3JvdW5kIGNvbG9yOiAjOTBhMWI5LCBiYWNrZ3JvdW5kIGNvbG9yOiAjZmZmZmZmLCBmb250IHNpemU6IDkuMHB0ICgxMnB4KSwgZm9udCB3ZWlnaHQ6IG5vcm1hbCkuIEV4cGVjdGVkIGNvbnRyYXN0IHJhdGlvIG9mIDQuNToxIgogICAgICAgIH0KICAgICAgXQogICAgfQogIF0sCiAgImZvY29JbmljaWFsRGVudHJvIjogZmFsc2UsCiAgImZvY29Db25maW5hZG8iOiBmYWxzZSwKICAiZm9jb1Jlc3RhdXJhZG8iOiBmYWxzZSwKICAibm9tYnJlTW9kYWwiOiBudWxsCn0="
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P5-interacción-axe-y-recorrido-de-teclado-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P5-interacción-axe-y-recorrido-de-teclado-chromium\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\alvar\\integrador-ll\\test-results\\calidad-P5-interacción-axe-y-recorrido-de-teclado-chromium\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "column": 60,
+                    "line": 106
+                  }
+                }
+              ],
+              "status": "unexpected"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Accesibilidad evaluada en Chromium; P3/P4 cubren los tres motores.",
+                  "location": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "line": 79,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 530,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:36.347Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Accesibilidad evaluada en Chromium; P3/P4 cubren los tres motores.",
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "line": 79,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Accesibilidad evaluada en Chromium; P3/P4 cubren los tres motores.",
+                  "location": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "line": 79,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 377,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:53.888Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Accesibilidad evaluada en Chromium; P3/P4 cubren los tres motores.",
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "line": 79,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "7aa7d9a71f171d730a62-f9004f651e39b9d8ef18",
+          "file": "calidad.spec.ts",
+          "line": 78,
+          "column": 1
+        },
+        {
+          "title": "P6 exploración guiada: cambiar correo, recargar, cancelar y pantalla pequeña",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10347,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:02.244Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Sesión exploratoria asistida en Chromium.",
+                  "location": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "line": 114,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 586,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:36.906Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Sesión exploratoria asistida en Chromium.",
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "line": 114,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            },
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Sesión exploratoria asistida en Chromium.",
+                  "location": {
+                    "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                    "line": 114,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 357,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T04:38:54.285Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Sesión exploratoria asistida en Chromium.",
+                      "location": {
+                        "file": "C:\\Users\\alvar\\integrador-ll\\tests\\e2e\\calidad.spec.ts",
+                        "line": 114,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "7aa7d9a71f171d730a62-6c1972aa697c2ae72ca4",
+          "file": "calidad.spec.ts",
+          "line": 113,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-06T04:37:31.327Z",
+    "duration": 84329.035,
+    "expected": 4,
+    "skipped": 4,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

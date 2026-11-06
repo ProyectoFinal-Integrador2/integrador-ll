@@ -12,10 +12,16 @@
     "dev": "concurrently -k -n BACK,FRONT -c blue,green \"npm run dev -w proyecto-integrador-back\" \"npm run dev -w proyecto-integrador-front\"",
     "build": "npm run build -w proyecto-integrador-back && npm run build -w proyecto-integrador-front",
     "lint": "npm run lint -w proyecto-integrador-front",
-    "typecheck": "npm run typecheck -w proyecto-integrador-back && npm run typecheck -w proyecto-integrador-front"
+    "typecheck": "npm run typecheck -w proyecto-integrador-back && npm run typecheck -w proyecto-integrador-front",
+    "test:unit": "vitest run",
+    "test:e2e": "node tests/run-e2e.cjs",
+    "test:report": "playwright show-report"
   },
   "devDependencies": {
-    "concurrently": "^9.0.0"
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "concurrently": "^9.0.0",
+    "vitest": "^5.1.0"
   },
   "allowScripts": {
     "esbuild@0.28.2": true

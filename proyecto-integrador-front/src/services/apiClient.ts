@@ -2,7 +2,23 @@ import { borrarToken, leerToken } from './sessionStore';
 
 const API_BASE = '/api/v1';
 
-const readError = async (response: Response): Promise<string> => {
+export class ApiError extends Error {
+  readonly status: number;
+  readonly intentosRestantes?: number;
+  readonly bloqueadoHasta?: string;
+  readonly segundosRestantes?: number;
+  constructor(message: string, status: number, intentosRestantes?: number,
+    bloqueadoHasta?: string, segundosRestantes?: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.intentosRestantes = intentosRestantes;
+    this.bloqueadoHasta = bloqueadoHasta;
+    this.segundosRestantes = segundosRestantes;
+  }
+}
+
+const readError = async (response: Response): Promise<ApiError> => {
   try {
     const body: unknown = await response.json();
     if (
@@ -11,12 +27,15 @@ const readError = async (response: Response): Promise<string> => {
       'error' in body &&
       typeof body.error === 'string'
     ) {
-      return body.error;
+      return new ApiError(body.error, response.status,
+        'intentosRestantes' in body && typeof body.intentosRestantes === 'number' ? body.intentosRestantes : undefined,
+        'bloqueadoHasta' in body && typeof body.bloqueadoHasta === 'string' ? body.bloqueadoHasta : undefined,
+        'segundosRestantes' in body && typeof body.segundosRestantes === 'number' ? body.segundosRestantes : undefined);
     }
   } catch {
     // Respuesta sin JSON: cae al mensaje generico.
   }
-  return `Error ${response.status}`;
+  return new ApiError(`Error ${response.status}`, response.status);
 };
 
 const manejarSesionInvalida = (path: string, status: number): void => {
@@ -39,7 +58,7 @@ const ejecutar = async <T>(path: string, init: RequestInit): Promise<T> => {
 
   if (!response.ok) {
     manejarSesionInvalida(path, response.status);
-    throw new Error(await readError(response));
+    throw await readError(response);
   }
 
   return (await response.json()) as T;

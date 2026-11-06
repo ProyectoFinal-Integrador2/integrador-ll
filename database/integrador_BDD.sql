@@ -16,6 +16,12 @@ create table usuarios (
   debe_cambiar_contrasena boolean not null default false
 );
 
+create table intentos_login (
+  correo text primary key,
+  intentos integer not null default 0 check (intentos between 0 and 3),
+  bloqueado_hasta timestamptz
+);
+
 create table disponibilidad (
   usuario_id      integer primary key references usuarios (id) on delete cascade,
   horario         text    not null default 'Sin horario asignado',

@@ -8,7 +8,10 @@ export const errorHandler = (
   _next: NextFunction,
 ): void => {
   if (err instanceof HttpError) {
-    res.status(err.status).json({ error: err.message });
+    if (err.status === 429 && err.detalles?.segundosRestantes) {
+      res.setHeader('Retry-After', err.detalles.segundosRestantes);
+    }
+    res.status(err.status).json({ error: err.message, ...err.detalles });
     return;
   }
 
