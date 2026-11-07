@@ -14,19 +14,19 @@ const MainLayout = () => {
     ?.title;
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#eaecf0]">
+    <div className="flex h-screen w-full overflow-hidden bg-[#eaecf0] print:block print:h-auto print:overflow-visible print:bg-white">
       <Sidebar
         isOpen={isSidebarOpen}
         onClose={handleCloseSidebar}
       />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden print:overflow-visible">
         <Header
           onOpenSidebar={handleOpenSidebar}
           title={routeTitle ?? 'Help Desk TI'}
         />
 
-        <main className="flex-1 overflow-y-auto bg-[#eaecf0] p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto bg-[#eaecf0] p-6 lg:p-8 print:overflow-visible print:bg-white print:p-0">
           <Outlet />
         </main>
       </div>

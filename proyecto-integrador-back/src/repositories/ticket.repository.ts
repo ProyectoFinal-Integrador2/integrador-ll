@@ -19,7 +19,9 @@ interface FilaTicket {
   equipo_id: number | null;
   equipo_codigo: string | null;
   equipo_nombre: string | null;
-  creado_en: string;
+  creado_en: Date;
+  iniciado_en: Date | null;
+  cerrado_en: Date | null;
 }
 
 const SQL_SELECT = `
@@ -34,6 +36,8 @@ const SQL_SELECT = `
     t.tecnico_id,
     t.equipo_id,
     t.creado_en,
+    t.iniciado_en,
+    t.cerrado_en,
     u.nombre as tecnico_nombre,
     e.codigo as equipo_codigo,
     e.nombre as equipo_nombre
@@ -57,6 +61,8 @@ const aDominio = (fila: FilaTicket): Ticket => ({
   tecnicoId: fila.tecnico_id === null ? null : String(fila.tecnico_id),
   tecnicoNombre: fila.tecnico_nombre,
   creadoEn: new Date(fila.creado_en).toISOString(),
+  iniciadoEn: fila.iniciado_en ? new Date(fila.iniciado_en).toISOString() : null,
+  cerradoEn: fila.cerrado_en ? new Date(fila.cerrado_en).toISOString() : null,
 });
 
 export interface TicketRepositorio {
@@ -112,13 +118,31 @@ export class PostgresTicketRepositorio implements TicketRepositorio {
     estado: EstadoTicket,
     tecnicoId?: string,
   ): Promise<Ticket | undefined> {
+    const asignaciones = ['estado = $2'];
+
+    /**
+     * Las marcas se completan una sola vez: las transiciones van en un solo
+     * sentido, pero `coalesce` evita que un reintento pise la hora original
+     * y descuadre el reporte de SLA.
+     */
+    if (estado === 'En progreso') {
+      asignaciones.push('iniciado_en = coalesce(iniciado_en, now())');
+    }
+
+    if (estado === 'Cerrado') {
+      asignaciones.push('cerrado_en = coalesce(cerrado_en, now())');
+    }
+
+    const parametros: Array<number | string> = [Number(id), estado];
+
+    if (tecnicoId) {
+      asignaciones.push(`tecnico_id = $${parametros.length + 1}`);
+      parametros.push(Number(tecnicoId));
+    }
+
     await query(
-      `update tickets
-       set estado = $2${tecnicoId ? ', tecnico_id = $3' : ''}
-       where id = $1`,
-      tecnicoId
-        ? [Number(id), estado, Number(tecnicoId)]
-        : [Number(id), estado],
+      `update tickets set ${asignaciones.join(', ')} where id = $1`,
+      parametros,
     );
 
     return this.obtenerPorId(id);

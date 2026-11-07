@@ -40,7 +40,11 @@ const aDominio = (fila: FilaArticulo): ArticuloConocimiento => ({
 
 export interface ConocimientoRepositorio {
   listar(): Promise<ArticuloConocimiento[]>;
+  obtenerPorId(id: string): Promise<ArticuloConocimiento | undefined>;
   crear(input: CrearArticuloInput, autorId: string): Promise<ArticuloConocimiento>;
+  registrarVista(id: string): Promise<ArticuloConocimiento | undefined>;
+  listarMasConsultados(limite: number): Promise<ArticuloConocimiento[]>;
+  contarVistas(): Promise<number>;
 }
 
 export class PostgresConocimientoRepositorio implements ConocimientoRepositorio {
@@ -49,6 +53,43 @@ export class PostgresConocimientoRepositorio implements ConocimientoRepositorio 
       `${SQL_SELECT} order by a.creado_en desc, a.id desc`,
     );
     return filas.map(aDominio);
+  }
+
+  async obtenerPorId(id: string): Promise<ArticuloConocimiento | undefined> {
+    const fila = await queryOne<FilaArticulo>(
+      `${SQL_SELECT} where a.id = $1`,
+      [Number(id)],
+    );
+    return fila ? aDominio(fila) : undefined;
+  }
+
+  async registrarVista(id: string): Promise<ArticuloConocimiento | undefined> {
+    const filas = await query<{ id: number }>(
+      `update articulos_conocimiento
+       set vistas = vistas + 1
+       where id = $1
+       returning id`,
+      [Number(id)],
+    );
+
+    if (filas.length === 0) return undefined;
+    return this.obtenerPorId(id);
+  }
+
+  async listarMasConsultados(limite: number): Promise<ArticuloConocimiento[]> {
+    const filas = await query<FilaArticulo>(
+      `${SQL_SELECT} order by a.vistas desc, a.id desc limit $1`,
+      [limite],
+    );
+    return filas.map(aDominio);
+  }
+
+  async contarVistas(): Promise<number> {
+    const fila = await queryOne<{ total: number }>(
+      `select coalesce(sum(vistas), 0)::int as total
+       from articulos_conocimiento`,
+    );
+    return fila?.total ?? 0;
   }
 
   async crear(input: CrearArticuloInput, autorId: string): Promise<ArticuloConocimiento> {

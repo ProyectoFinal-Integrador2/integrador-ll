@@ -1,0 +1,35 @@
+{
+  "inicio": "2026-11-06T04:38:02.913Z",
+  "fin": "2026-11-06T04:38:12.911Z",
+  "ejecutor": "Agente mediante Playwright; exploración guiada sin participantes humanos",
+  "observaciones": [
+    {
+      "accion": "Tres fallos en correo A",
+      "observado": "Este correo está bloqueado temporalmente por 3 intentos fallidos.\n\nEspera 15:00 para volver a intentar con este correo."
+    },
+    {
+      "accion": "Cambiar a B y fallar",
+      "observado": "Correo o contraseña incorrectos. Te quedan 2 intentos."
+    },
+    {
+      "accion": "Recargar antes de volver a A",
+      "observado": "Alertas visibles antes de reenviar: 0"
+    },
+    {
+      "accion": "Reintentar A tras recargar",
+      "observado": "Este correo está bloqueado temporalmente por 3 intentos fallidos.\n\nEspera 14:58 para volver a intentar con este correo."
+    },
+    {
+      "accion": "Cancelar borrador y reabrir",
+      "observado": "Descripción al reabrir: \"\""
+    },
+    {
+      "accion": "Buscar texto inexistente",
+      "observado": "Nuevo ticket\nTodos\n0\nAbiertos\n0\nEn progreso\n0\nCerrados\n0\nCancelados\n0\nCríticos\n0\n\nSin tickets\n\nNingun ticket coincide con la busqueda o el filtro seleccionado."
+    },
+    {
+      "accion": "Reducir pantalla a 360×800",
+      "observado": "{\"visible\":360,\"contenido\":360}"
+    }
+  ]
+}

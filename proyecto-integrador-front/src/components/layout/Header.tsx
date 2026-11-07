@@ -24,7 +24,7 @@ export const Header = ({ onOpenSidebar, title = 'Help Desk TI' }: HeaderProps) =
   }, [isBellOpen]);
 
   return (
-    <header className="flex h-16 w-full shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6">
+    <header className="flex h-16 w-full shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6 print:hidden">
       <div className="flex items-center gap-3">
         {onOpenSidebar && (
           <button

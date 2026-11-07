@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from 'react';
 import { Eye, User } from 'lucide-react';
 import { ESTILOS_CATEGORIA_CONOCIMIENTO } from '@/components/conocimiento/knowledgeCategoryStyles';
 import { formatearFecha } from '@/utils/date';
@@ -5,13 +6,28 @@ import type { ArticuloConocimiento } from '@/types/knowledge.types';
 
 interface KnowledgeCardProps {
   article: ArticuloConocimiento;
+  onOpen: (article: ArticuloConocimiento) => void;
 }
 
-export const KnowledgeCard = ({ article }: KnowledgeCardProps) => {
+export const KnowledgeCard = ({ article, onOpen }: KnowledgeCardProps) => {
   const { titulo, contenido, categoria, autorNombre, vistas, creadoEn } = article;
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onOpen(article);
+    }
+  };
+
   return (
-    <article className="rounded-xl border border-slate-100 bg-white p-6 shadow-xs">
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(article)}
+      onKeyDown={handleKeyDown}
+      title="Ver detalle"
+      className="cursor-pointer rounded-xl border border-slate-100 bg-white p-6 shadow-xs transition-all hover:border-blue-200 hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+    >
       <span
         className={`mb-3 inline-block rounded px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide ${ESTILOS_CATEGORIA_CONOCIMIENTO[categoria]}`}
       >

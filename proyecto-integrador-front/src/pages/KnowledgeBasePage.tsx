@@ -1,9 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { KnowledgeCard } from '@/components/conocimiento/KnowledgeCard';
+import { KnowledgeDetailModal } from '@/components/conocimiento/KnowledgeDetailModal';
 import { KnowledgeFilters } from '@/components/conocimiento/KnowledgeFilters';
 import { KnowledgeToolbar } from '@/components/conocimiento/KnowledgeToolbar';
 import { RegisterArticleModal } from '@/components/conocimiento/RegisterArticleModal';
-import { crearArticulo, obtenerArticulos } from '@/services/knowledgeApi';
+import {
+  crearArticulo,
+  obtenerArticulos,
+  registrarVista,
+} from '@/services/knowledgeApi';
 import { normalizarParaBusqueda } from '@/utils/text';
 import { TODAS_CATEGORIAS, FILTROS_CONOCIMIENTO, type ArticuloConocimiento, type EntradaArticuloConocimiento, type FiltroConocimiento } from '@/types/knowledge.types';
 
@@ -20,6 +25,8 @@ export const KnowledgeBasePage = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isNewArticleModalOpen, setIsNewArticleModalOpen] = useState(false);
+  const [selectedArticle, setSelectedArticle] =
+    useState<ArticuloConocimiento | null>(null);
   const [activeFilter, setActiveFilter] = useState<FiltroConocimiento>(
     TODAS_CATEGORIAS,
   );
@@ -59,6 +66,27 @@ export const KnowledgeBasePage = () => {
     const creado = await crearArticulo(input);
     setArticles((prev) => [creado, ...prev]);
     setError(null);
+  };
+
+  /**
+   * La vista se registra al abrir el detalle, no al listar: el listado se
+   * refresca muchas veces y contaria consultas que nadie hizo.
+   */
+  const handleOpenArticle = (article: ArticuloConocimiento) => {
+    setSelectedArticle(article);
+
+    registrarVista(article.id)
+      .then((actualizado) => {
+        setArticles((prev) =>
+          prev.map((item) => (item.id === actualizado.id ? actualizado : item)),
+        );
+        setSelectedArticle((current) =>
+          current?.id === actualizado.id ? actualizado : current,
+        );
+      })
+      .catch(() => {
+        // El contador no debe impedir que el usuario lea el articulo.
+      });
   };
 
   const searched = useMemo(() => {
@@ -143,7 +171,11 @@ export const KnowledgeBasePage = () => {
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {visibleArticles.map((article) => (
-            <KnowledgeCard key={article.id} article={article} />
+            <KnowledgeCard
+              key={article.id}
+              article={article}
+              onOpen={handleOpenArticle}
+            />
           ))}
         </div>
       )}
@@ -153,6 +185,11 @@ export const KnowledgeBasePage = () => {
         isOpen={isNewArticleModalOpen}
         onClose={() => setIsNewArticleModalOpen(false)}
         onSubmit={handleCreate}
+      />
+
+      <KnowledgeDetailModal
+        article={selectedArticle}
+        onClose={() => setSelectedArticle(null)}
       />
     </div>
   );

@@ -16,6 +16,12 @@ create table usuarios (
   debe_cambiar_contrasena boolean not null default false
 );
 
+create table intentos_login (
+  correo text primary key,
+  intentos integer not null default 0 check (intentos between 0 and 3),
+  bloqueado_hasta timestamptz
+);
+
 create table disponibilidad (
   usuario_id      integer primary key references usuarios (id) on delete cascade,
   horario         text    not null default 'Sin horario asignado',
@@ -43,6 +49,9 @@ create table tickets (
   prioridad          text not null check (prioridad in ('Crítico', 'Alto', 'Medio', 'Bajo')),
   estado             text not null default 'Abierto' check (estado in ('Abierto', 'En progreso', 'Cerrado', 'Cancelado')),
   creado_en          timestamptz not null default now(),
+  -- Marcas que usa HU20 para medir respuesta y resolucion contra el SLA.
+  iniciado_en        timestamptz,
+  cerrado_en         timestamptz,
   check (tecnico_id is null or tecnico_id <> usuario_id)
 );
 
@@ -75,6 +84,13 @@ create table articulos_conocimiento (
   vistas    integer not null default 0 check (vistas >= 0),
   creado_en timestamptz not null default now()
 );
+
+-- ── Índices para reportes (Sprint 5 y 6) ─────────────────────
+create index if not exists idx_tickets_tecnico on tickets (tecnico_id);
+create index if not exists idx_tickets_equipo on tickets (equipo_id);
+create index if not exists idx_tickets_estado on tickets (estado);
+create index if not exists idx_evaluaciones_tecnico on evaluaciones (tecnico_id);
+create index if not exists idx_articulos_vistas on articulos_conocimiento (vistas desc);
 
 -- ── Seed ─────────────────────────────────────────────────────
 

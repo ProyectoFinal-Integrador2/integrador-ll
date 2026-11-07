@@ -1,0 +1,7 @@
+{
+  "esperado": 201,
+  "obtenido": 500,
+  "respuesta": {
+    "error": "Error interno del servidor"
+  }
+}

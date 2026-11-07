@@ -21,6 +21,21 @@ export class ConocimientoServicio {
     return this.repositorio.listar();
   }
 
+  /**
+   * Cada apertura del detalle suma una vista. Se hace con un UPDATE atomico
+   * (no leer-sumar-guardar) para que dos usuarios abriendo a la vez no pierdan
+   * una visita.
+   */
+  async registrarVista(id: string): Promise<ArticuloConocimiento> {
+    const articulo = await this.repositorio.registrarVista(id);
+
+    if (!articulo) {
+      throw HttpError.notFound('Articulo de conocimiento no encontrado.');
+    }
+
+    return articulo;
+  }
+
   /** El autor se toma de la sesion: el articulo nunca manda quien lo escribe. */
   async crear(
     input: Partial<CrearArticuloInput>,

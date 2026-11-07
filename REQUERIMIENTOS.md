@@ -65,11 +65,11 @@ de Nivel de Servicio (SLA)**, lo que constituye su módulo diferenciador.
 | RF-17 | Registrar una evaluación de servicio. | HU17 | Usuario / Jefe de TI | Evaluaciones | ✅ |
 | RF-18 | Auditar y actualizar el estado final de un ticket. | HU18 | Jefe de TI | Tickets | ✅ |
 | RF-19 | Consultar las evaluaciones de servicio. | HU19 | Usuario / Jefe de TI | Evaluaciones | ✅ |
-| RF-20 | Generar reporte de cumplimiento de SLA. | HU20 | Jefe de TI | Reportes | ⬜ |
-| RF-21 | Generar reporte de carga de trabajo de técnicos. | HU21 | Jefe de TI | Reportes | ⬜ |
-| RF-22 | Generar reporte del historial de fallas por equipo. | HU22 | Jefe de TI | Reportes | ⬜ |
-| RF-23 | Generar reporte de evaluaciones de satisfacción. | HU23 | Jefe de TI | Reportes | 🚧 |
-| RF-24 | Generar reporte de artículos de conocimiento más consultados. | HU24 | Jefe de TI | Reportes | ⬜ |
+| RF-20 | Generar reporte de cumplimiento de SLA. | HU20 | Jefe de TI | Reportes | ✅ |
+| RF-21 | Generar reporte de carga de trabajo de técnicos. | HU21 | Jefe de TI | Reportes | ✅ |
+| RF-22 | Generar reporte del historial de fallas por equipo. | HU22 | Jefe de TI | Reportes | ✅ |
+| RF-23 | Generar reporte de evaluaciones de satisfacción. | HU23 | Jefe de TI | Reportes | ✅ |
+| RF-24 | Generar reporte de artículos de conocimiento más consultados. | HU24 | Jefe de TI | Reportes | ✅ |
 
 ---
 
@@ -81,8 +81,8 @@ de Nivel de Servicio (SLA)**, lo que constituye su módulo diferenciador.
 | **Sprint 2** | Recuperación de contraseña y ciclo de vida de tickets. | HU05, HU06, HU07, HU08 | 🚧 HU05 parcial |
 | **Sprint 3** | Prioridades SLA, base de conocimiento y equipos. | HU09, HU10, HU11, HU12 | ✅ Completado |
 | **Sprint 4** | Gestión de equipos y disponibilidad de técnicos. | HU13, HU14, HU15, HU16 | ✅ Completado |
-| **Sprint 5** | Evaluaciones, auditoría y reporte de cumplimiento SLA. | HU17, HU18, HU19, HU20 | 🚧 HU20 pendiente |
-| **Sprint 6** | Reportes de gestión. | HU21, HU22, HU23, HU24 | 🚧 HU23 parcial |
+| **Sprint 5** | Evaluaciones, auditoría y reporte de cumplimiento SLA. | HU17, HU18, HU19, HU20 | ✅ Completado |
+| **Sprint 6** | Reportes de gestión. | HU21, HU22, HU23, HU24 | ✅ Completado |
 
 ### 4.1 Sprint 1 — detalle (sustentación oficial)
 
@@ -190,26 +190,29 @@ de Nivel de Servicio (SLA)**, lo que constituye su módulo diferenciador.
 
 **HU20 — Generar reporte de cumplimiento de SLA**
 - **COMO** Jefe de TI **QUIERO** generar un reporte de cumplimiento de SLA **PARA** verificar el cumplimiento de los acuerdos.
-- **Actor:** Jefe de TI · **Estado:** ⬜
-- **Reglas de negocio:** RN-01 solo el Jefe de TI accede; RN-02 tiempo de respuesta = `actualizado_en` − `creado_en`; RN-03 tiempo de resolución = `fecha_cierre` − `creado_en`; RN-04 "Cumple SLA" solo si satisface respuesta y resolución simultáneamente.
+- **Actor:** Jefe de TI · **Endpoint:** `GET /api/v1/reports/sla` · **Estado:** ✅
+- **Reglas de negocio:** RN-01 solo el Jefe de TI accede; RN-02 tiempo de respuesta = `iniciado_en` − `creado_en`; RN-03 tiempo de resolución = `cerrado_en` − `creado_en`; RN-04 "Cumple SLA" solo si satisface respuesta y resolución simultáneamente.
+- **Excepciones:** los tickets sin SLA se informan aparte; los tickets cerrados sin marcas de tiempo se muestran como "Sin datos" y no se inventan tiempos.
 
 ### Sprint 6
 
 **HU21 — Reporte de carga de trabajo de técnicos**
 - **COMO** Jefe de TI **QUIERO** generar un reporte de carga de trabajo de técnicos **PARA** balancear la asignación de tickets.
-- **Actor:** Jefe de TI · **Estado:** ⬜
+- **Actor:** Jefe de TI · **Endpoint:** `GET /api/v1/reports/workload` · **Estado:** ✅
 
 **HU22 — Reporte del historial de fallas por equipo**
 - **COMO** Jefe de TI **QUIERO** generar un reporte del historial de fallas por equipo informático **PARA** detectar equipos problemáticos.
-- **Actor:** Jefe de TI · **Estado:** ⬜
+- **Actor:** Jefe de TI · **Endpoint:** `GET /api/v1/reports/equipment-failures` · **Estado:** ✅
 
 **HU23 — Reporte de evaluaciones de satisfacción**
 - **COMO** Jefe de TI **QUIERO** generar un reporte de las evaluaciones de satisfacción **PARA** conocer el nivel de servicio percibido.
-- **Actor:** Jefe de TI · **Endpoint:** `GET /api/v1/reports/summary` · **Estado:** 🚧 (incluye promedio y distribución por estrellas).
+- **Actor:** Jefe de TI · **Endpoint:** `GET /api/v1/reports/satisfaction` · **Estado:** ✅ (promedio global, distribución por estrellas y desglose por técnico).
 
 **HU24 — Reporte de artículos de conocimiento más consultados**
 - **COMO** Jefe de TI **QUIERO** generar un reporte sobre los artículos de conocimiento más consultados **PARA** priorizar la documentación útil.
-- **Actor:** Jefe de TI · **Estado:** ⬜
+- **Actor:** Jefe de TI · **Endpoints:** `GET /api/v1/reports/knowledge`, `POST /api/v1/knowledge-base/:id/vista` · **Estado:** ✅
+
+> Todos los reportes de la vista se pueden exportar a CSV o imprimir/guardar como PDF desde el navegador, sin librerías adicionales.
 
 ---
 

@@ -1,0 +1,100 @@
+{
+  "unitarias": {
+    "ejecutadas": 11,
+    "aprobadas": 11
+  },
+  "navegador": {
+    "startTime": "2026-11-06T04:37:31.327Z",
+    "duration": 84329.035,
+    "expected": 4,
+    "skipped": 4,
+    "unexpected": 4,
+    "flaky": 0
+  },
+  "casos": [
+    {
+      "prueba": "P3 funcional: datos incompletos y registro válido de ticket",
+      "motor": "chromium",
+      "estado": "failed",
+      "errores": [
+        "Error: Equipo opcional: registrar sin equipo debe funcionar\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 201\nReceived: 500\n\n  36 |     esperado: 201, obtenido: estadoSinEquipo, respuesta: await sinEq"
+      ]
+    },
+    {
+      "prueba": "P3 funcional: datos incompletos y registro válido de ticket",
+      "motor": "firefox",
+      "estado": "failed",
+      "errores": [
+        "Error: Equipo opcional: registrar sin equipo debe funcionar\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 201\nReceived: 500\n\n  36 |     esperado: 201, obtenido: estadoSinEquipo, respuesta: await sinEq"
+      ]
+    },
+    {
+      "prueba": "P3 funcional: datos incompletos y registro válido de ticket",
+      "motor": "webkit",
+      "estado": "failed",
+      "errores": [
+        "Error: Equipo opcional: registrar sin equipo debe funcionar\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 201\nReceived: 500\n\n  36 |     esperado: 201, obtenido: estadoSinEquipo, respuesta: await sinEq"
+      ]
+    },
+    {
+      "prueba": "P4 compatibilidad: pantalla API PostgreSQL y recarga",
+      "motor": "chromium",
+      "estado": "passed",
+      "errores": []
+    },
+    {
+      "prueba": "P4 compatibilidad: pantalla API PostgreSQL y recarga",
+      "motor": "firefox",
+      "estado": "passed",
+      "errores": []
+    },
+    {
+      "prueba": "P4 compatibilidad: pantalla API PostgreSQL y recarga",
+      "motor": "webkit",
+      "estado": "passed",
+      "errores": []
+    },
+    {
+      "prueba": "P5 interacción: axe y recorrido de teclado",
+      "motor": "chromium",
+      "estado": "failed",
+      "errores": [
+        "Error: Sin violaciones serias o críticas\n\nexpect(received).toHaveLength(expected)\n\nExpected length: 0\nReceived length: 2\nReceived array:  [{\"description\": \"Ensure the contrast between foreground and background colors mee",
+        "Error: Foco inicial dentro del modal\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\n  105 |   const graves = [...login.violations, ...formulario.violations].filter(v => ['serious'",
+        "Error: Tab no sale del modal\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\n  106 |   expect.soft(graves, 'Sin violaciones serias o críticas').toHaveLength(0);\n  107 |   expect.so",
+        "Error: Foco regresa a Nuevo ticket\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\n  107 |   expect.soft(focoInicialDentro, 'Foco inicial dentro del modal').toBe(true);\n  108 |   e",
+        "Error: El diálogo debe tener nombre accesible\n\nexpect(received).toBeTruthy()\n\nReceived: null\n\n  108 |   expect.soft(focoConfinado, 'Tab no sale del modal').toBe(true);\n  109 |   expect.soft(focoRestaurado, 'Foco regresa "
+      ]
+    },
+    {
+      "prueba": "P5 interacción: axe y recorrido de teclado",
+      "motor": "firefox",
+      "estado": "skipped",
+      "errores": []
+    },
+    {
+      "prueba": "P5 interacción: axe y recorrido de teclado",
+      "motor": "webkit",
+      "estado": "skipped",
+      "errores": []
+    },
+    {
+      "prueba": "P6 exploración guiada: cambiar correo, recargar, cancelar y pantalla pequeña",
+      "motor": "chromium",
+      "estado": "passed",
+      "errores": []
+    },
+    {
+      "prueba": "P6 exploración guiada: cambiar correo, recargar, cancelar y pantalla pequeña",
+      "motor": "firefox",
+      "estado": "skipped",
+      "errores": []
+    },
+    {
+      "prueba": "P6 exploración guiada: cambiar correo, recargar, cancelar y pantalla pequeña",
+      "motor": "webkit",
+      "estado": "skipped",
+      "errores": []
+    }
+  ]
+}
